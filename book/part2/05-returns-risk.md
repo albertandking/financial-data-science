@@ -461,9 +461,9 @@ $$\beta_i = \frac{\text{Cov}(r_i, r_m)}{\text{Var}(r_m)}$$
 
 ---
 
-## 5.12 练习
+## 5.12 习题
 
-!!! question "练习 5.1：收益率性质验证"
+!!! question "习题 5.1：收益率性质验证"
     对 BANK 和 TECH 各取连续 20 个交易日的日收益率：
     (a) 验证对数收益率之和等于对应期间的总对数收益率；
     (b) 验证简单收益率**不可直接相加**（用实际数据展示误差大小）；
@@ -471,12 +471,12 @@ $$\beta_i = \frac{\text{Cov}(r_i, r_m)}{\text{Var}(r_m)}$$
 
     **参考思路**：用 `daily_returns(prices, log=True)` 和 `.sum()` 对比 `np.log(prices.iloc[-1]/prices.iloc[0])`。
 
-!!! question "练习 5.2：全套风险指标对比"
+!!! question "习题 5.2：全套风险指标对比"
     对四只股票（BANK、LIQUOR、TECH、UTILITY）计算年化收益、年化波动、夏普（$r_f=2\%$）、索提诺（$r_f=2\%$）、卡尔玛、最大回撤，做成一张对比表并分别按各指标排序。
 
     **参考思路**：实现 `sortino_ratio` 和 `calmar_ratio` 函数，调用 `fds.annualized_return/volatility/sharpe_ratio/max_drawdown`，用 `pd.DataFrame` 整合。
 
-!!! question "练习 5.3：三种 VaR 方法对比"
+!!! question "习题 5.3：三种 VaR 方法对比"
     对 TECH 股票：
     (a) 分别用历史模拟法、正态参数法、蒙特卡洛法（$N=500000$，种子=42）计算 95% 和 99% 单日 VaR；
     (b) 计算对应置信水平的 ES；
@@ -484,7 +484,7 @@ $$\beta_i = \frac{\text{Cov}(r_i, r_m)}{\text{Var}(r_m)}$$
 
     **参考思路**：使用 `scipy.stats.norm.ppf` 和 `np.random.default_rng(42).normal`。
 
-!!! question "练习 5.4：最大回撤深度与持续期"
+!!! question "习题 5.4：最大回撤深度与持续期"
     对 LIQUOR：
     (a) 找出最大回撤发生的开始日期（净值创新高的日期）和结束日期（最低点日期）；
     (b) 计算该次回撤持续了多少个交易日；
@@ -492,7 +492,7 @@ $$\beta_i = \frac{\text{Cov}(r_i, r_m)}{\text{Var}(r_m)}$$
 
     **参考思路**：利用 `nav.cummax()` 找到水位线，`argmin()` 找最低点，反向查找前一个净值最高点。
 
-!!! question "练习 5.5：ES 与 VaR 的差距"
+!!! question "习题 5.5：ES 与 VaR 的差距"
     对四只股票，分别计算 95% 历史 VaR 和 95% 历史 ES，计算 ES/VaR 的比值。
     比值越高说明尾部越"重"（突破 VaR 后损失更大）。哪只股票的尾部最重？
     结合偏度和峰度指标解释。
