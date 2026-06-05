@@ -49,6 +49,7 @@ uv run python scripts/make_sample_data.py
 | 代码检查（PEP8/类型/import） | `uv run ruff check src scripts tests` |
 | 代码格式化 | `uv run ruff format src scripts tests` |
 | 执行某 notebook | `uv run jupyter nbconvert --to notebook --execute notebooks/ch01_introduction.ipynb` |
+| 生成正文图示（PNG） | `uv run python scripts/make_figures.py` |
 | 导出 notebook 到 md | `uv run python scripts/export_notebooks.py` |
 | 本地预览书 | `uv run mkdocs serve` |
 | 构建静态网站 | `uv run mkdocs build` |
@@ -109,7 +110,32 @@ uv run python scripts/make_sample_data.py
     上表为可读参考；真正保证复现的是仓库内的 `uv.lock`（锁定精确版本与哈希）。
     若需升级某个库：`uv lock --upgrade-package <名称>`，再 `uv sync`。
 
-## A.6 常见问题
+## A.6 正文图示工作流（最佳实践）
+
+正文中的图由 `scripts/make_figures.py` 生成，保存为 PNG 到 `book/assets/figures/`，
+再在 Markdown 中引用。这样做的好处：
+
+- **与 notebook 同源**：图示复用 `fds` 工具、内置数据与统一主题（`set_chinese_font`），
+  风格与各章 notebook 一致、可复现；
+- **纯 MkDocs**：无需插件即可在网页/PDF 中显示；
+- **可编辑**：哪张图放哪、配什么图注，完全可控；图片入库，使书无需运行代码即可查看。
+
+新增一张图的步骤：
+
+1. 在 `scripts/make_figures.py` 增加一个 `fig_*` 函数，用 `fds` + 内置数据绘制并 `_save(fig, "名称")`；
+2. 运行 `uv run python scripts/make_figures.py` 生成 `book/assets/figures/名称.png`；
+3. 在正文相应小节用 Material 的 `<figure>` 语法引用（注意相对路径与图注）：
+
+```markdown
+<figure markdown>
+  ![替代文字](../assets/figures/名称.png){ width="680" }
+  <figcaption>图 X-Y　图注说明</figcaption>
+</figure>
+```
+
+> 数据或绘图主题更新后，重跑 `make_figures.py` 即可统一刷新全书图示。
+
+## A.7 常见问题
 
 - **中文乱码**：调用 `from fds import set_chinese_font; set_chinese_font()`；Windows 通常已有"微软雅黑"。
 - **akshare 抓取失败**：多为网络或接口变更，重试或更新 `uv lock --upgrade-package akshare`。

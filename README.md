@@ -23,6 +23,7 @@ ds/
 │
 ├── book/                   # 【正文】MkDocs 文档源（Markdown）
 │   ├── index.md            #   首页 / 前言
+│   ├── assets/figures/     #   正文图示（PNG，由 scripts/make_figures.py 生成）
 │   ├── part1/              #   第一部分·基础
 │   ├── part2/              #   第二部分·金融计量与统计
 │   ├── part3/              #   第三部分·机器学习

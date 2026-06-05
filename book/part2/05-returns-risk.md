@@ -159,6 +159,12 @@ print(ann_vol.round(4))
 
 ## 5.5 风险度量全家桶
 
+<figure markdown>
+  ![图 5-1　TECH 累计净值与回撤（水下曲线）](../assets/figures/ch05_drawdown.png){ width="680" }
+  <figcaption>图 5-1　TECH 累计净值与回撤（水下曲线）</figcaption>
+</figure>
+
+
 ### 5.5.1 波动率（标准差）
 
 最经典的风险度量，衡量收益率围绕均值的离散程度：
@@ -242,6 +248,12 @@ print("TECH 最大回撤：", round(max_drawdown(rets["TECH"]) * 100, 2), "%")
 ---
 
 ## 5.6 VaR：风险价值
+
+<figure markdown>
+  ![图 5-2　日收益分布与 95% 单日 VaR](../assets/figures/ch05_var.png){ width="680" }
+  <figcaption>图 5-2　日收益分布与 95% 单日 VaR</figcaption>
+</figure>
+
 
 **VaR（Value at Risk，风险价值）** 是金融风险管理中最广泛使用的单一风险指标。
 
