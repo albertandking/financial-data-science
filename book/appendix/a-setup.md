@@ -32,6 +32,9 @@ uv sync --extra data
 
 # 进阶章节：深度学习 / NLP（可选，较重）
 uv sync --extra advanced
+
+# 量化回测框架 akquant（第15章，可选）
+uv sync --extra quant
 ```
 
 ## A.3 生成内置数据
@@ -93,6 +96,12 @@ uv run python scripts/make_sample_data.py
 | `torch` | 2.12.0 | 深度学习（第12章） |
 | `transformers` | 5.10.1 | 预训练模型/FinBERT（第13章） |
 | `jieba` | 0.42.1 | 中文分词（第13章） |
+
+### 量化回测（`uv sync --extra quant`）
+
+| 库 | 版本 | 用途 |
+|---|---|---|
+| `akquant` | 0.2.40 | 事件驱动回测框架，Rust 内核（第15章） |
 
 ### 成书与工具（默认随 `uv sync` 安装）
 

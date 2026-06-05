@@ -35,6 +35,10 @@ advanced = [
     "transformers>=4.40",
     "jieba>=0.42",       # 中文分词，财经文本
 ]
+# 量化回测框架（第15章 akquant），按需 `uv sync --extra quant`
+quant = [
+    "akquant>=0.2",      # akshare 生态的事件驱动回测框架（Rust 内核）
+]
 
 # 成书与 notebook 导出工具链：作为 dependency-group，默认安装（见下方 default-groups）
 [dependency-groups]

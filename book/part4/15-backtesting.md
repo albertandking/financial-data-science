@@ -514,7 +514,68 @@ nav_biased  = (1 + gross_biased[ticker]).cumprod()
 
 ---
 
-## 15.9 本章小结
+## 15.9 用 akquant 框架做事件驱动回测
+
+前面几节我们手写了**向量化回测**：用 `position = signal.shift(1)` 一次性算出全部持仓与收益，
+快、适合参数扫描与信号筛选。但它对撮合细节做了理想化假设（满仓成交、无逐笔风控）。
+**生产级**研究往往需要**事件驱动回测**——逐根 K 线（bar）推进，模拟下单、成交、持仓与风控。
+
+[akquant](https://github.com/akfamily/akquant) 是 akshare 生态的开源回测框架：**Rust 内核 + Python 接口**，
+内置 walk-forward 滚动验证、TA-Lib 指标、因子表达式引擎、参数网格搜索与丰富的绩效报告，
+并能与 akshare 无缝衔接取数。
+
+### 15.9.1 安装
+
+```bash
+uv sync --extra quant          # 或：pip install akquant
+```
+
+### 15.9.2 核心概念
+
+| 概念 | 说明 |
+|---|---|
+| `Strategy.on_bar(bar)` | 每根 K 线回调一次；`bar` 提供 `open/close/high/low/symbol/timestamp_iso` |
+| `self.buy(symbol=, quantity=)` | 下买单 |
+| `self.close_position(symbol=)` | 平仓 |
+| `self.get_position(symbol)` | 查询持仓 |
+| `aq.run_backtest(data, strategy, initial_cash, symbols)` | 运行回测，返回 `BacktestResult` |
+| `result` / `result.metrics` / `result.equity_curve` | 绩效指标表、指标包装、净值曲线 |
+| `result.report(filename=, benchmark=)` | 生成 HTML 绩效报告（含基准对比） |
+
+与本章前面手写回测的对照：**向量化**重在快速研究、**事件驱动**重在贴近真实撮合，两者互补。
+
+### 15.9.3 最小示例
+
+下面用**内置数据**离线演示（实盘只需把数据换成 akshare 的真实行情）。
+akquant 需要 OHLC 列，内置数据只有收盘价，这里据此构造示意的开高低：
+
+```python
+import akquant as aq
+from akquant import Strategy
+from fds import load_sample_prices
+
+close = load_sample_prices()["LIQUOR"]
+df = close.rename("close").reset_index().rename(columns={"index": "date"})
+df["open"] = close.shift(1).bfill().to_numpy()
+df["high"], df["low"], df["volume"] = close * 1.01, close * 0.99, 1000
+
+class MaCross(Strategy):
+    def on_bar(self, bar):
+        pos = self.get_position(bar.symbol)
+        if pos == 0 and bar.close > bar.open:        # 阳线买入
+            self.buy(symbol=bar.symbol, quantity=100)
+        elif pos > 0 and bar.close < bar.open:        # 阴线平仓
+            self.close_position(symbol=bar.symbol)
+
+result = aq.run_backtest(data=df, strategy=MaCross, initial_cash=100000.0, symbols="LIQUOR")
+print(result)                  # 总收益、夏普、最大回撤、胜率等一应俱全
+```
+
+!!! note "事件驱动 vs 向量化"
+    事件驱动回测更贴近真实交易（逐 bar 撮合、可加风控），但更慢；向量化回测更快、适合海量参数/信号筛选。
+    教学这里用内置数据离线演示；真实研究把 `df` 换成 akshare 的真实行情即可（需 `uv sync --extra data`）。
+
+## 15.10 本章小结
 
 本章构建了向量化回测的完整框架，核心知识点如下：
 
@@ -527,7 +588,7 @@ nav_biased  = (1 + gross_biased[ticker]).cumprod()
 
 ---
 
-## 15.10 习题
+## 15.11 习题
 
 **习题15.1（基础）** 实现一个5日均线与20日均线的金叉/死叉策略：均线上方多头、均线下方空仓。加入0.1%单边成本后，在TECH资产上计算完整绩效指标，并与20日动量策略对比夏普比率。
 
@@ -551,7 +612,7 @@ nav_biased  = (1 + gross_biased[ticker]).cumprod()
 
 ---
 
-## 拓展阅读
+## 15.12 拓展阅读
 
 1. **Bailey, D. H., & López de Prado, M. (2014)**. *The Deflated Sharpe Ratio: Correcting for Selection Bias, Backtest Overfitting, and Non-Normality*. Journal of Portfolio Management. —— 提出回测过拟合概率（PBO）的经典论文。
 
