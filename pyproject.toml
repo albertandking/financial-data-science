@@ -49,6 +49,7 @@ agent = [
 docs = [
     "mkdocs>=1.6",
     "mkdocs-material>=9.5",
+    "mkdocs-print-site-plugin>=2.5",  # 合并全书为单页，供浏览器打印 PDF
     "jupyter>=1.0",
     "jupyterlab>=4.2",
     "nbconvert>=7.16",

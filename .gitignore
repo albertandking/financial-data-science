@@ -16,6 +16,9 @@ data/external/
 # MkDocs 构建产物
 site/
 
+# 导出的全书 PDF（体积大，按需用 scripts/build_pdf.py 重新生成）
+*.pdf
+
 # Notebook 手动导出的中间产物（由 scripts/export_notebooks.py 生成）
 book/**/_generated/
 

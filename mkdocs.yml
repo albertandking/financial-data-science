@@ -45,6 +45,16 @@ markdown_extensions:
 extra_javascript:
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
+plugins:
+  - search
+  - print-site:
+      add_to_navigation: false       # 不在导航里显示打印页
+      print_page_title: 金融数据科学（全书打印版）
+      add_print_site_banner: false
+      enumerate_headings: false       # 标题已自带 X.Y 编号
+      enumerate_figures: false        # 图已自带「图 X-Y」编号
+      add_cover_page: true
+
 nav:
   - 首页: index.md
   - 第一部分·基础:

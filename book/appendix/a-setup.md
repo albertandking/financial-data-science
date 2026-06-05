@@ -56,6 +56,7 @@ uv run python scripts/make_sample_data.py
 | 导出 notebook 到 md | `uv run python scripts/export_notebooks.py` |
 | 本地预览书 | `uv run mkdocs serve` |
 | 构建静态网站 | `uv run mkdocs build` |
+| 导出全书 PDF | `uv run python scripts/build_pdf.py` |
 
 ## A.5 复现环境：库版本表
 
