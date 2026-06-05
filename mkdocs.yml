@@ -68,6 +68,7 @@ nav:
       - 第15章 量化策略与回测: part4/15-backtesting.md
       - 第16章 信用风险与违约预测: part4/16-credit-risk.md
       - 第17章 大模型与金融前沿: part4/17-llm-finance.md
+      - 第18章 金融智能体（AI Agents）: part4/18-ai-agents.md
   - 附录:
       - 附录A 本地环境配置: appendix/a-setup.md
       - 附录B 数学与概率回顾: appendix/b-math-review.md

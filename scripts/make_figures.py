@@ -531,6 +531,72 @@ def fig_ch17_rag() -> None:
     _save(fig, "ch17_rag")
 
 
+# ── 第18章 ─────────────────────────────────────────────────────────────────
+def fig_ch18_agent_loop() -> None:
+    """第18章：ReAct 智能体循环示意图（思考 → 行动 → 观察）。"""
+    fig, ax = plt.subplots(figsize=(8, 5.5))
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 8)
+    ax.axis("off")
+    nodes = {
+        "用户任务": (5, 7, "#7F6A57"),
+        "规划 / 思考\n(LLM)": (2, 4.3, "#2E5A88"),
+        "行动\n(调用工具)": (8, 4.3, "#4E9A65"),
+        "观察\n(工具结果)": (5, 1.6, "#E08E45"),
+    }
+    for label, (x, y, color) in nodes.items():
+        ax.add_patch(
+            plt.Rectangle(
+                (x - 1.2, y - 0.65),
+                2.4,
+                1.3,
+                facecolor=color,
+                edgecolor="#333333",
+                alpha=0.85,
+                zorder=2,
+            )
+        )
+        ax.text(
+            x,
+            y,
+            label,
+            ha="center",
+            va="center",
+            color="white",
+            fontsize=11,
+            fontweight="bold",
+            zorder=3,
+        )
+
+    def arrow(
+        a: tuple[float, float],
+        b: tuple[float, float],
+        color: str = "#444444",
+        ls: str = "-",
+    ) -> None:
+        ax.annotate(
+            "", xy=b, xytext=a, arrowprops=dict(arrowstyle="-|>", lw=2, color=color, linestyle=ls)
+        )
+
+    arrow((5, 6.35), (2.4, 4.95))  # 任务 → 规划
+    arrow((3.2, 4.6), (6.8, 4.6))  # 规划 → 行动
+    arrow((7.4, 3.75), (5.7, 2.25))  # 行动 → 观察
+    arrow((4.3, 2.25), (2.6, 3.65))  # 观察 → 规划（循环）
+    arrow((1.4, 3.65), (1.4, 1.2), color="#C0504D", ls="--")  # 规划 → 最终答复
+    ax.text(
+        1.4,
+        0.7,
+        "最终答复",
+        ha="center",
+        va="center",
+        color="#C0504D",
+        fontsize=11,
+        fontweight="bold",
+    )
+    ax.set_title("ReAct 智能体循环：思考 → 行动 → 观察（直到作答）")
+    _save(fig, "ch18_agent_loop")
+
+
 def main() -> None:
     """生成全部正文图示。"""
     set_chinese_font()
@@ -562,6 +628,7 @@ def main() -> None:
     fig_ch15_backtest(prices)
     fig_ch16_roc_ks()
     fig_ch17_rag()
+    fig_ch18_agent_loop()
     print("完成。")
 
 

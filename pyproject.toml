@@ -39,6 +39,10 @@ advanced = [
 quant = [
     "akquant>=0.2",      # akshare 生态的事件驱动回测框架（Rust 内核）
 ]
+# 大模型/智能体（第17-18章真实 API 调用），按需 `uv sync --extra agent`
+agent = [
+    "openai>=1.0",       # OpenAI 兼容客户端，可经 base_url 接国产模型
+]
 
 # 成书与 notebook 导出工具链：作为 dependency-group，默认安装（见下方 default-groups）
 [dependency-groups]
