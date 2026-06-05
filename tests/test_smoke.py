@@ -13,6 +13,7 @@ from fds import (
     annualized_volatility,
     daily_returns,
     load_credit,
+    load_factors,
     load_fundamentals,
     load_market,
     load_sample_prices,
@@ -50,6 +51,13 @@ def test_load_market():
     assert {"index_close", "index_return", "rf_annual", "rf_daily"}.issubset(mkt.columns)
     assert isinstance(mkt.index, pd.DatetimeIndex)
     assert (mkt["index_close"] > 0).all()
+
+
+def test_load_factors():
+    fac = load_factors()
+    assert {"MKT", "SMB", "HML", "MOM"}.issubset(fac.columns)
+    assert isinstance(fac.index, pd.DatetimeIndex)
+    assert len(fac) > 100
 
 
 def test_load_fundamentals_panel():

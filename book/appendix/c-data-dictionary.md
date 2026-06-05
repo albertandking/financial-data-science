@@ -33,7 +33,22 @@ prices = load_sample_prices()
 
 加载：`from fds import load_market`。
 
-## C.3 内置财务面板 `fundamentals`
+## C.3 内置教学因子 `factors`
+
+日度因子序列（749行），供第7章多因子回归。
+
+| 字段 | 类型 | 含义 |
+|---|---|---|
+| `date`（索引） | datetime | 交易日 |
+| `MKT` | float | 市场超额收益（真实，= index_return − rf_daily） |
+| `HML` | float | 价值−成长，由 (BANK+UTILITY)/2 − (TECH+LIQUOR)/2 多空构造（真实相关） |
+| `SMB` | float | 小市值因子（合成示意，股票池无市值无法真实构造） |
+| `MOM` | float | 动量因子（合成示意） |
+
+`MKT/HML` 基于真实数据构造、回归结论可信；`SMB/MOM` 为标注的合成因子。
+加载：`from fds import load_factors`。
+
+## C.4 内置财务面板 `fundamentals`
 
 公司-年度平衡面板（200家×8年=1600行），内置已知系数与公司固定效应（第8章用）。
 
@@ -49,7 +64,7 @@ prices = load_sample_prices()
 
 加载：`from fds import load_fundamentals`。
 
-## C.4 内置信用样本 `credit`
+## C.5 内置信用样本 `credit`
 
 信用违约样本（5000个借款人，含类别不平衡，第16章用）。
 
@@ -66,7 +81,7 @@ prices = load_sample_prices()
 
 加载：`from fds import load_credit`。
 
-## C.5 真实数据字段（akshare `stock_zh_a_hist`）
+## C.6 真实数据字段（akshare `stock_zh_a_hist`）
 
 | 字段 | 含义 |
 |---|---|

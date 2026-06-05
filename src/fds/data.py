@@ -59,6 +59,18 @@ def load_market() -> pd.DataFrame:
     return df
 
 
+def load_factors() -> pd.DataFrame:
+    """加载内置的教学因子日度序列（供第7章多因子回归）。
+
+    列：MKT（市场超额收益，真实）、HML（价值−成长，由股票多空构造）、
+    SMB、MOM（标注的合成示意因子）。索引为交易日。
+    """
+    df = _load("factors")
+    df.index = pd.to_datetime(df.index)
+    df.index.name = "date"
+    return df
+
+
 def load_fundamentals() -> pd.DataFrame:
     """加载内置的公司-年度财务面板（平衡面板，200家×8年）。
 

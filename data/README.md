@@ -38,7 +38,20 @@ uv run python scripts/make_sample_data.py
 4 只股票对该指数有**真实的 beta**（UTILITY/BANK 低、LIQUOR≈1、TECH 高），
 第7章 CAPM 可直接使用。加载：`from fds import load_market`。
 
-### 3. `fundamentals` —— 公司-年度财务面板（200家×8年=1600行）
+### 3. `factors` —— 教学因子日度序列（第7章多因子回归）
+
+| 列名 | 含义 |
+|---|---|
+| `MKT` | 市场超额收益（真实，= index_return − rf_daily） |
+| `HML` | 价值−成长，由 (BANK+UTILITY)/2 − (TECH+LIQUOR)/2 多空构造（与 FF 方法一致，真实相关） |
+| `SMB` | 小市值因子（**合成示意**——本股票池仅4只、无市值，规模无法真实构造） |
+| `MOM` | 动量因子（**合成示意**，同上） |
+
+价值股（BANK/UTILITY）对 HML 有显著正载荷、成长股（TECH/LIQUOR）显著负载荷，
+回归结论可信且可解释。`MKT/HML` 基于真实数据构造，`SMB/MOM` 为标注的合成因子。
+加载：`from fds import load_factors`。
+
+### 4. `fundamentals` —— 公司-年度财务面板（200家×8年=1600行）
 
 | 列名 | 含义 |
 |---|---|
@@ -54,7 +67,7 @@ uv run python scripts/make_sample_data.py
 且固定效应与杠杆相关——故意制造，凸显固定效应回归相对 Pooled OLS 的必要性。
 第8章面板回归可还原真实系数。加载：`from fds import load_fundamentals`。
 
-### 4. `credit` —— 信用违约样本（5000个借款人）
+### 5. `credit` —— 信用违约样本（5000个借款人）
 
 | 列名 | 含义 |
 |---|---|

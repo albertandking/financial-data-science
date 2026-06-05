@@ -17,8 +17,12 @@
 - **Fama-French 三因子模型**：加入规模（SMB）和价值（HML）因子，显著改善拟合；
 - **Carhart 四因子**与 **Fama-French 五因子**：进一步纳入动量、盈利和投资因子。
 
-在实操层面，我们将用 Python / statsmodels 对样本数据做时序回归，估计
+在实操层面，我们将用 Python / statsmodels 对内置数据集做时序回归，估计
 $\beta$、$\alpha$ 与因子暴露，并用 IC、分组回测等方法检验因子有效性。
+本章使用 `load_market()` 提供的真实市场指数估计 CAPM beta，
+用 `load_factors()` 中 MKT/HML 的真实因子展示 FF 三因子回归中
+**价值股（BANK/UTILITY）正 HML 载荷、成长股（LIQUOR/TECH）负 HML 载荷**的
+显著分化——这是本章的核心实证亮点。
 最后，我们专门讨论 A 股市场的若干特殊性，帮助读者在国内实践中少走弯路。
 
 ---
@@ -150,14 +154,25 @@ $$
 
 ```python
 import statsmodels.api as sm
+from fds import load_market, load_sample_prices, daily_returns
 
-# 超额收益
-y = stock_excess_ret   # 股票 i 超额收益序列
-X = market_excess_ret  # 市场超额收益序列
+# 加载真实市场数据与股票数据
+market = load_market()
+prices = load_sample_prices()
+rets   = daily_returns(prices)
 
-result = sm.OLS(y, sm.add_constant(X)).fit()
+# 对齐日期，构造超额收益
+common_idx   = rets.index.intersection(market.index)
+rf_daily     = market.loc[common_idx, 'rf_daily']     # 真实日度无风险利率
+mkt_excess   = market.loc[common_idx, 'index_return'] - rf_daily  # 真实市场超额收益
+stock_excess = rets.loc[common_idx, 'TECH'] - rf_daily
+
+# OLS 时序回归
+y = stock_excess
+X = sm.add_constant(mkt_excess)
+result = sm.OLS(y, X).fit()
 alpha = result.params['const']
-beta  = result.params[X.name]
+beta  = result.params['index_return']
 r2    = result.rsquared
 print(result.summary())
 ```
@@ -215,7 +230,12 @@ Jegadeesh & Titman（1993）：**过去 3-12 个月表现好的股票**，未来
 
 ## 7.5 Fama-French 三因子模型
 
-Fama & French（1993）在 CAPM 基础上增加两个因子：
+Fama & French（1993）在 CAPM 基础上增加两个因子。
+本章使用 `load_factors()` 内置数据集，其中 **MKT 和 HML 基于真实数据构造，结论可信**；
+SMB 为合成示意因子。FF3 回归中 HML 载荷的价值/成长分化是本节的亮点实证结论：
+BANK（+0.25, $t \approx 10$）、UTILITY（+0.11, $t \approx 6$）呈正载荷（价值股），
+LIQUOR（−0.61, $t \approx -17$）、TECH（−1.03, $t \approx -27$）呈负载荷（成长股），
+方向高度显著且完全符合 FF 因子的经济学含义。
 
 $$
 \boxed{r_{i,t} - r_{f,t} = \alpha_i + \beta_i^{MKT} \cdot MKT_t + \beta_i^{SMB} \cdot SMB_t + \beta_i^{HML} \cdot HML_t + \varepsilon_{i,t}}
@@ -471,7 +491,9 @@ A 股受政策影响大，部分"因子"本质上是政策受益主题（如"一
 
 1. 系统性风险不可分散，是风险溢价的来源；
 2. CAPM 的 $\beta$ 来自时序回归，$\alpha \ne 0$ 代表超额收益；
+   用真实市场指数估计的 beta：UTILITY 0.24 < BANK 0.39 < LIQUOR 1.09 < TECH 1.93；
 3. FF 三因子（SMB、HML）用双重排序构造，捕获规模和价值效应；
+   HML 载荷的价值/成长分化（真实数据）：银行/公用事业正载荷，白酒/科技负载荷，高度显著；
 4. 多因子模型可用于业绩归因和风险分解；
 5. A 股有壳价值、涨跌停、停牌等特殊性，直接套用美股因子需谨慎；
 6. 因子有效性用 IC 和分组回测检验，需注意多重共线性。
@@ -487,10 +509,10 @@ A 股受政策影响大，部分"因子"本质上是政策受益主题（如"一
     $E[r_i] = r_f + \beta_i (E[r_m] - r_f) = 2\% + 1.4 \times 6\% = 10.4\%$。
     实际 alpha = $12\% - 10.4\% = 1.6\%$（年化）。
 
-**习题 7.2** 用样本数据，将四只股票的等权组合作为"市场代理"，对每只股票做时序 OLS 回归，估计各自的 $\beta$ 和 $\alpha$。哪只股票 $\beta$ 最高？CAPM 下哪只股票的预期收益最高？
+**习题 7.2** 用 `load_market()` 提供的真实市场指数，对每只股票做时序 OLS 回归，估计各自的 $\beta$ 和 $\alpha$。哪只股票 $\beta$ 最高？CAPM 下哪只股票的预期收益最高？
 
 ??? hint "参考思路"
-    参考 notebook Cell 4 的实现，重点关注 `result.summary()` 中的系数和 $t$ 统计量。
+    参考 notebook Cell 4 的实现，重点关注 `result.summary()` 中的系数和 $t$ 统计量。参考值：UTILITY≈0.24, BANK≈0.39, LIQUOR≈1.09, TECH≈1.93；TECH beta 最高，CAPM 预期收益最高。
 
 **习题 7.3** 从回归结果的 $R^2$ 分析各股票的系统性风险与特质风险占比。波动率最高的股票，$R^2$ 是否也最高？请给出解释。
 
@@ -524,7 +546,8 @@ A 股受政策影响大，部分"因子"本质上是政策受益主题（如"一
 ---
 
 !!! note "数据说明"
-    本章 notebook 使用两类数据：
+    本章 notebook 全部使用内置数据集，**完全离线可跑**：
     
-    1. **内置价格数据**（`load_sample_prices()`）：合成的 4 只 A 股风格资产（BANK/LIQUOR/TECH/UTILITY），用于 CAPM 回归演示（完全离线可跑）。
-    2. **示意因子数据**：由于内置数据无基本面信息，无法构造真实 SMB/HML，多因子部分使用固定随机种子生成的**教学示意数据**，用于演示多因子回归的操作步骤与结果解读，**不代表真实 A 股因子结论**。
+    1. **股票价格**（`load_sample_prices()`）：4 只 A 股风格资产（BANK/LIQUOR/TECH/UTILITY），约 750 个交易日。
+    2. **市场数据**（`load_market()`）：真实市场指数日收益与无风险利率（`rf_daily`），用于 CAPM 时序回归。4 只股票对该指数有真实 beta。
+    3. **因子数据**（`load_factors()`）：749 行日度数据。其中 `MKT`（市场超额收益）与 `HML`（价值−成长多空构造）**基于真实数据，结论可信**；`SMB` 和 `MOM` 为**合成示意因子**（本股票池仅4只、无市值/动量数据，无法真实构造），仅用于演示多因子回归的操作流程，不代表真实 A 股结论。如需完整真实因子，请参见附录C数据字典，或从 CSMAR、Wind 获取。

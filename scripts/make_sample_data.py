@@ -37,6 +37,7 @@ N_DAYS = 750            # 约三年交易日
 SEED = 20260604         # 股票/市场种子
 SEED_FUND = 20260605    # 财务面板种子
 SEED_CREDIT = 20260606  # 信用样本种子
+SEED_FACTOR = 20260607  # 因子数据种子
 
 MARKET_MU = 0.08        # 市场年化漂移
 MARKET_SIGMA = 0.20     # 市场年化波动
@@ -93,6 +94,35 @@ def simulate_market(market_shocks: np.ndarray, dates: pd.DatetimeIndex) -> pd.Da
     }, index=dates)
     df.index.name = "date"
     return df
+
+
+def simulate_factors(prices: pd.DataFrame, market: pd.DataFrame) -> pd.DataFrame:
+    """构造内置教学因子日度序列（供第7章多因子回归直接使用）。
+
+    与 Fama-French 方法一致——因子为资产的多空组合：
+    - MKT：市场超额收益 = 指数日收益 − 无风险日利率（真实，来自 market）
+    - HML：价值−成长 = (BANK+UTILITY)/2 − (TECH+LIQUOR)/2 的日收益多空
+            （以低波动/高波动作价值/成长代理，与4只股票真实相关，回归可见显著载荷）
+    - SMB、MOM：标注的合成示意因子（小市值、动量），便于演示多因子回归
+            （本内置股票池仅4只、无市值，规模/动量无法真实构造，故为合成）
+    """
+    rng = np.random.default_rng(SEED_FACTOR)
+    rets = prices.pct_change()
+
+    mkt = (market["index_return"] - market["rf_daily"]).rename("MKT")
+    value = 0.5 * (rets["BANK"] + rets["UTILITY"])
+    growth = 0.5 * (rets["TECH"] + rets["LIQUOR"])
+    hml = (value - growth).rename("HML")
+
+    # 合成示意因子：小均值（年化溢价）、与 HML 量级相当的日波动
+    scale = float(hml.std())
+    n = len(prices)
+    smb = pd.Series(0.02 / 252 + rng.normal(0, scale, n), index=prices.index, name="SMB")
+    mom = pd.Series(0.05 / 252 + rng.normal(0, scale, n), index=prices.index, name="MOM")
+
+    df = pd.concat([mkt, smb, hml, mom], axis=1).dropna()
+    df.index.name = "date"
+    return df.round(6)
 
 
 def simulate_fundamentals() -> pd.DataFrame:
@@ -189,12 +219,14 @@ def main() -> None:
 
     prices, market_shocks, dates = simulate_prices()
     market = simulate_market(market_shocks, dates)
+    factors = simulate_factors(prices, market)
     fundamentals = simulate_fundamentals()
     credit = simulate_credit()
 
     print("已生成内置示例数据：")
     _save(prices, "sample_prices", index=True)
     _save(market, "market", index=True)
+    _save(factors, "factors", index=True)
     _save(fundamentals, "fundamentals", index=False)
     _save(credit, "credit", index=False)
 
