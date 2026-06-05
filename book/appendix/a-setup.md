@@ -46,6 +46,8 @@ uv run python scripts/make_sample_data.py
 |---|---|
 | 启动 Jupyter | `uv run jupyter lab` |
 | 运行测试 | `uv run pytest` |
+| 代码检查（PEP8/类型/import） | `uv run ruff check src scripts tests` |
+| 代码格式化 | `uv run ruff format src scripts tests` |
 | 执行某 notebook | `uv run jupyter nbconvert --to notebook --execute notebooks/ch01_introduction.ipynb` |
 | 导出 notebook 到 md | `uv run python scripts/export_notebooks.py` |
 | 本地预览书 | `uv run mkdocs serve` |

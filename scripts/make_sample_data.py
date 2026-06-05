@@ -27,24 +27,24 @@ OUT_DIR = REPO_ROOT / "data" / "processed"
 # ── 股票与市场 ────────────────────────────────────────────────────────────
 # 用拼音/英文列名模拟若干只股票（避免编码问题），中文释义见 data/README.md
 TICKERS = {
-    "BANK": dict(start=12.0, mu=0.05, sigma=0.18),     # 某银行股，低波动
+    "BANK": dict(start=12.0, mu=0.05, sigma=0.18),  # 某银行股，低波动
     "LIQUOR": dict(start=180.0, mu=0.15, sigma=0.30),  # 某白酒股，高成长高波动
-    "TECH": dict(start=45.0, mu=0.12, sigma=0.40),     # 某科技股，最高波动
-    "UTILITY": dict(start=8.0, mu=0.03, sigma=0.14),   # 某公用事业，最稳
+    "TECH": dict(start=45.0, mu=0.12, sigma=0.40),  # 某科技股，最高波动
+    "UTILITY": dict(start=8.0, mu=0.03, sigma=0.14),  # 某公用事业，最稳
 }
 
-N_DAYS = 750            # 约三年交易日
-SEED = 20260604         # 股票/市场种子
-SEED_FUND = 20260605    # 财务面板种子
+N_DAYS = 750  # 约三年交易日
+SEED = 20260604  # 股票/市场种子
+SEED_FUND = 20260605  # 财务面板种子
 SEED_CREDIT = 20260606  # 信用样本种子
 SEED_FACTOR = 20260607  # 因子数据种子
 
-MARKET_MU = 0.08        # 市场年化漂移
-MARKET_SIGMA = 0.20     # 市场年化波动
-RF_ANNUAL = 0.02        # 无风险利率（年化，约定值）
+MARKET_MU = 0.08  # 市场年化漂移
+MARKET_SIGMA = 0.20  # 市场年化波动
+RF_ANNUAL = 0.02  # 无风险利率（年化，约定值）
 
 
-def simulate_prices():
+def simulate_prices() -> tuple[pd.DataFrame, np.ndarray, pd.DatetimeIndex]:
     """合成 4 只股票日度价格，并返回驱动它们的共同市场冲击与日期。
 
     返回 (prices_df, market_shocks, dates)。注意：保持随机数抽取顺序不变，
@@ -79,19 +79,23 @@ def simulate_market(market_shocks: np.ndarray, dates: pd.DatetimeIndex) -> pd.Da
     这样股票对该指数有真实的 beta，第7章 CAPM 可直接使用内置市场组合。
     """
     dt = 1 / 252
-    idx_logret = (MARKET_MU - 0.5 * MARKET_SIGMA ** 2) * dt + MARKET_SIGMA * np.sqrt(dt) * market_shocks
+    drift = (MARKET_MU - 0.5 * MARKET_SIGMA**2) * dt
+    idx_logret = drift + MARKET_SIGMA * np.sqrt(dt) * market_shocks
     index_close = 3000.0 * np.exp(np.cumsum(idx_logret))  # 类沪深300起点
     index_ret = np.concatenate([[np.nan], np.diff(index_close) / index_close[:-1]])
 
     # 无风险利率：在年化 2% 附近做极小幅缓慢波动
     rf_annual = RF_ANNUAL + 0.003 * np.sin(np.linspace(0, 3 * np.pi, len(dates)))
 
-    df = pd.DataFrame({
-        "index_close": np.round(index_close, 2),
-        "index_return": index_ret,
-        "rf_annual": np.round(rf_annual, 5),
-        "rf_daily": np.round(rf_annual / 252, 8),
-    }, index=dates)
+    df = pd.DataFrame(
+        {
+            "index_close": np.round(index_close, 2),
+            "index_return": index_ret,
+            "rf_annual": np.round(rf_annual, 5),
+            "rf_daily": np.round(rf_annual / 252, 8),
+        },
+        index=dates,
+    )
     df.index.name = "date"
     return df
 
@@ -148,19 +152,34 @@ def simulate_fundamentals() -> pd.DataFrame:
     rows = []
     for i in range(n_firms):
         base_lev = 0.45 - 1.5 * alpha[i] + rng.normal(0, 0.05)  # 与 alpha 负相关
-        size0 = rng.normal(22.0, 1.0)                            # log 总资产
+        size0 = rng.normal(22.0, 1.0)  # log 总资产
         for y in years:
             leverage = np.clip(base_lev + rng.normal(0, 0.05), 0.05, 0.95)
             size = size0 + 0.05 * (y - years[0]) + rng.normal(0, 0.1)
             growth = rng.normal(0.10, 0.15)
-            roa = (0.08 + B_LEV * leverage + B_SIZE * (size - 22.0)
-                   + B_GROWTH * growth + alpha[i] + rng.normal(0, 0.03))
-            rows.append((f"F{i:03d}", int(y), firm_industry[i],
-                         round(roa, 5), round(leverage, 4),
-                         round(size, 4), round(growth, 4)))
+            roa = (
+                0.08
+                + B_LEV * leverage
+                + B_SIZE * (size - 22.0)
+                + B_GROWTH * growth
+                + alpha[i]
+                + rng.normal(0, 0.03)
+            )
+            rows.append(
+                (
+                    f"F{i:03d}",
+                    int(y),
+                    firm_industry[i],
+                    round(roa, 5),
+                    round(leverage, 4),
+                    round(size, 4),
+                    round(growth, 4),
+                )
+            )
 
-    df = pd.DataFrame(rows, columns=["firm", "year", "industry",
-                                     "roa", "leverage", "size", "revenue_growth"])
+    df = pd.DataFrame(
+        rows, columns=["firm", "year", "industry", "roa", "leverage", "size", "revenue_growth"]
+    )
     return df
 
 
@@ -185,26 +204,30 @@ def simulate_credit() -> pd.DataFrame:
     z_income = (np.log(income) - np.log(income).mean()) / np.log(income).std()
     z_hist = (credit_history_months - credit_history_months.mean()) / credit_history_months.std()
 
-    logit = (-2.4
-             + 2.0 * debt_to_income
-             - 0.8 * z_income
-             - 0.5 * z_hist
-             + 0.35 * num_delinquencies
-             + 1.2 * utilization
-             - 0.015 * (age - 38))
+    logit = (
+        -2.4
+        + 2.0 * debt_to_income
+        - 0.8 * z_income
+        - 0.5 * z_hist
+        + 0.35 * num_delinquencies
+        + 1.2 * utilization
+        - 0.015 * (age - 38)
+    )
     prob = 1 / (1 + np.exp(-logit))
     default = (rng.uniform(size=n) < prob).astype(int)
 
-    df = pd.DataFrame({
-        "age": age.astype(int),
-        "income": income.astype(int),
-        "debt_to_income": debt_to_income,
-        "credit_history_months": credit_history_months.astype(int),
-        "num_open_accounts": num_open_accounts,
-        "num_delinquencies": num_delinquencies,
-        "utilization": utilization,
-        "default": default,
-    })
+    df = pd.DataFrame(
+        {
+            "age": age.astype(int),
+            "income": income.astype(int),
+            "debt_to_income": debt_to_income,
+            "credit_history_months": credit_history_months.astype(int),
+            "num_open_accounts": num_open_accounts,
+            "num_delinquencies": num_delinquencies,
+            "utilization": utilization,
+            "default": default,
+        }
+    )
     return df
 
 
@@ -215,6 +238,7 @@ def _save(df: pd.DataFrame, name: str, index: bool) -> None:
 
 
 def main() -> None:
+    """生成全部内置数据集并写入 data/processed/。"""
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     prices, market_shocks, dates = simulate_prices()

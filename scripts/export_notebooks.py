@@ -47,9 +47,10 @@ def export_one(nb_path: Path) -> Path:
 
 
 def main() -> None:
+    """执行并导出 notebooks/ 下的全部 notebook 为 Markdown。"""
     notebooks = sorted(NB_DIR.glob("*.ipynb"))
     if not notebooks:
-        print(f"notebooks/ 下没有找到 .ipynb，跳过。")
+        print("notebooks/ 下没有找到 .ipynb，跳过。")
         return
     for nb in notebooks:
         if ".ipynb_checkpoints" in str(nb):

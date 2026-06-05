@@ -22,7 +22,7 @@ from fds import (
 )
 
 
-def test_load_sample_prices():
+def test_load_sample_prices() -> None:
     prices = load_sample_prices()
     assert isinstance(prices, pd.DataFrame)
     assert len(prices) > 100
@@ -30,7 +30,7 @@ def test_load_sample_prices():
     assert isinstance(prices.index, pd.DatetimeIndex)
 
 
-def test_metrics_run():
+def test_metrics_run() -> None:
     prices = load_sample_prices()
     rets = daily_returns(prices)
     assert (rets.abs() < 1).all().all()  # 日收益率应远小于 100%
@@ -46,21 +46,21 @@ def test_metrics_run():
     assert -1 <= mdd <= 0
 
 
-def test_load_market():
+def test_load_market() -> None:
     mkt = load_market()
     assert {"index_close", "index_return", "rf_annual", "rf_daily"}.issubset(mkt.columns)
     assert isinstance(mkt.index, pd.DatetimeIndex)
     assert (mkt["index_close"] > 0).all()
 
 
-def test_load_factors():
+def test_load_factors() -> None:
     fac = load_factors()
     assert {"MKT", "SMB", "HML", "MOM"}.issubset(fac.columns)
     assert isinstance(fac.index, pd.DatetimeIndex)
     assert len(fac) > 100
 
 
-def test_load_fundamentals_panel():
+def test_load_fundamentals_panel() -> None:
     f = load_fundamentals()
     assert {"firm", "year", "roa", "leverage", "size", "revenue_growth"}.issubset(f.columns)
     assert f["firm"].nunique() == 200
@@ -68,7 +68,7 @@ def test_load_fundamentals_panel():
     assert len(f) == 1600  # 平衡面板
 
 
-def test_load_credit():
+def test_load_credit() -> None:
     c = load_credit()
     assert "default" in c.columns
     assert set(c["default"].unique()) <= {0, 1}

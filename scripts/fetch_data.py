@@ -15,12 +15,16 @@ from __future__ import annotations
 import argparse
 import os
 from pathlib import Path
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:  # 仅类型检查时需要，避免运行时强依赖 pandas
+    import pandas as pd
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 RAW_DIR = REPO_ROOT / "data" / "raw"
 
 
-def fetch_with_akshare(symbol: str, start: str, end: str):
+def fetch_with_akshare(symbol: str, start: str, end: str) -> pd.DataFrame:
     """用 akshare 抓取 A 股日线（前复权）。"""
     import akshare as ak
 
@@ -34,7 +38,7 @@ def fetch_with_akshare(symbol: str, start: str, end: str):
     return df
 
 
-def fetch_with_tushare(symbol: str, start: str, end: str):
+def fetch_with_tushare(symbol: str, start: str, end: str) -> pd.DataFrame:
     """用 tushare 抓取 A 股日线，需要 TUSHARE_TOKEN。"""
     import tushare as ts
 
@@ -48,6 +52,7 @@ def fetch_with_tushare(symbol: str, start: str, end: str):
 
 
 def main() -> None:
+    """解析命令行参数，抓取行情并保存到 data/raw/。"""
     parser = argparse.ArgumentParser(description="抓取中国市场行情数据")
     parser.add_argument("--symbol", default="600519", help="股票代码，如 600519")
     parser.add_argument("--start", default="20230101", help="开始日期 YYYYMMDD")

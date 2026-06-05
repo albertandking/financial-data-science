@@ -15,10 +15,10 @@ from cycler import cycler
 
 # 按操作系统优先尝试的中文字体（Windows / macOS / Linux）
 _CJK_FONTS = [
-    "Microsoft YaHei",   # Windows 微软雅黑
-    "SimHei",            # Windows 黑体
-    "PingFang SC",       # macOS
-    "Heiti SC",          # macOS
+    "Microsoft YaHei",  # Windows 微软雅黑
+    "SimHei",  # Windows 黑体
+    "PingFang SC",  # macOS
+    "Heiti SC",  # macOS
     "Noto Sans CJK SC",  # Linux
     "WenQuanYi Micro Hei",
 ]
@@ -36,7 +36,7 @@ PALETTE = [
 ]
 
 # A股习惯：红涨绿跌（与国际相反），需要时引用
-COLOR_UP = "#C0504D"    # 涨：红
+COLOR_UP = "#C0504D"  # 涨：红
 COLOR_DOWN = "#4E9A65"  # 跌：绿
 
 
@@ -60,40 +60,42 @@ def set_chinese_font() -> None:
     统一字号与图例样式、合适的图幅与分辨率。
     """
     _pick_cjk_font()
-    plt.rcParams.update({
-        # 中文与负号
-        "axes.unicode_minus": False,
-        # 图幅与分辨率
-        "figure.figsize": (9, 5),
-        "figure.dpi": 110,
-        "savefig.dpi": 150,
-        "savefig.bbox": "tight",
-        "figure.facecolor": "white",
-        "axes.facecolor": "white",
-        # 统一配色
-        "axes.prop_cycle": cycler(color=PALETTE),
-        # 网格（置于数据下方，轻量）
-        "axes.grid": True,
-        "axes.axisbelow": True,
-        "grid.color": "#B0B0B0",
-        "grid.alpha": 0.30,
-        "grid.linewidth": 0.6,
-        # 边框：去除上、右
-        "axes.spines.top": False,
-        "axes.spines.right": False,
-        "axes.edgecolor": "#444444",
-        "axes.linewidth": 0.9,
-        # 字号与标题
-        "axes.titlesize": 13,
-        "axes.titleweight": "bold",
-        "axes.labelsize": 11,
-        "xtick.labelsize": 10,
-        "ytick.labelsize": 10,
-        "xtick.color": "#333333",
-        "ytick.color": "#333333",
-        "axes.labelcolor": "#222222",
-        # 线条与图例
-        "lines.linewidth": 1.8,
-        "legend.frameon": False,
-        "legend.fontsize": 10,
-    })
+    plt.rcParams.update(
+        {
+            # 中文与负号
+            "axes.unicode_minus": False,
+            # 图幅与分辨率
+            "figure.figsize": (9, 5),
+            "figure.dpi": 110,
+            "savefig.dpi": 150,
+            "savefig.bbox": "tight",
+            "figure.facecolor": "white",
+            "axes.facecolor": "white",
+            # 统一配色
+            "axes.prop_cycle": cycler(color=PALETTE),
+            # 网格（置于数据下方，轻量）
+            "axes.grid": True,
+            "axes.axisbelow": True,
+            "grid.color": "#B0B0B0",
+            "grid.alpha": 0.30,
+            "grid.linewidth": 0.6,
+            # 边框：去除上、右
+            "axes.spines.top": False,
+            "axes.spines.right": False,
+            "axes.edgecolor": "#444444",
+            "axes.linewidth": 0.9,
+            # 字号与标题
+            "axes.titlesize": 13,
+            "axes.titleweight": "bold",
+            "axes.labelsize": 11,
+            "xtick.labelsize": 10,
+            "ytick.labelsize": 10,
+            "xtick.color": "#333333",
+            "ytick.color": "#333333",
+            "axes.labelcolor": "#222222",
+            # 线条与图例
+            "lines.linewidth": 1.8,
+            "legend.frameon": False,
+            "legend.fontsize": 10,
+        }
+    )

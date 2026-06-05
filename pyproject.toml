@@ -47,9 +47,10 @@ docs = [
     "nbformat>=5.10",
     "jupytext>=1.16",    # notebook <-> md 互转，便于版本管理
 ]
-# 测试工具
+# 测试与代码质量工具
 dev = [
     "pytest>=8.0",
+    "ruff>=0.9",
 ]
 
 [tool.uv]
@@ -65,3 +66,20 @@ packages = ["src/fds"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"   # 兼容下限；实际运行用 3.14
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "ANN", "D"]
+# D400/D415：中文 docstring 以「。」结尾，ruff 误判为缺英文句点，故豁免
+# D203/D212：与 D211/D213 冲突的可选规则
+ignore = ["D203", "D212", "D400", "D415"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+# 测试函数无需 docstring；断言式测试可省返回注解
+"tests/*" = ["D100", "D103"]

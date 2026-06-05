@@ -28,8 +28,7 @@ def _load(name: str) -> pd.DataFrame:
     path = DATA_DIR / f"{name}.parquet"
     if not path.exists():
         raise FileNotFoundError(
-            f"未找到内置数据集 {path}。\n"
-            f"请先运行：uv run python scripts/make_sample_data.py"
+            f"未找到内置数据集 {path}。\n请先运行：uv run python scripts/make_sample_data.py"
         )
     return pd.read_parquet(path)
 
