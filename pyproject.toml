@@ -1,0 +1,65 @@
+[project]
+name = "financial-data-science"
+version = "0.1.0"
+description = "《金融数据科学》教材 —— 面向中国本科生与研究生，正文用 Markdown，代码用 Jupyter Notebook，可本地执行。"
+readme = "README.md"
+requires-python = ">=3.11"
+
+# 核心依赖：所有章节代码都依赖这一组，保证学生一条命令装好即可跑全书示例。
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "scipy>=1.13",
+    "matplotlib>=3.8",
+    "seaborn>=0.13",
+    "statsmodels>=0.14",
+    "scikit-learn>=1.5",
+    "pyarrow>=16.0",      # 读写 parquet 内置数据集
+    "tqdm>=4.66",
+    "openpyxl>=3.1",      # 读 Excel 财报样本
+]
+
+[project.optional-dependencies]
+# 中国市场数据接口（联网抓取，按需 `uv sync --extra data` 安装）
+data = [
+    "akshare>=1.14",     # A股/债券/宏观，免注册
+    "tushare>=1.4",      # 需要 token 与积分
+    "requests>=2.31",
+]
+# 进阶/前沿章节（深度学习、NLP），按需 `uv sync --extra advanced`，避免新生一上来装太重
+advanced = [
+    "xgboost>=2.0",
+    "torch>=2.2",
+    "transformers>=4.40",
+    "jieba>=0.42",       # 中文分词，财经文本
+]
+
+# 成书与 notebook 导出工具链：作为 dependency-group，默认安装（见下方 default-groups）
+[dependency-groups]
+docs = [
+    "mkdocs>=1.6",
+    "mkdocs-material>=9.5",
+    "jupyter>=1.0",
+    "jupyterlab>=4.2",
+    "nbconvert>=7.16",
+    "nbformat>=5.10",
+    "jupytext>=1.16",    # notebook <-> md 互转，便于版本管理
+]
+# 测试工具
+dev = [
+    "pytest>=8.0",
+]
+
+[tool.uv]
+# 默认即包含 docs 工具链与测试工具，方便边写边预览
+default-groups = ["docs", "dev"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/fds"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

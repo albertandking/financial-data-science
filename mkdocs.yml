@@ -1,0 +1,74 @@
+site_name: 金融数据科学
+site_description: 面向中国本科生与研究生的金融数据科学教材
+site_author: ""
+docs_dir: book
+site_dir: site
+
+theme:
+  name: material
+  language: zh
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - toc.follow
+    - content.code.copy
+    - content.code.annotate
+  palette:
+    - scheme: default
+      primary: indigo
+      toggle:
+        icon: material/weather-night
+        name: 切换到夜间模式
+    - scheme: slate
+      primary: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: 切换到日间模式
+
+markdown_extensions:
+  - admonition
+  - footnotes
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.arithmatex:    # 数学公式
+      generic: true
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+  - 首页: index.md
+  - 第一部分·基础:
+      - 第1章 导论：什么是金融数据科学: part1/01-introduction.md
+      - 第2章 Python 数据科学工具栈: part1/02-python-toolkit.md
+      - 第3章 金融数据获取与清洗: part1/03-data-acquisition.md
+      - 第4章 探索性分析与可视化: part1/04-eda-visualization.md
+  - 第二部分·金融计量与统计:
+      - 第5章 收益率与风险度量: part2/05-returns-risk.md
+      - 第6章 金融时间序列分析: part2/06-time-series.md
+      - 第7章 资产定价与因子模型: part2/07-factor-models.md
+      - 第8章 面板数据与回归: part2/08-panel-regression.md
+  - 第三部分·机器学习:
+      - 第9章 监督学习基础: part3/09-supervised-learning.md
+      - 第10章 金融特征工程: part3/10-feature-engineering.md
+      - 第11章 树模型与集成学习: part3/11-ensemble-trees.md
+      - 第12章 深度学习与序列模型: part3/12-deep-learning.md
+      - 第13章 金融文本与 NLP: part3/13-nlp-text.md
+  - 第四部分·应用与项目:
+      - 第14章 投资组合优化: part4/14-portfolio-optimization.md
+      - 第15章 量化策略与回测: part4/15-backtesting.md
+      - 第16章 信用风险与违约预测: part4/16-credit-risk.md
+      - 第17章 大模型与金融前沿: part4/17-llm-finance.md
+  - 附录:
+      - 附录A 本地环境配置: appendix/a-setup.md
+      - 附录B 数学与概率回顾: appendix/b-math-review.md
+      - 附录C 数据字典: appendix/c-data-dictionary.md

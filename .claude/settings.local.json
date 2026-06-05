@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uv sync *)",
+      "Bash(uv run *)",
+      "Bash(git init *)",
+      "Bash(git config *)",
+      "Bash(echo \"git user.name: $\\(git config user.name || echo '<未设置>'\\)\")",
+      "Bash(echo \"git user.email: $\\(git config user.email || echo '<未设置>'\\)\")",
+      "Bash(rm -f 说明.txt)",
+      "Bash(git add *)",
+      "Bash(git commit -q -m '搭建《金融数据科学》教材脚手架 *)"
+    ]
+  }
+}
