@@ -20,7 +20,7 @@ $f: \mathbf{x} \mapsto y$，使其在新样本上的预测误差尽可能小。
 - 预测公司违约概率（概率校准）
 
 然而金融数据有其特殊性：**时序结构**使得传统随机交叉验证完全失效，
-稍有不慎便会产生"前视偏差"，造成回测业绩虚高、实盘惨败的结局。
+稍有不慎便会产生“前视偏差”，造成回测业绩虚高、实盘惨败的结局。
 
 本章将系统讲解监督学习在金融中的完整工作流，特别强调时序交叉验证的必要性，
 并以 A 股内置数据贯穿全章实战演示。
@@ -113,7 +113,7 @@ $$y_{i,t} = \frac{P_{i,t+h} - P_{i,t}}{P_{i,t}}$$
 
 $$y_{i,t} = \begin{cases} 1 & \text{若 } r_{i,t+1:t+h} > 0 \\ 0 & \text{若 } r_{i,t+1:t+h} \leq 0 \end{cases}$$
 
-或引入"死区"（Neutral Zone）避免噪声标签：
+或引入“死区”（Neutral Zone）避免噪声标签：
 
 $$y_{i,t} = \begin{cases} 1 & r > \epsilon \\ -1 & r < -\epsilon \\ 0 & |r| \leq \epsilon \text{（中性，过滤）} \end{cases}$$
 
@@ -132,7 +132,7 @@ $$y_{i,t} = \begin{cases} 1 & r > \epsilon \\ -1 & r < -\epsilon \\ 0 & |r| \leq
     
     1. **不重叠采样**：每隔 $h$ 天取一个样本
     2. **Newey-West 标准误**：修正序列相关下的统计推断
-    3. **Purged CV**（见 9.4.3）：训练/验证之间加入"净化区间"
+    3. **Purged CV**（见 9.4.3）：训练/验证之间加入“净化区间”
 
 ```
 时间轴示意（h=5，5日持有期）：
@@ -162,10 +162,10 @@ t=5:  特征 X₅，标签 y₅ = r(6→10)  ← 不与 y₀ 重叠
 
 - **标签泄露**：验证样本的未来信息进入训练集
 - **协变量泄露**：归一化时使用了验证/测试集的统计量（见 9.7 节 Pipeline）
-- **相关性泄露**：时序序列自相关，使"相邻"样本的信息实质上高度重叠
+- **相关性泄露**：时序序列自相关，使“相邻”样本的信息实质上高度重叠
 
 !!! warning "前视偏差是量化选手最常犯的错误"
-    A 股历史上不少"神奇策略"在回测中年化 50%+ Sharpe>3，
+    A 股历史上不少“神奇策略”在回测中年化 50%+ Sharpe>3，
     上线后立刻亏钱，根源往往是某处前视偏差。
     最安全的编程习惯：**永远用 `.shift(1)` 来错开特征与标签**。
 
@@ -182,7 +182,7 @@ Fold 4: 训练 [1..250]   验证 [251..300]
 Fold 5: 训练 [1..300]   验证 [301..350]
 ```
 
-每折训练集只增大、不缩小（"expanding window"），验证集始终在训练集之后。
+每折训练集只增大、不缩小（“expanding window”），验证集始终在训练集之后。
 
 ```python
 from sklearn.model_selection import TimeSeriesSplit, cross_val_score
@@ -320,7 +320,7 @@ $$\min_{\boldsymbol{\beta}} \left\{ -\sum_{i=1}^n [y_i \log \hat{p}_i + (1-y_i)\
 ### 9.7.1 为什么要标准化
 
 线性模型的正则化惩罚对系数的绝对值施加约束。
-若不同特征量纲差异极大（如市值单位为"亿元"、换手率单位为"百分比"），
+若不同特征量纲差异极大（如市值单位为“亿元”、换手率单位为“百分比”），
 正则化会不公平地惩罚大量纲特征，导致模型偏向小量纲特征。
 
 标准化（Z-score Normalization）：
@@ -436,7 +436,7 @@ rank_ic = spearmanr(y_pred, y_actual)[0]   # Spearman RankIC
 ## 9.9 A 股实战：从特征构造到前视偏差实验
 
 本节使用内置数据进行完整的端到端演示，重点对比**随机划分 vs 时序划分**对准确率的影响，
-直观揭示前视偏差带来的"虚高"问题。
+直观揭示前视偏差带来的“虚高”问题。
 
 ### 9.9.1 特征工程概述
 
@@ -536,7 +536,7 @@ acc_ts = ...   # 通常明显低于 acc_rnd
 **习题 9.3（正则化路径）**
 
 对同一数据集，分别用 $\lambda \in \{0.001, 0.01, 0.1, 1, 10\}$ 训练岭回归：
-- (a) 绘制"正则化路径图"（横轴 $\log\lambda$，纵轴各特征系数）
+- (a) 绘制“正则化路径图”（横轴 $\log\lambda$，纵轴各特征系数）
 - (b) 观察随 $\lambda$ 增大，各系数如何收缩
 - (c) 用 `RidgeCV` 找到最优 $\lambda$，与图中最优点对应
 
@@ -555,7 +555,7 @@ acc_ts = ...   # 通常明显低于 acc_rnd
 
 **习题 9.5（ROC 曲线分析）**
 
-分别训练逻辑回归和一个"随机猜测"基准（预测概率恒为 0.5）：
+分别训练逻辑回归和一个“随机猜测”基准（预测概率恒为 0.5）：
 - (a) 在同一张图上绘制两模型的 ROC 曲线
 - (b) 计算并对比 AUC 值
 - (c) 解释 AUC = 0.5 的经济含义
@@ -579,7 +579,7 @@ acc_ts = ...   # 通常明显低于 acc_rnd
    第 5 章（重抽样方法），第 6 章（线性模型选择与正则化）。
    [免费在线版](https://www.statlearning.com/)
 
-4. **Bailey & López de Prado (2012)**，"The Sharpe Ratio Efficient Frontier"，
+4. **Bailey & López de Prado (2012)**，“The Sharpe Ratio Efficient Frontier”，
    *Journal of Risk*。关于样本外测试和多重测试的重要参考。
 
 5. **scikit-learn 官方文档**：
@@ -587,5 +587,5 @@ acc_ts = ...   # 通常明显低于 acc_rnd
    [Pipeline](https://scikit-learn.org/stable/modules/pipeline.html)、
    [线性模型](https://scikit-learn.org/stable/modules/linear_model.html)
 
-6. **Gu, Kelly & Xiu (2020)**，"Empirical Asset Pricing via Machine Learning"，
+6. **Gu, Kelly & Xiu (2020)**，“Empirical Asset Pricing via Machine Learning”，
    *Review of Financial Studies*。大规模实证研究，展示 ML 在美股选股中的应用。

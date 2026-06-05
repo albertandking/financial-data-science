@@ -137,7 +137,7 @@ uv run python scripts/make_sample_data.py
 
 ## A.7 常见问题
 
-- **中文乱码**：调用 `from fds import set_chinese_font; set_chinese_font()`；Windows 通常已有"微软雅黑"。
+- **中文乱码**：调用 `from fds import set_chinese_font; set_chinese_font()`；Windows 通常已有“微软雅黑”。
 - **akshare 抓取失败**：多为网络或接口变更，重试或更新 `uv lock --upgrade-package akshare`。
 - **PyTorch 安装慢**：仅进阶章节需要，可单独 `uv sync --extra advanced`。
 - **Python 版本**：推荐 3.14；若所在平台某重依赖暂无 3.14 wheel，可在 `.python-version` 改回 3.11/3.12 后 `uv sync`。

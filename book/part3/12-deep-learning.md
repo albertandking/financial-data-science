@@ -5,7 +5,7 @@
 
 ## 12.1 本章导读
 
-过去十年，深度学习在图像识别、自然语言处理和语音合成等领域取得了革命性进展。金融界对此也充满期待：价格序列看似比图像更"规则"，是否可以用深度网络直接从历史数据中"学出"市场规律？
+过去十年，深度学习在图像识别、自然语言处理和语音合成等领域取得了革命性进展。金融界对此也充满期待：价格序列看似比图像更“规则”，是否可以用深度网络直接从历史数据中“学出”市场规律？
 
 本章将系统回答这个问题。我们从神经元的基本运算出发，逐步构建多层感知机（MLP）与循环神经网络（RNN/LSTM/GRU），最终用 PyTorch 搭建一个真实的 LSTM 波动率预测器，并与传统基线模型做严格的样本外对比。更重要的是，我们将深入讨论金融序列的特殊困境——**低信噪比与小样本**——以及深度模型在这种环境中的局限性。
 
@@ -33,7 +33,7 @@
 
 ### 12.3.1 神经元与激活函数
 
-神经网络的基本计算单元是**人工神经元**，模仿生物神经元的"积累-激发"行为：
+神经网络的基本计算单元是**人工神经元**，模仿生物神经元的“积累-激发”行为：
 
 $$
 z = \mathbf{w}^{\top} \mathbf{x} + b, \quad a = f(z)
@@ -45,7 +45,7 @@ $$
 |---|---|---|---|
 | Sigmoid | $\sigma(z) = \frac{1}{1+e^{-z}}$ | $(0, 1)$ | 光滑，但梯度消失严重；常用于输出层（二分类） |
 | Tanh | $\tanh(z) = \frac{e^z - e^{-z}}{e^z + e^{-z}}$ | $(-1, 1)$ | 零中心，仍有梯度消失问题 |
-| ReLU | $\max(0, z)$ | $[0, +\infty)$ | 训练快，无梯度消失（正区间）；存在"死亡神经元" |
+| ReLU | $\max(0, z)$ | $[0, +\infty)$ | 训练快，无梯度消失（正区间）；存在“死亡神经元” |
 | Leaky ReLU | $\max(\alpha z, z)$ | $\mathbb{R}$ | 解决死亡神经元，$\alpha=0.01$ |
 
 **在金融序列模型中**，隐藏层通常选择 ReLU；LSTM 内部门控使用 Sigmoid 与 Tanh。
@@ -137,7 +137,7 @@ class MLP(nn.Module):
 
 ### 12.5.1 标准 RNN 的结构
 
-金融价格序列、收益率序列等是典型的**时间序列**，具有"历史信息影响当前"的特性。标准循环神经网络（RNN）通过隐藏状态 $\mathbf{h}_t$ 传递历史信息：
+金融价格序列、收益率序列等是典型的**时间序列**，具有“历史信息影响当前”的特性。标准循环神经网络（RNN）通过隐藏状态 $\mathbf{h}_t$ 传递历史信息：
 
 $$
 \mathbf{h}_t = f(\mathbf{W}_h \mathbf{h}_{t-1} + \mathbf{W}_x \mathbf{x}_t + \mathbf{b})
@@ -151,13 +151,13 @@ $$
 
 LSTM（Long Short-Term Memory）由 Hochreiter & Schmidhuber（1997）提出，通过**门控机制**精细控制信息的记忆与遗忘：
 
-**遗忘门**（Forget Gate）：决定从上一时刻记忆中"忘掉"多少：
+**遗忘门**（Forget Gate）：决定从上一时刻记忆中“忘掉”多少：
 
 $$
 \mathbf{f}_t = \sigma\!\left(\mathbf{W}_f [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_f\right)
 $$
 
-**输入门**（Input Gate）：决定向记忆中"写入"多少新信息：
+**输入门**（Input Gate）：决定向记忆中“写入”多少新信息：
 
 $$
 \mathbf{i}_t = \sigma\!\left(\mathbf{W}_i [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_i\right),\quad
@@ -170,7 +170,7 @@ $$
 \mathbf{c}_t = \mathbf{f}_t \odot \mathbf{c}_{t-1} + \mathbf{i}_t \odot \tilde{\mathbf{c}}_t
 $$
 
-**输出门**（Output Gate）：决定从记忆中"读出"多少作为当前输出：
+**输出门**（Output Gate）：决定从记忆中“读出”多少作为当前输出：
 
 $$
 \mathbf{o}_t = \sigma\!\left(\mathbf{W}_o [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_o\right),\quad
@@ -180,7 +180,7 @@ $$
 其中 $\odot$ 表示逐元素相乘，$\sigma$ 为 Sigmoid 函数。
 
 !!! note "LSTM 的关键直觉"
-    记忆单元 $\mathbf{c}_t$ 就像一条"信息高速公路"，梯度能沿此通道无衰减地长程流动。遗忘门接近 1 时保留历史（如季节性），接近 0 时忘记历史（如异常事件后重置）。这种自适应记忆机制正是 LSTM 优于标准 RNN 的根本原因。
+    记忆单元 $\mathbf{c}_t$ 就像一条“信息高速公路”，梯度能沿此通道无衰减地长程流动。遗忘门接近 1 时保留历史（如季节性），接近 0 时忘记历史（如异常事件后重置）。这种自适应记忆机制正是 LSTM 优于标准 RNN 的根本原因。
 
 ### 12.5.3 GRU：门控循环单元
 
@@ -256,13 +256,13 @@ X_val_sc   = scaler.transform(X_val_2d)   # 不能在验证集上重新 fit！
 ```
 
 !!! warning "常见错误：信息泄露"
-    若在整个数据集上做标准化（`scaler.fit(X_all)`），验证集的均值和方差信息就"泄露"进了训练过程，造成乐观的评估结果。在金融场景中这会被视为严重的方法论错误。
+    若在整个数据集上做标准化（`scaler.fit(X_all)`），验证集的均值和方差信息就“泄露”进了训练过程，造成乐观的评估结果。在金融场景中这会被视为严重的方法论错误。
 
 ---
 
 ## 12.7 过拟合控制
 
-金融序列的信噪比极低（可预测的信号远少于噪声），深度模型极容易把噪声"记住"而非学习真实规律。以下是最常用的正则化手段。
+金融序列的信噪比极低（可预测的信号远少于噪声），深度模型极容易把噪声“记住”而非学习真实规律。以下是最常用的正则化手段。
 
 ### 12.7.1 Dropout
 
@@ -309,9 +309,9 @@ optimizer = torch.optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-4)
 等效于在损失中添加 $\lambda \|\mathbf{W}\|_2^2$，惩罚过大的权重。
 
 !!! warning "过拟合在金融预测中尤为危险"
-    在图像分类中，验证集准确率 95% 通常意味着模型真的学到了模式。但在金融收益率预测中，"高训练精度、低测试精度"极为常见——模型记住了训练期的随机噪声。
+    在图像分类中，验证集准确率 95% 通常意味着模型真的学到了模式。但在金融收益率预测中，“高训练精度、低测试精度”极为常见——模型记住了训练期的随机噪声。
 
-    **症状**：训练 loss 持续下降，验证 loss 在早期就开始上升（或持平），二者之间出现明显"剪刀差"。
+    **症状**：训练 loss 持续下降，验证 loss 在早期就开始上升（或持平），二者之间出现明显“剪刀差”。
 
     **应对**：减小网络规模、增大 Dropout、增强 L2 正则、增加数据量、缩短训练 epoch。
 
@@ -334,7 +334,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-4)
 
     **非平稳性**：市场制度（监管政策、投资者结构）频繁变化，训练期学到的规律可能在测试期完全失效。
 
-    **数据挖掘偏差**：在有限数据上反复调参，极易找到"看起来好"但不具备泛化能力的超参数组合。
+    **数据挖掘偏差**：在有限数据上反复调参，极易找到“看起来好”但不具备泛化能力的超参数组合。
 
 | 对比维度 | LSTM | ARIMA/GARCH | 随机森林/XGBoost |
 |---------|------|------------|----------------|
@@ -416,7 +416,7 @@ for epoch in range(30):
 
 1. **基础架构**：神经元 → MLP → RNN → LSTM/GRU，每一层抽象都在解决前一层的缺陷
 2. **门控机制**：LSTM 通过遗忘/输入/输出三门控制信息流，解决了 RNN 的梯度消失问题
-3. **工程规范**：滑动窗口防前视、时序切分、训练集专属标准化——这三点是金融时序建模的"铁律"
+3. **工程规范**：滑动窗口防前视、时序切分、训练集专属标准化——这三点是金融时序建模的“铁律”
 4. **过拟合控制**：Dropout + 早停 + 权重衰减是对抗噪声的三重防线
 5. **理性评估**：深度学习在低信噪比、小样本的金融场景中优势有限，严格的样本外测试是唯一可信的评估标准
 
@@ -458,10 +458,10 @@ y = feat_df['target'].values
 
 **4. 早停与信息泄露**
 
-某同学使用整个数据集的均值/方差做标准化，再按 8:2 切分训练/验证，发现验证集损失明显低于"先切分后标准化"的做法。请解释原因并说明正确流程。
+某同学使用整个数据集的均值/方差做标准化，再按 8:2 切分训练/验证，发现验证集损失明显低于“先切分后标准化”的做法。请解释原因并说明正确流程。
 
 ??? note "参考思路"
-    "先标准化后切分"将验证集的统计信息（均值、方差）引入了训练过程，等同于"偷看"了未来数据——这是信息泄露。正确流程：①先按时序切分；②在训练集上 fit scaler；③用训练集 scaler transform 训练集和验证集。该错误在实践中极为常见，是金融回测失真的主要来源之一。
+    “先标准化后切分”将验证集的统计信息（均值、方差）引入了训练过程，等同于“偷看”了未来数据——这是信息泄露。正确流程：①先按时序切分；②在训练集上 fit scaler；③用训练集 scaler transform 训练集和验证集。该错误在实践中极为常见，是金融回测失真的主要来源之一。
 
 **5. 深度学习在波动率预测中的优势**
 
@@ -478,10 +478,10 @@ y = feat_df['target'].values
 
 - **Goodfellow, Bengio & Courville（2016）**《Deep Learning》，MIT Press。第10章专门讲序列建模与 RNN，第11章讲正则化，均有深度数学推导。在线免费：[deeplearningbook.org](https://www.deeplearningbook.org)
 
-- **Hochreiter & Schmidhuber（1997）**"Long Short-Term Memory"，*Neural Computation* 9(8)。LSTM 原始论文，仍是理解门控机制的最佳一手资料。
+- **Hochreiter & Schmidhuber（1997）**“Long Short-Term Memory”，*Neural Computation* 9(8)。LSTM 原始论文，仍是理解门控机制的最佳一手资料。
 
-- **Sezer, Gudelek & Ozbayoglu（2020）**"Financial time series forecasting with deep learning: A systematic literature review"，*Applied Soft Computing*。系统综述了 2005-2019 年深度学习用于金融预测的 140+ 篇论文，结论是"没有一致性胜者"。
+- **Sezer, Gudelek & Ozbayoglu（2020）**“Financial time series forecasting with deep learning: A systematic literature review”，*Applied Soft Computing*。系统综述了 2005-2019 年深度学习用于金融预测的 140+ 篇论文，结论是“没有一致性胜者”。
 
-- **Gu, Kelly & Xiu（2020）**"Empirical Asset Pricing via Machine Learning"，*Review of Financial Studies*。用机器学习（含神经网络）预测美国股票横截面收益率，是金融 ML 领域的重要实证研究。
+- **Gu, Kelly & Xiu（2020）**“Empirical Asset Pricing via Machine Learning”，*Review of Financial Studies*。用机器学习（含神经网络）预测美国股票横截面收益率，是金融 ML 领域的重要实证研究。
 
-- **Lim & Zohren（2021）**"Time-series forecasting with deep learning: a survey"，*Philosophical Transactions of the Royal Society A*。覆盖 Transformer 在时序预测中的应用，对第 17 章（大模型）有铺垫作用。
+- **Lim & Zohren（2021）**“Time-series forecasting with deep learning: a survey”，*Philosophical Transactions of the Royal Society A*。覆盖 Transformer 在时序预测中的应用，对第 17 章（大模型）有铺垫作用。

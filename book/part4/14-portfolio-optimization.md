@@ -7,9 +7,9 @@
 
 ## 14.0 本章导读
 
-> "不要把鸡蛋放在同一个篮子里。"——这句朴素的谚语背后，隐藏着严谨的数学框架。
+> “不要把鸡蛋放在同一个篮子里。”——这句朴素的谚语背后，隐藏着严谨的数学框架。
 
-1952 年，哈里·马科维茨（Harry Markowitz）在其博士论文中首次用均值-方差框架把"分散投资"量化成一个可求解的优化问题，开创了现代组合理论（Modern Portfolio Theory，MPT）。本章以 A 股示例数据为载体，系统讲授：
+1952 年，哈里·马科维茨（Harry Markowitz）在其博士论文中首次用均值-方差框架把“分散投资”量化成一个可求解的优化问题，开创了现代组合理论（Modern Portfolio Theory，MPT）。本章以 A 股示例数据为载体，系统讲授：
 
 1. **组合的期望收益与风险**如何由权重向量决定；
 2. **均值-方差有效前沿**的推导与数值求解；
@@ -260,7 +260,7 @@ bounds = [(0, 1)] * N  # 每只资产权重在 [0, 1] 之间
 设样本量为 $T$，资产数为 $N$。样本协方差矩阵 $\hat\Sigma = \frac{1}{T-1}\sum_{t=1}^T(r_t-\bar r)(r_t-\bar r)^\top$ 的问题：
 
 1. **条件数过大**：$N$ 接近 $T$ 时，$\hat\Sigma$ 接近奇异，$\hat\Sigma^{-1}$ 不稳定；
-2. **估计误差放大**：优化器会**放大**样本协方差的估计误差，形成"误差最大化"；
+2. **估计误差放大**：优化器会**放大**样本协方差的估计误差，形成“误差最大化”；
 3. **极端权重**：导致优化结果中权重分配极端，在样本外表现差。
 
 !!! example "经验规律"
@@ -363,7 +363,7 @@ rf = load_market()['rf_annual'].mean()   # 年化无风险利率
 ### 14.8.2 蒙特卡洛撒点验证
 
 直觉可视化：随机生成 5000 个组合，在 $(\sigma_p, \mu_p)$ 平面上描绘散点图。
-散点的"左边界"即为有效前沿的近似轮廓。
+散点的“左边界”即为有效前沿的近似轮廓。
 
 ```python
 np.random.seed(42)
@@ -445,7 +445,7 @@ $$
 ??? hint "参考思路"
     禁止做空相当于在可行集上加了若干半空间约束，原来的最优解若包含负权重则变得不可行，
     必须寻找次优解，因此前沿右移。运行无约束最大夏普组合，输出各资产权重，
-    负权重的资产即为被"做空"的资产。
+    负权重的资产即为被“做空”的资产。
 
 ---
 
@@ -474,19 +474,19 @@ $$
 
 ## 14.11 拓展阅读
 
-1. **Markowitz, H. M. (1952)**. "Portfolio Selection." *Journal of Finance*, 7(1), 77–91.
+1. **Markowitz, H. M. (1952)**. “Portfolio Selection.” *Journal of Finance*, 7(1), 77–91.
    — 原始论文，奠定现代组合理论基础，值得精读。
 
-2. **Ledoit, O., & Wolf, M. (2004)**. "Honey, I Shrunk the Sample Covariance Matrix."
+2. **Ledoit, O., & Wolf, M. (2004)**. “Honey, I Shrunk the Sample Covariance Matrix.”
    *Journal of Portfolio Management*, 30(4), 110–119.
    — Ledoit-Wolf 收缩估计的直觉版解释，配合原始数学论文（2003, *Journal of Multivariate Analysis*）一同阅读。
 
-3. **DeMiguel, V., Garlappi, L., & Uppal, R. (2009)**. "Optimal Versus Naive Diversification."
+3. **DeMiguel, V., Garlappi, L., & Uppal, R. (2009)**. “Optimal Versus Naive Diversification.”
    *Review of Financial Studies*, 22(5), 1915–1953.
    — 实证证明等权 $1/N$ 策略在样本外难以被均值-方差策略超越，引发广泛讨论。
 
-4. **Maillard, S., Roncalli, T., & Teïletche, J. (2010)**. "The Properties of Equally Weighted
-   Risk Contribution Portfolios." *Journal of Portfolio Management*, 36(4), 60–70.
+4. **Maillard, S., Roncalli, T., & Teïletche, J. (2010)**. “The Properties of Equally Weighted
+   Risk Contribution Portfolios.” *Journal of Portfolio Management*, 36(4), 60–70.
    — 风险平价的理论性质与实证分析。
 
 5. **Roncalli, T. (2013)**. *Introduction to Risk Parity and Budgeting*. CRC Press.

@@ -5,7 +5,7 @@
 
 ## 10.1 本章导读
 
-特征工程是机器学习流程的核心环节，尤其在金融领域，原始的价格和成交量数据极少直接作为模型输入。一方面，金融时序数据的**信噪比极低**——真实的预测信号可能淹没在大量随机噪声之中；另一方面，金融市场存在**时序依赖**结构，某一时刻的信息只能来自过去，任何涉及未来信息的特征都会引入"前视偏差"（look-ahead bias），导致回测严重虚高。
+特征工程是机器学习流程的核心环节，尤其在金融领域，原始的价格和成交量数据极少直接作为模型输入。一方面，金融时序数据的**信噪比极低**——真实的预测信号可能淹没在大量随机噪声之中；另一方面，金融市场存在**时序依赖**结构，某一时刻的信息只能来自过去，任何涉及未来信息的特征都会引入“前视偏差”（look-ahead bias），导致回测严重虚高。
 
 本章围绕 A 股量化实战，系统介绍价量特征、技术指标、滚动窗口与防前视技术、截面标准化，以及特征筛选方法，帮助读者建立一套可直接投入实践的特征工程体系。
 
@@ -35,7 +35,7 @@
 ### 10.3.2 时序特征的三大原则
 
 !!! warning "防前视偏差是金融特征工程的第一原则"
-    **前视偏差**（look-ahead bias）指特征构造时意外用了未来信息。例如，"当天收盘价 / 过去 20 日最高价" 中的"最高价"如果包含了当天，就用了当天才知道的信息，在实际交易中无法复现。一旦引入前视偏差，回测业绩将严重虚高。
+    **前视偏差**（look-ahead bias）指特征构造时意外用了未来信息。例如，“当天收盘价 / 过去 20 日最高价” 中的“最高价”如果包含了当天，就用了当天才知道的信息，在实际交易中无法复现。一旦引入前视偏差，回测业绩将严重虚高。
 
 **原则一：时间对齐**。特征 $x_{i,t}$ 必须仅由 $t$ 时刻及之前的数据计算。通用做法是在构造特征后立即 `shift(1)`，确保预测 $t+1$ 时用的特征全部来自 $t$ 及之前。
 
@@ -61,7 +61,7 @@
 
 ### 10.4.1 动量特征（Momentum）
 
-动量来源于"过去强者继续强"的经验观察。经典的 $n$ 日动量定义为：
+动量来源于“过去强者继续强”的经验观察。经典的 $n$ 日动量定义为：
 
 $$\text{MOM}_n(t) = \frac{P_t}{P_{t-n}} - 1$$
 
@@ -219,7 +219,7 @@ feature = prices.rolling(20).std().shift(1)
 
 `ewm` 默认 `adjust=True`，在序列开头使用了边界修正，但不会引入未来信息。`ewm(span=n, adjust=False)` 与 `rolling(n).mean()` 的主要区别在于权重形式，二者均不引入前视偏差。
 
-但 `ewm` 没有严格的"窗口长度"，每一步都对全部历史加权，因此`shift(1)` 同样适用。
+但 `ewm` 没有严格的“窗口长度”，每一步都对全部历史加权，因此`shift(1)` 同样适用。
 
 ### 10.6.3 前视偏差的量化对比
 
@@ -255,7 +255,7 @@ mom_clean  = prices.pct_change(20).shift(1) # 只含 t-1 日及更早信息
 
 在监督学习中，时序标准化（用整个历史均值和标准差）最为常见。但金融截面策略有其特殊性：
 
-- **策略是"同一天选哪些股"**，关注的是截面排名，而非时序水平。
+- **策略是“同一天选哪些股”**，关注的是截面排名，而非时序水平。
 - 市场整体水平随时间漂移——牛市时所有股票的动量特征都很高，时序标准化后的信号会失真。
 - **截面标准化**（对同一天所有股票的特征做 z-score）消除了时间趋势，保留了截面信息。
 
@@ -482,11 +482,11 @@ feat_c = prices.pct_change(20).shift(1)        # 收益率再 shift
 
 ## 10.13 拓展阅读
 
-1. **Jegadeesh, N., & Titman, S. (1993)**. "Returns to Buying Winners and Selling Losers: Implications for Stock Market Efficiency." *Journal of Finance*, 48(1), 65–91. — 动量效应的奠基论文。
+1. **Jegadeesh, N., & Titman, S. (1993)**. “Returns to Buying Winners and Selling Losers: Implications for Stock Market Efficiency.” *Journal of Finance*, 48(1), 65–91. — 动量效应的奠基论文。
 
-2. **Fama, E. F., & French, K. R. (1992)**. "The Cross-Section of Expected Stock Returns." *Journal of Finance*, 47(2), 427–465. — 规模与价值特征的实证来源。
+2. **Fama, E. F., & French, K. R. (1992)**. “The Cross-Section of Expected Stock Returns.” *Journal of Finance*, 47(2), 427–465. — 规模与价值特征的实证来源。
 
-3. **Gu, S., Kelly, B., & Xiu, D. (2020)**. "Empirical Asset Pricing via Machine Learning." *Review of Financial Studies*, 33(5), 2223–2273. — 机器学习在特征选择与资产定价中的系统性应用，含超过 900 个特征的大规模实验。
+3. **Gu, S., Kelly, B., & Xiu, D. (2020)**. “Empirical Asset Pricing via Machine Learning.” *Review of Financial Studies*, 33(5), 2223–2273. — 机器学习在特征选择与资产定价中的系统性应用，含超过 900 个特征的大规模实验。
 
 4. **López de Prado, M. (2018)**. *Advances in Financial Machine Learning*. Wiley. — 第 4~6 章专门讲述金融特征工程，强调前视偏差与标准化。
 
