@@ -1,23 +1,31 @@
-{
- "nbformat": 4,
- "nbformat_minor": 5,
- "metadata": {
-  "kernelspec": {
-   "display_name": "Python 3",
-   "language": "python",
-   "name": "python3"
-  },
-  "language_info": {
-   "name": "python",
-   "version": "3.11.0"
-  }
- },
- "cells": [
-  {
-   "id": "c03-000",
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
+"""生成 ch03_data_acquisition.ipynb，避免直接写入 JSON 时的编码问题。"""
+import json
+from pathlib import Path
+
+def code_cell(cell_id, source_lines):
+    return {
+        "id": cell_id,
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": source_lines,
+    }
+
+
+def md_cell(cell_id, source_lines):
+    return {
+        "id": cell_id,
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": source_lines,
+    }
+
+
+cells = []
+
+# ── c03-000 intro ─────────────────────────────────────────────────────────────
+cells.append(md_cell("c03-000", [
     "# 第3章 金融数据获取与清洗 —— 配套代码\n",
     "\n",
     "对应正文 `book/part1/03-data-acquisition.md`。\n",
@@ -29,16 +37,12 @@
     "\n",
     "本 notebook 分为两部分：\n",
     "- **离线部分**（全部可跑）：用内置数据模拟真实问题——停牌缺失、复权跳变、异常值、多标的对齐、数据质量检查；\n",
-    "- **联网格**（标有 [网络] 的格）：调用 akshare/tushare 抓取真实数据，需先 `uv sync --extra data`；已用 `try/except` 包裹，未安装/无网时**自动跳过、不报错**。"
-   ]
-  },
-  {
-   "id": "c03-001",
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
+    "- **联网格**（标有 [网络] 的格）：调用 akshare/tushare 抓取真实数据，需先 `uv sync --extra data`；"
+    "已用 `try/except` 包裹，未安装/无网时**自动跳过、不报错**。",
+]))
+
+# ── c03-001 全局导入 ──────────────────────────────────────────────────────────
+cells.append(code_cell("c03-001", [
     "# 全局导入与配置\n",
     "import warnings\n",
     "import numpy as np\n",
@@ -55,30 +59,22 @@
     "print(f'内置数据形状：{prices.shape}')\n",
     "print(f'时间范围：{prices.index.min().date()} ~ {prices.index.max().date()}')\n",
     "print(f'股票列：{prices.columns.tolist()}')\n",
-    "prices.head(3)"
-   ]
-  },
-  {
-   "id": "c03-010",
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
+    "prices.head(3)",
+]))
+
+# ── c03-010 复权原理标题 ──────────────────────────────────────────────────────
+cells.append(md_cell("c03-010", [
     "## 3.1 复权原理数值演示\n",
     "\n",
     "构造一个含除权跳变的简化价格序列，演示前复权如何消除跳变。\n",
     "\n",
     "场景：100 天价格序列，第 50 天发生「10 转 5」（股数变为 1.5 倍，价格变为 2/3）。\n",
     "\n",
-    "**前复权思路**：将除权日之前的历史价格乘以除权比例（2/3），使之与除权后的价格在同一量纲下，序列自然连续。"
-   ]
-  },
-  {
-   "id": "c03-011",
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
+    "**前复权思路**：将除权日之前的历史价格乘以除权比例（2/3），使之与除权后的价格在同一量纲下，序列自然连续。",
+]))
+
+# ── c03-011 构造除权数据 ──────────────────────────────────────────────────────
+cells.append(code_cell("c03-011", [
     "# 构造含除权跳变的未复权价格\n",
     "rng = np.random.default_rng(0)\n",
     "n = 100\n",
@@ -98,16 +94,11 @@
     "print(f'未复权 第{EX_DAY-1}天（除权前）: {price_raw[EX_DAY-1]:.2f}')\n",
     "print(f'未复权 第{EX_DAY}天（除权后）:  {price_raw[EX_DAY]:.2f}')\n",
     "raw_ret = price_raw[EX_DAY] / price_raw[EX_DAY-1] - 1\n",
-    "print(f'未复权 除权日虚假跌幅: {raw_ret:.2%}  <- 根本没有真实亏损！')"
-   ]
-  },
-  {
-   "id": "c03-012",
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
+    "print(f'未复权 除权日虚假跌幅: {raw_ret:.2%}  <- 根本没有真实亏损！')",
+]))
+
+# ── c03-012 前复权计算 ────────────────────────────────────────────────────────
+cells.append(code_cell("c03-012", [
     "# 构造前复权价格\n",
     "# 前复权：将除权日之前的历史价格按比例压低，使序列连续\n",
     "# adj_factor[:EX_DAY] = EX_RATIO  -> 除权前价格乘以 EX_RATIO，与除权后同一量纲\n",
@@ -122,16 +113,11 @@
     "\n",
     "print(f'前复权 除权日收益率: {qfq_ret:.6f}')\n",
     "print(f'真实收益率:         {true_ret:.6f}')\n",
-    "print(f'差异:               {abs(qfq_ret - true_ret):.2e}  <- 接近 0，复权成功')"
-   ]
-  },
-  {
-   "id": "c03-013",
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
+    "print(f'差异:               {abs(qfq_ret - true_ret):.2e}  <- 接近 0，复权成功')",
+]))
+
+# ── c03-013 复权可视化 ────────────────────────────────────────────────────────
+cells.append(code_cell("c03-013", [
     "fig, axes = plt.subplots(2, 1, figsize=(10, 7), sharex=True)\n",
     "\n",
     "ax = axes[0]\n",
@@ -153,29 +139,21 @@
     "ax2.legend()\n",
     "\n",
     "plt.tight_layout()\n",
-    "plt.show()"
-   ]
-  },
-  {
-   "id": "c03-020",
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
+    "plt.show()",
+]))
+
+# ── c03-020 停牌标题 ──────────────────────────────────────────────────────────
+cells.append(md_cell("c03-020", [
     "## 3.2 停牌缺失与多标的日历对齐\n",
     "\n",
     "用内置数据模拟停牌场景：\n",
     "- 对 `TECH` 随机置 NaN（模拟停牌）；\n",
     "- 让 `BANK` 前 60 天无数据（模拟较晚上市）；\n",
-    "- 演示正确的对齐与填充流程，并比较不同策略对年化波动率的影响。"
-   ]
-  },
-  {
-   "id": "c03-021",
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
+    "- 演示正确的对齐与填充流程，并比较不同策略对年化波动率的影响。",
+]))
+
+# ── c03-021 制造停牌 ──────────────────────────────────────────────────────────
+cells.append(code_cell("c03-021", [
     "dirty = prices.copy().astype(float)\n",
     "\n",
     "rng2 = np.random.default_rng(42)\n",
@@ -184,16 +162,11 @@
     "dirty.iloc[:60, dirty.columns.get_loc('BANK')] = np.nan\n",
     "\n",
     "print('制造缺失后各列 NaN 数量：')\n",
-    "print(dirty.isna().sum())"
-   ]
-  },
-  {
-   "id": "c03-022",
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
+    "print(dirty.isna().sum())",
+]))
+
+# ── c03-022 波动率对比 ────────────────────────────────────────────────────────
+cells.append(code_cell("c03-022", [
     "def annvol(series):\n",
     "    return series.pct_change().std() * np.sqrt(252)\n",
     "\n",
@@ -211,16 +184,11 @@
     "\n",
     "print('年化波动率对比（各清洗策略）：')\n",
     "print(results.round(4))\n",
-    "print('\\n结论：ffill 将停牌日收益置 0，压低波动率；dropna 最接近真实。')"
-   ]
-  },
-  {
-   "id": "c03-023",
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
+    "print('\\n结论：ffill 将停牌日收益置 0，压低波动率；dropna 最接近真实。')",
+]))
+
+# ── c03-023 停牌可视化 ────────────────────────────────────────────────────────
+cells.append(code_cell("c03-023", [
     "fig, ax = plt.subplots(figsize=(11, 4))\n",
     "ax.plot(dirty.index, dirty['TECH'], label='含停牌（NaN）', color='gray', lw=1, alpha=0.6)\n",
     "ax.plot(clean_ffill.index, clean_ffill['TECH'], label='ffill 无限', color='steelblue', lw=1)\n",
@@ -234,28 +202,20 @@
     "ax.set_ylabel('价格')\n",
     "ax.legend()\n",
     "plt.tight_layout()\n",
-    "plt.show()"
-   ]
-  },
-  {
-   "id": "c03-030",
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
+    "plt.show()",
+]))
+
+# ── c03-030 异常值标题 ────────────────────────────────────────────────────────
+cells.append(md_cell("c03-030", [
     "## 3.3 异常值识别：涨跌停约束 + MAD 法\n",
     "\n",
     "在内置数据中注入极端收益，对比两种检测方法：\n",
     "- **涨跌停约束**：|日收益| > 10%\n",
-    "- **MAD 法**：修正 Z-score > 3.5（比 3sigma 法更稳健）"
-   ]
-  },
-  {
-   "id": "c03-031",
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
+    "- **MAD 法**：修正 Z-score > 3.5（比 3sigma 法更稳健）",
+]))
+
+# ── c03-031 注入异常值 ────────────────────────────────────────────────────────
+cells.append(code_cell("c03-031", [
     "liquor_prices = prices['LIQUOR'].copy()\n",
     "rng3 = np.random.default_rng(99)\n",
     "inject_idx = rng3.choice(range(5, len(liquor_prices)-1), size=5, replace=False)\n",
@@ -267,16 +227,11 @@
     "\n",
     "ret_dirty = liquor_dirty.pct_change().dropna()\n",
     "print(f'注入异常后 最大日收益：{ret_dirty.max():.2%}')\n",
-    "print(f'注入异常后 最小日收益：{ret_dirty.min():.2%}')"
-   ]
-  },
-  {
-   "id": "c03-032",
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
+    "print(f'注入异常后 最小日收益：{ret_dirty.min():.2%}')",
+]))
+
+# ── c03-032 异常值检测函数 ────────────────────────────────────────────────────
+cells.append(code_cell("c03-032", [
     "def detect_outliers_limit(series, limit=0.10):\n",
     "    \"\"\"涨跌停约束法：|收益率| > limit 标记为异常。\"\"\"\n",
     "    return series.abs() > limit\n",
@@ -305,16 +260,11 @@
     "\n",
     "print(f'涨跌停约束（|r|>10%） 检出：{flag_limit.sum()} 天')\n",
     "print(f'MAD 法（k=3.5）       检出：{flag_mad.sum()} 天')\n",
-    "print(f'3sigma 法（n=3）      检出：{flag_3sigma.sum()} 天')"
-   ]
-  },
-  {
-   "id": "c03-033",
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
+    "print(f'3sigma 法（n=3）      检出：{flag_3sigma.sum()} 天')",
+]))
+
+# ── c03-033 异常值可视化 ──────────────────────────────────────────────────────
+cells.append(code_cell("c03-033", [
     "fig, axes = plt.subplots(1, 2, figsize=(12, 5))\n",
     "\n",
     "ax = axes[0]\n",
@@ -338,29 +288,21 @@
     "ax2.set_ylabel('频次')\n",
     "\n",
     "plt.tight_layout()\n",
-    "plt.show()"
-   ]
-  },
-  {
-   "id": "c03-040",
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
+    "plt.show()",
+]))
+
+# ── c03-040 多标的对齐标题 ────────────────────────────────────────────────────
+cells.append(md_cell("c03-040", [
     "## 3.4 多标的交易日历对齐\n",
     "\n",
     "模拟三只上市时间不同的股票，演示正确的对齐流程：\n",
     "1. `pd.concat` 按日期索引自动对齐（并集）\n",
     "2. `ffill(limit=5)` 前向填充停牌日价格\n",
-    "3. 在对齐后的价格序列上计算收益率"
-   ]
-  },
-  {
-   "id": "c03-041",
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
+    "3. 在对齐后的价格序列上计算收益率",
+]))
+
+# ── c03-041 多标的对齐代码 ────────────────────────────────────────────────────
+cells.append(code_cell("c03-041", [
     "s_bank   = prices['BANK']\n",
     "s_liquor = prices['LIQUOR'].iloc[80:]   # 第80天才上市\n",
     "s_tech   = prices['TECH'].iloc[30:].copy()\n",
@@ -382,16 +324,11 @@
     "print(f'并集日历天数：{len(panel_raw)}')\n",
     "print(f'交集日历天数：{len(panel_raw.dropna())}')\n",
     "print('\\n相关系数矩阵（ffill对齐后）：')\n",
-    "print(panel_ret.corr().round(3))"
-   ]
-  },
-  {
-   "id": "c03-042",
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
+    "print(panel_ret.corr().round(3))",
+]))
+
+# ── c03-042 多标的可视化 ──────────────────────────────────────────────────────
+cells.append(code_cell("c03-042", [
     "cumret = (1 + panel_ret.dropna(how='all')).cumprod()\n",
     "\n",
     "fig, ax = plt.subplots(figsize=(10, 5))\n",
@@ -405,27 +342,19 @@
     "ax.set_ylabel('累积收益（净值）')\n",
     "ax.legend()\n",
     "plt.tight_layout()\n",
-    "plt.show()"
-   ]
-  },
-  {
-   "id": "c03-050",
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
+    "plt.show()",
+]))
+
+# ── c03-050 数据质量标题 ──────────────────────────────────────────────────────
+cells.append(md_cell("c03-050", [
     "## 3.5 数据质量检查函数\n",
     "\n",
     "实现通用的 `data_quality_report`，覆盖四个维度：\n",
-    "**完整性 / 一致性 / 时效性 / 准确性**"
-   ]
-  },
-  {
-   "id": "c03-051",
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
+    "**完整性 / 一致性 / 时效性 / 准确性**",
+]))
+
+# ── c03-051 质量检查函数 ──────────────────────────────────────────────────────
+cells.append(code_cell("c03-051", [
     "def data_quality_report(df, limit_pct=0.10, verbose=True):\n",
     "    \"\"\"金融数据质量四维检查报告。\"\"\"\n",
     "    report = {}\n",
@@ -477,26 +406,18 @@
     "_ = data_quality_report(prices)\n",
     "print()\n",
     "print('=== 含停牌NaN的数据 ===')\n",
-    "_ = data_quality_report(dirty)"
-   ]
-  },
-  {
-   "id": "c03-060",
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
+    "_ = data_quality_report(dirty)",
+]))
+
+# ── c03-060 Parquet 缓存标题 ─────────────────────────────────────────────────
+cells.append(md_cell("c03-060", [
     "## 3.6 数据存储：Parquet 缓存演示\n",
     "\n",
-    "演示「优先读缓存，缓存不存在才生成」的模式，并对比 Parquet vs CSV 的存储效率。"
-   ]
-  },
-  {
-   "id": "c03-061",
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
+    "演示「优先读缓存，缓存不存在才生成」的模式，并对比 Parquet vs CSV 的存储效率。",
+]))
+
+# ── c03-061 Parquet 代码 ──────────────────────────────────────────────────────
+cells.append(code_cell("c03-061", [
     "import tempfile\n",
     "from pathlib import Path\n",
     "\n",
@@ -528,26 +449,18 @@
     "parquet_path = tmp_dir / 'BANK.parquet'\n",
     "print(f'CSV 大小：     {csv_path.stat().st_size / 1024:.1f} KB')\n",
     "print(f'Parquet 大小： {parquet_path.stat().st_size / 1024:.1f} KB')\n",
-    "print(f'压缩比：       {csv_path.stat().st_size / parquet_path.stat().st_size:.1f}x')"
-   ]
-  },
-  {
-   "id": "c03-070",
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
+    "print(f'压缩比：       {csv_path.stat().st_size / parquet_path.stat().st_size:.1f}x')",
+]))
+
+# ── c03-070 联网标题 ──────────────────────────────────────────────────────────
+cells.append(md_cell("c03-070", [
     "## 3.7 [网络] 联网抓取（可选）\n",
     "\n",
-    "需先运行 `uv sync --extra data`。以下格已用 `try/except` 包裹，未安装时安全跳过。"
-   ]
-  },
-  {
-   "id": "c03-071",
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
+    "需先运行 `uv sync --extra data`。以下格已用 `try/except` 包裹，未安装时安全跳过。",
+]))
+
+# ── c03-071 akshare 日线 ──────────────────────────────────────────────────────
+cells.append(code_cell("c03-071", [
     "try:\n",
     "    import akshare as ak\n",
     "    print(f'akshare 版本：{ak.__version__}')\n",
@@ -560,16 +473,11 @@
     "except ImportError:\n",
     "    print('[跳过] akshare 未安装。请运行：uv sync --extra data')\n",
     "except Exception as e:\n",
-    "    print(f'[跳过] 抓取失败（{type(e).__name__}: {e}）')"
-   ]
-  },
-  {
-   "id": "c03-072",
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
+    "    print(f'[跳过] 抓取失败（{type(e).__name__}: {e}）')",
+]))
+
+# ── c03-072 akshare 宏观 ──────────────────────────────────────────────────────
+cells.append(code_cell("c03-072", [
     "try:\n",
     "    import akshare as ak\n",
     "    cpi = ak.macro_china_cpi_monthly()\n",
@@ -578,16 +486,11 @@
     "except ImportError:\n",
     "    print('[跳过] akshare 未安装')\n",
     "except Exception as e:\n",
-    "    print(f'[跳过] 宏观数据抓取失败（{type(e).__name__}: {e}）')"
-   ]
-  },
-  {
-   "id": "c03-073",
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
+    "    print(f'[跳过] 宏观数据抓取失败（{type(e).__name__}: {e}）')",
+]))
+
+# ── c03-073 tushare ───────────────────────────────────────────────────────────
+cells.append(code_cell("c03-073", [
     "try:\n",
     "    import os, tushare as ts\n",
     "    token = os.environ.get('TUSHARE_TOKEN', '')\n",
@@ -602,26 +505,18 @@
     "except ImportError:\n",
     "    print('[跳过] tushare 未安装')\n",
     "except Exception as e:\n",
-    "    print(f'[跳过] tushare 失败（{type(e).__name__}: {e}）')"
-   ]
-  },
-  {
-   "id": "c03-080",
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
+    "    print(f'[跳过] tushare 失败（{type(e).__name__}: {e}）')",
+]))
+
+# ── c03-080 习题标题 ──────────────────────────────────────────────────────────
+cells.append(md_cell("c03-080", [
     "## 3.8 习题参考解答\n",
     "\n",
-    "以下为第3章习题的参考答案（离线题给出可运行代码）。"
-   ]
-  },
-  {
-   "id": "c03-081",
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
+    "以下为第3章习题的参考答案（离线题给出可运行代码）。",
+]))
+
+# ── c03-081 习题1 ─────────────────────────────────────────────────────────────
+cells.append(code_cell("c03-081", [
     "# 习题1：停牌缺失 + 三种策略 + 波动率比较\n",
     "rng_e1 = np.random.default_rng(2024)\n",
     "tech_ex = prices['TECH'].copy()\n",
@@ -638,16 +533,11 @@
     "print(f'  原始（无缺失）    : {vol_true:.4f}')\n",
     "print(f'  ffill 无限        : {vol_ffill:.4f}  偏低 {(vol_true-vol_ffill)/vol_true:.1%}')\n",
     "print(f'  ffill(limit=3)    : {vol_ffill3:.4f}  偏低 {(vol_true-vol_ffill3)/vol_true:.1%}')\n",
-    "print(f'  dropna            : {vol_drop:.4f}  最接近真实')"
-   ]
-  },
-  {
-   "id": "c03-082",
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
+    "print(f'  dropna            : {vol_drop:.4f}  最接近真实')",
+]))
+
+# ── c03-082 习题2 ─────────────────────────────────────────────────────────────
+cells.append(code_cell("c03-082", [
     "# 习题2：复权因子数值验证\n",
     "rng_e2 = np.random.default_rng(333)\n",
     "p2 = 50 * np.exp(np.cumsum(rng_e2.normal(0.0003, 0.012, 100)))\n",
@@ -667,16 +557,11 @@
     "print(f'  真实收益率:         {ratio_true:.8f}')\n",
     "print(f'  差异:               {abs(ratio_qfq-ratio_true):.2e}')\n",
     "assert abs(ratio_qfq - ratio_true) < 1e-10\n",
-    "print('  验证通过')"
-   ]
-  },
-  {
-   "id": "c03-083",
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
+    "print('  验证通过')",
+]))
+
+# ── c03-083 习题3 ─────────────────────────────────────────────────────────────
+cells.append(code_cell("c03-083", [
     "# 习题3：MAD vs 3sigma 检出率对比\n",
     "liquor_base = prices['LIQUOR'].pct_change().dropna()\n",
     "rng_e3 = np.random.default_rng(55)\n",
@@ -700,8 +585,27 @@
     "N = len(ret_e3)\n",
     "print('习题3：MAD vs 3sigma（注入 5 个 +-28%~32% 极端值）')\n",
     "print(f'  MAD(k=3.5)  召回率：{recall(f_mad, true_set):.0%}   误报率：{fpr(f_mad, true_set, N):.2%}')\n",
-    "print(f'  3sigma(n=3) 召回率：{recall(f_3s, true_set):.0%}   误报率：{fpr(f_3s, true_set, N):.2%}')"
-   ]
-  }
- ]
+    "print(f'  3sigma(n=3) 召回率：{recall(f_3s, true_set):.0%}   误报率：{fpr(f_3s, true_set, N):.2%}')",
+]))
+
+# ── 组装 notebook ─────────────────────────────────────────────────────────────
+nb = {
+    "nbformat": 4,
+    "nbformat_minor": 5,
+    "metadata": {
+        "kernelspec": {
+            "display_name": "Python 3",
+            "language": "python",
+            "name": "python3",
+        },
+        "language_info": {
+            "name": "python",
+            "version": "3.11.0",
+        },
+    },
+    "cells": cells,
 }
+
+out_path = Path(__file__).parent.parent / "notebooks" / "ch03_data_acquisition.ipynb"
+out_path.write_text(json.dumps(nb, ensure_ascii=False, indent=1), encoding="utf-8")
+print(f"Written {out_path}  ({out_path.stat().st_size} bytes)")

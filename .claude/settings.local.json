@@ -10,7 +10,11 @@
       "Bash(rm -f 说明.txt)",
       "Bash(git add *)",
       "Bash(git commit -q -m '搭建《金融数据科学》教材脚手架 *)",
-      "Bash(git commit -q -m '续写第2-5章：完整正文 + 可运行 notebook *)"
+      "Bash(git commit -q -m '续写第2-5章：完整正文 + 可运行 notebook *)",
+      "mcp__sequential-thinking__sequentialthinking",
+      "Bash(python -c ' *)",
+      "Bash(grep *)",
+      "Bash(git commit -q -m '扩充第1-5章至教材级深度 *)"
     ]
   }
 }
