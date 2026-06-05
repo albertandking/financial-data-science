@@ -225,6 +225,12 @@ $$
 
 ### 3.4.1 缺失值与停牌
 
+<figure markdown>
+  ![图 3-1　停牌缺失与前向填充（ffill）](../assets/figures/ch03_fillna.png){ width="680" }
+  <figcaption>图 3-1　停牌缺失与前向填充（ffill）</figcaption>
+</figure>
+
+
 A 股个股停牌时，当日不产生成交，数据源通常有以下两种处理方式：
 
 1. **完全缺失**：停牌日在数据中没有对应行；

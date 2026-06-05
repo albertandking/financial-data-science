@@ -237,6 +237,12 @@ $$\vec{d} = \frac{1}{|D|} \sum_{w \in D} \vec{v}_w$$
 
 ## 13.5 情感分析两条路线
 
+<figure markdown>
+  ![图 13-1　正负面财经文本的高频情感词（示意）](../assets/figures/ch13_words.png){ width="680" }
+  <figcaption>图 13-1　正负面财经文本的高频情感词（示意）</figcaption>
+</figure>
+
+
 ### 13.5.1 情感词典法
 
 **原理**：预先构建正面词和负面词列表，对文本中正负词计数后求分：

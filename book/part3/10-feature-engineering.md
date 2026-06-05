@@ -111,6 +111,12 @@ $$\text{VPD}(t) = \text{sign}(r_t) \times \left(1 - \frac{V_t}{\text{VOL\_ma}_{2
 
 ## 10.5 技术指标
 
+<figure markdown>
+  ![图 10-1　LIQUOR 均线与布林带](../assets/figures/ch10_bollinger.png){ width="680" }
+  <figcaption>图 10-1　LIQUOR 均线与布林带</figcaption>
+</figure>
+
+
 !!! warning "所有技术指标只能用历史数据"
     以下指标的实现均确保在计算 $t$ 日特征时**只用 $t$ 日及之前的数据**。使用 `rolling` 后配合 `shift(1)` 确保下一期预测不会泄漏当期信息。
 

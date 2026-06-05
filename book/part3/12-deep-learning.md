@@ -25,6 +25,12 @@
 
 ## 12.3 神经网络基础
 
+<figure markdown>
+  ![图 12-1　常见激活函数（ReLU / Sigmoid / Tanh）](../assets/figures/ch12_activations.png){ width="680" }
+  <figcaption>图 12-1　常见激活函数（ReLU / Sigmoid / Tanh）</figcaption>
+</figure>
+
+
 ### 12.3.1 神经元与激活函数
 
 神经网络的基本计算单元是**人工神经元**，模仿生物神经元的"积累-激发"行为：

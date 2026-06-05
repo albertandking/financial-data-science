@@ -228,6 +228,12 @@ $$\hat{y} = \mathbf{1}[\hat{p} > \tau]$$
 
 ## 16.6 模型评估
 
+<figure markdown>
+  ![图 16-1　信用评分卡 ROC 与 KS 曲线](../assets/figures/ch16_roc_ks.png){ width="680" }
+  <figcaption>图 16-1　信用评分卡 ROC 与 KS 曲线</figcaption>
+</figure>
+
+
 ### 16.6.1 混淆矩阵
 
 对于二分类（违约/正常）：

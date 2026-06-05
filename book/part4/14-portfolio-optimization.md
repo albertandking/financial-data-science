@@ -104,6 +104,12 @@ $$
 
 ## 14.3 均值-方差优化与有效前沿
 
+<figure markdown>
+  ![图 14-1　均值-方差有效前沿、GMV、最大夏普与 CML](../assets/figures/ch14_frontier.png){ width="680" }
+  <figcaption>图 14-1　均值-方差有效前沿、GMV、最大夏普与 CML</figcaption>
+</figure>
+
+
 ### 14.3.1 优化问题的形式化
 
 马科维茨框架的核心思想：**在给定目标收益水平 $\mu_0$ 下，最小化组合方差**。

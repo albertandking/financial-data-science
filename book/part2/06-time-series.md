@@ -157,6 +157,12 @@ $$
 
 ### 6.4.1 自相关函数（ACF）
 
+<figure markdown>
+  ![图 6-1　TECH 收益率的 ACF 与 PACF](../assets/figures/ch06_acf_pacf.png){ width="680" }
+  <figcaption>图 6-1　TECH 收益率的 ACF 与 PACF</figcaption>
+</figure>
+
+
 **自相关系数**（Autocorrelation Function, ACF）衡量序列与其自身滞后值的线性相关性：
 
 $$
@@ -324,6 +330,12 @@ lm_stat, lm_pval, f_stat, f_pval = het_arch(residuals, nlags=10)
 ```
 
 ### 6.7.2 GARCH(1,1) 模型
+
+<figure markdown>
+  ![图 6-2　GARCH(1,1) 条件波动率捕捉波动率聚集](../assets/figures/ch06_garch.png){ width="680" }
+  <figcaption>图 6-2　GARCH(1,1) 条件波动率捕捉波动率聚集</figcaption>
+</figure>
+
 
 Bollerslev (1986) 在 ARCH 基础上提出**广义ARCH（GARCH）**模型，最常用的是 GARCH(1,1)：
 

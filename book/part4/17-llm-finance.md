@@ -155,6 +155,12 @@ LLM 已被用于构建"投研 Copilot"：分析师输入自然语言问题，系
 
 ## 17.5 检索增强生成（RAG）
 
+<figure markdown>
+  ![图 17-1　TF-IDF 检索（模拟 RAG）相似度](../assets/figures/ch17_rag.png){ width="680" }
+  <figcaption>图 17-1　TF-IDF 检索（模拟 RAG）相似度</figcaption>
+</figure>
+
+
 ### 17.5.1 为何需要 RAG？
 
 纯粹的 LLM 存在三个核心局限，导致其不适合直接用于金融知识库问答：

@@ -250,6 +250,12 @@ XGBoost 原生支持缺失值：训练时对每个分裂节点学习缺失值应
 
 ## 11.9 模型解释
 
+<figure markdown>
+  ![图 11-1　随机森林特征重要性](../assets/figures/ch11_importance.png){ width="680" }
+  <figcaption>图 11-1　随机森林特征重要性</figcaption>
+</figure>
+
+
 ### 11.9.1 不纯度特征重要性（Gain / Split Count）
 
 XGBoost 提供两种内置重要性：

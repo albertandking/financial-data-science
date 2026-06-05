@@ -436,6 +436,12 @@ best_window = 20  # 假设在样本内得到此参数
 
 ## 15.8 A股实战：20日动量策略完整实现
 
+<figure markdown>
+  ![图 15-1　LIQUOR 动量策略回测净值 vs 买入持有](../assets/figures/ch15_backtest.png){ width="680" }
+  <figcaption>图 15-1　LIQUOR 动量策略回测净值 vs 买入持有</figcaption>
+</figure>
+
+
 以内置的四只A股风格资产（BANK/LIQUOR/TECH/UTILITY）为例，实现完整的回测流程：
 
 ### 15.8.1 策略框架

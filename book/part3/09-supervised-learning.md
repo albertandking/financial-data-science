@@ -365,6 +365,12 @@ pipe = Pipeline([
 
 ## 9.8 评估指标
 
+<figure markdown>
+  ![图 9-1　涨跌预测的 ROC 曲线（样本外）](../assets/figures/ch09_roc.png){ width="680" }
+  <figcaption>图 9-1　涨跌预测的 ROC 曲线（样本外）</figcaption>
+</figure>
+
+
 ### 9.8.1 回归指标
 
 | 指标 | 公式 | 说明 |

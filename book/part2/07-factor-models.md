@@ -121,6 +121,12 @@ $$
 
 ### 7.3.3 证券市场线（SML）的含义
 
+<figure markdown>
+  ![图 7-1　证券市场线：beta 越高，要求的超额收益越高](../assets/figures/ch07_sml.png){ width="680" }
+  <figcaption>图 7-1　证券市场线：beta 越高，要求的超额收益越高</figcaption>
+</figure>
+
+
 | 概念 | 含义 |
 |---|---|
 | $r_f$ | 无风险利率（截距），代表时间价值 |
@@ -178,6 +184,12 @@ print(result.summary())
 ```
 
 ### 7.3.5 回归结果解读
+
+<figure markdown>
+  ![图 7-2　四只股票对真实市场指数的 Beta](../assets/figures/ch07_beta_bar.png){ width="680" }
+  <figcaption>图 7-2　四只股票对真实市场指数的 Beta</figcaption>
+</figure>
+
 
 | 统计量 | 含义 | CAPM 预期 |
 |---|---|---|

@@ -459,6 +459,12 @@ ohlc = prices["BANK"].resample("ME").ohlc()
 
 ### 2.4.8 rolling 与 ewm：移动窗口
 
+<figure markdown>
+  ![图 2-1　LIQUOR 收盘价与移动平均线（rolling 应用）](../assets/figures/ch02_ma.png){ width="680" }
+  <figcaption>图 2-1　LIQUOR 收盘价与移动平均线（rolling 应用）</figcaption>
+</figure>
+
+
 移动窗口统计是技术分析与风险监控的基础：
 
 ```python
