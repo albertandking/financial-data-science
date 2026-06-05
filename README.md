@@ -6,7 +6,8 @@
 - **代码**放在 Jupyter Notebook 中（`notebooks/` 目录），可本地逐格运行
 - 正文按需**引用 / 嵌入** notebook 的代码与输出（通过 `scripts/export_notebooks.py` 手动导出）
 - 数据：**内置示例数据集**（离线可跑）+ **中国市场接口**（akshare / tushare，联网抓取）
-- 环境：**uv** 管理；成书：**MkDocs + Material 主题**
+- 环境：**uv** 管理，推荐 **Python 3.14**（兼容 3.11+）；成书：**MkDocs + Material 主题**
+- 复现：`uv.lock` 锁定全部依赖精确版本；可读版本表见[附录A](book/appendix/a-setup.md)
 
 ---
 
@@ -16,7 +17,7 @@
 ds/
 ├── pyproject.toml          # uv 项目与依赖定义
 ├── uv.lock                 # 锁定版本（提交入库，保证复现）
-├── .python-version         # Python 版本（3.11）
+├── .python-version         # Python 版本（3.14）
 ├── mkdocs.yml              # 成书配置与章节导航
 ├── README.md
 │
@@ -56,7 +57,7 @@ ds/
 ### 1. 安装环境（一次）
 
 ```bash
-# 安装核心依赖 + 成书工具链（uv 会自动下载 Python 3.11）
+# 安装核心依赖 + 成书工具链（uv 会自动下载 Python 3.14）
 uv sync
 
 # 如需联网抓取中国市场数据，额外安装 data 组
