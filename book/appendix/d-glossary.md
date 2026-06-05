@@ -79,9 +79,9 @@
 
 | 中文 | 英文 | 简释（详见章节） |
 |---|---|---|
-| 前视偏差 | look-ahead bias | 用到了预测时刻尚不可知的未来信息（第1、9、15章） |
+| 前视偏差 | look-ahead bias | 用到了预测时刻尚不可知的未来信息（第1、9、17章） |
 | 幸存者偏差 | survivorship bias | 只看「活到现在」的样本，遗漏退市/失败者（第1章） |
-| 数据窥探 | data snooping | 反复试参数直到「跑出」好结果，多重检验失真（第1、15章） |
+| 数据窥探 | data snooping | 反复试参数直到「跑出」好结果，多重检验失真（第1、17章） |
 | 信噪比 | signal-to-noise ratio | 金融数据信号弱、噪声大（第1章） |
 | 平稳性 | stationarity | 统计特性不随时间变（第6章） |
 | 厚尾 | fat / heavy tails | 极端事件比正态更频繁（第4、5章） |
@@ -102,10 +102,10 @@
 | 中文 | 英文 | 简释 |
 |---|---|---|
 | 贝塔 / 阿尔法 | beta / alpha | 系统性风险暴露 / 超额收益（第7章） |
-| 有效前沿 | efficient frontier | 给定风险下收益最高的组合集合（第14章） |
-| 切点组合 | tangency portfolio | 最大夏普组合（第14章） |
-| 协方差收缩 | covariance shrinkage | Ledoit-Wolf 等稳健估计（第14章） |
-| 风险平价 | risk parity | 按风险贡献而非资金等分（第14章） |
+| 有效前沿 | efficient frontier | 给定风险下收益最高的组合集合（第16章） |
+| 切点组合 | tangency portfolio | 最大夏普组合（第16章） |
+| 协方差收缩 | covariance shrinkage | Ledoit-Wolf 等稳健估计（第16章） |
+| 风险平价 | risk parity | 按风险贡献而非资金等分（第16章） |
 | 固定 / 随机效应 | fixed / random effects | 面板回归控制个体异质性（第8章） |
 | 聚类稳健标准误 | clustered standard error | 允许同个体误差相关（第8章） |
 
@@ -119,21 +119,21 @@
 | 特征工程 | feature engineering | 构造对模型有用的输入（第10章） |
 | 集成学习 / 梯度提升 | ensemble / gradient boosting | 随机森林、XGBoost（第11章） |
 | 信息系数 | information coefficient (IC) | 预测值与未来收益的相关性（第9、10章） |
-| 评分卡 | scorecard | 信用风险的可解释模型（第16章） |
-| 类别不平衡 | class imbalance | 正负样本悬殊（第16章） |
+| 评分卡 | scorecard | 信用风险的可解释模型（第18章） |
+| 类别不平衡 | class imbalance | 正负样本悬殊（第18章） |
 
 ### 大模型与智能体
 
 | 中文 | 英文 | 简释 |
 |---|---|---|
-| 提示工程 | prompt engineering | 设计输入以引导模型（第17章） |
-| 检索增强生成 | retrieval-augmented generation (RAG) | 先检索再生成，缓解幻觉（第17章） |
-| 微调 | fine-tuning | SFT/LoRA 适配下游任务（第17章） |
-| 推理模型 | reasoning model | 回答前先「思考」（第17章） |
-| 工具调用 | function / tool calling | 模型结构化地调用外部函数（第17、18章） |
-| 智能体 | AI agent | 能自主规划-行动-观察完成任务（第18章） |
-| 人在回路 | human-in-the-loop (HITL) | 高危操作须人工批准（第18章） |
-| 幻觉 | hallucination | 模型编造看似合理实则错误的内容（第17章） |
+| 提示工程 | prompt engineering | 设计输入以引导模型（第19章） |
+| 检索增强生成 | retrieval-augmented generation (RAG) | 先检索再生成，缓解幻觉（第19章） |
+| 微调 | fine-tuning | SFT/LoRA 适配下游任务（第19章） |
+| 推理模型 | reasoning model | 回答前先「思考」（第19章） |
+| 工具调用 | function / tool calling | 模型结构化地调用外部函数（第19、20章） |
+| 智能体 | AI agent | 能自主规划-行动-观察完成任务（第20章） |
+| 人在回路 | human-in-the-loop (HITL) | 高危操作须人工批准（第20章） |
+| 幻觉 | hallucination | 模型编造看似合理实则错误的内容（第19章） |
 
 ### 中国市场制度
 

@@ -399,9 +399,9 @@ def fig_ch13_words() -> None:
     _save(fig, "ch13_words")
 
 
-# ── 第14章 ─────────────────────────────────────────────────────────────────
-def fig_ch14_frontier(prices: pd.DataFrame) -> None:
-    """第14章：有效前沿、GMV、最大夏普组合与资本市场线。"""
+# ── 第16章 ─────────────────────────────────────────────────────────────────
+def fig_ch16_frontier(prices: pd.DataFrame) -> None:
+    """第16章：有效前沿、GMV、最大夏普组合与资本市场线。"""
     rets = daily_returns(prices)
     mu = rets.mean().to_numpy() * 252
     cov = rets.cov().to_numpy() * 252
@@ -445,12 +445,12 @@ def fig_ch14_frontier(prices: pd.DataFrame) -> None:
     ax.set_xlabel("年化波动率")
     ax.set_ylabel("年化收益")
     ax.legend()
-    _save(fig, "ch14_frontier")
+    _save(fig, "ch16_frontier")
 
 
-# ── 第15章 ─────────────────────────────────────────────────────────────────
-def fig_ch15_backtest(prices: pd.DataFrame) -> None:
-    """第15章：20 日动量策略回测净值（含成本）vs 买入持有。"""
+# ── 第17章 ─────────────────────────────────────────────────────────────────
+def fig_ch17_backtest(prices: pd.DataFrame) -> None:
+    """第17章：20 日动量策略回测净值（含成本）vs 买入持有。"""
     s = prices["LIQUOR"]
     ret = s.pct_change()
     signal = (s.pct_change(20) > 0).astype(int)
@@ -466,12 +466,12 @@ def fig_ch15_backtest(prices: pd.DataFrame) -> None:
     ax.set_xlabel("日期")
     ax.set_ylabel("净值")
     ax.legend()
-    _save(fig, "ch15_backtest")
+    _save(fig, "ch17_backtest")
 
 
-# ── 第16章 ─────────────────────────────────────────────────────────────────
-def fig_ch16_roc_ks() -> None:
-    """第16章：信用评分卡 ROC 与 KS 曲线。"""
+# ── 第18章 ─────────────────────────────────────────────────────────────────
+def fig_ch18_roc_ks() -> None:
+    """第18章：信用评分卡 ROC 与 KS 曲线。"""
     from sklearn.linear_model import LogisticRegression
     from sklearn.metrics import auc, roc_curve
     from sklearn.model_selection import train_test_split
@@ -502,12 +502,12 @@ def fig_ch16_roc_ks() -> None:
     ax2.set_ylabel("累计占比")
     ax2.legend()
     fig.tight_layout()
-    _save(fig, "ch16_roc_ks")
+    _save(fig, "ch18_roc_ks")
 
 
-# ── 第17章 ─────────────────────────────────────────────────────────────────
-def fig_ch17_rag() -> None:
-    """第17章：TF-IDF 检索（模拟 RAG）对各知识片段的相似度。"""
+# ── 第19章 ─────────────────────────────────────────────────────────────────
+def fig_ch19_rag() -> None:
+    """第19章：TF-IDF 检索（模拟 RAG）对各知识片段的相似度。"""
     from sklearn.feature_extraction.text import TfidfVectorizer
     from sklearn.metrics.pairwise import cosine_similarity
 
@@ -528,12 +528,12 @@ def fig_ch17_rag() -> None:
     ax.barh([f"片段{i + 1}" for i in order], sims[order], color="#2E5A88")
     ax.set_title(f"RAG 检索相似度（查询：{query}）")
     ax.set_xlabel("余弦相似度")
-    _save(fig, "ch17_rag")
+    _save(fig, "ch19_rag")
 
 
-# ── 第18章 ─────────────────────────────────────────────────────────────────
-def fig_ch18_agent_loop() -> None:
-    """第18章：ReAct 智能体循环示意图（思考 → 行动 → 观察）。"""
+# ── 第20章 ─────────────────────────────────────────────────────────────────
+def fig_ch20_agent_loop() -> None:
+    """第20章：ReAct 智能体循环示意图（思考 → 行动 → 观察）。"""
     fig, ax = plt.subplots(figsize=(8, 5.5))
     ax.set_xlim(0, 10)
     ax.set_ylim(0, 8)
@@ -594,7 +594,84 @@ def fig_ch18_agent_loop() -> None:
         fontweight="bold",
     )
     ax.set_title("ReAct 智能体循环：思考 → 行动 → 观察（直到作答）")
-    _save(fig, "ch18_agent_loop")
+    _save(fig, "ch20_agent_loop")
+
+
+# -- 第14章 无监督学习 --
+def fig_ch14_pca(rets: pd.DataFrame) -> None:
+    """第14章：PCA 各主成分解释方差（第一主成分约等于市场因子）。"""
+    from sklearn.decomposition import PCA
+
+    ev = PCA().fit(rets.to_numpy()).explained_variance_ratio_ * 100
+    fig, ax = plt.subplots(figsize=(8, 4.5))
+    bars = ax.bar(range(1, len(ev) + 1), ev, color="#2E5A88")
+    ax.bar_label(bars, fmt="%.0f%%")
+    ax.set_title("PCA 各主成分解释方差占比（第一主成分约等于市场因子）")
+    ax.set_xlabel("主成分")
+    ax.set_ylabel("解释方差 (%)")
+    _save(fig, "ch14_pca")
+
+
+def fig_ch14_regime() -> None:
+    """第14章：用 KMeans 按收益与波动率识别市场状态（平静/动荡）。"""
+    from sklearn.cluster import KMeans
+    from sklearn.preprocessing import StandardScaler
+
+    r = load_market()["index_return"].dropna()
+    feat = pd.DataFrame({"r": r, "vol": r.rolling(20).std()}).dropna()
+    labels = KMeans(n_clusters=2, n_init=10, random_state=42).fit_predict(
+        StandardScaler().fit_transform(feat)
+    )
+    feat["regime"] = labels
+    turb = feat.groupby("regime")["vol"].mean().idxmax()
+    nav = (1 + r.reindex(feat.index)).cumprod()
+    is_turb = feat["regime"].to_numpy() == turb
+    fig, ax = plt.subplots(figsize=(9, 5))
+    ax.plot(nav.index, nav.to_numpy(), color="#B0B0B0", lw=1, zorder=1)
+    ax.scatter(nav.index[is_turb], nav.to_numpy()[is_turb], s=10, color="#C0504D", label="动荡期")
+    ax.scatter(nav.index[~is_turb], nav.to_numpy()[~is_turb], s=10, color="#4E9A65", label="平静期")
+    ax.set_title("市场状态识别（KMeans 按日收益与滚动波动率聚类）")
+    ax.set_xlabel("日期")
+    ax.set_ylabel("市场指数净值")
+    ax.legend()
+    _save(fig, "ch14_regime")
+
+
+# -- 第15章 高频数据与市场微结构 --
+def fig_ch15_intraday() -> None:
+    """第15章：合成日内分钟价格与 U 形成交量。"""
+    rng = np.random.default_rng(15)
+    n = 240
+    price = 100 * np.exp(np.cumsum(rng.normal(0, 0.0008, n)))
+    t = np.linspace(0, 1, n)
+    volume = (1.5 - np.sin(np.pi * t)) * 1000 + rng.normal(0, 60, n)
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(9, 6), sharex=True)
+    ax1.plot(price, color="#2E5A88")
+    ax1.set_title("某股票日内分钟价格（合成）")
+    ax1.set_ylabel("价格")
+    ax2.bar(range(n), volume, color="#888888", width=1.0)
+    ax2.set_title("日内成交量：典型 U 形（开盘收盘活跃、午间清淡）")
+    ax2.set_ylabel("成交量")
+    ax2.set_xlabel("交易分钟")
+    fig.tight_layout()
+    _save(fig, "ch15_intraday")
+
+
+def fig_ch15_signature() -> None:
+    """第15章：波动率特征图——抽样越密，微结构噪声越放大已实现方差。"""
+    rng = np.random.default_rng(15)
+    n = 23400
+    efficient = np.cumsum(rng.normal(0, 1e-4, n))
+    observed = efficient + rng.normal(0, 2e-4, n)
+    intervals = [1, 2, 5, 10, 30, 60, 120, 300, 600]
+    rv = [float(np.sum(np.diff(observed[::k]) ** 2)) for k in intervals]
+    fig, ax = plt.subplots(figsize=(8.5, 5))
+    ax.plot(intervals, rv, "o-", color="#C0504D")
+    ax.set_xscale("log")
+    ax.set_title("波动率特征图：抽样间隔越小，已实现方差被微结构噪声放大")
+    ax.set_xlabel("抽样间隔（秒，对数轴）")
+    ax.set_ylabel("已实现方差 RV")
+    _save(fig, "ch15_signature")
 
 
 def main() -> None:
@@ -624,11 +701,15 @@ def main() -> None:
     fig_ch11_importance(rets)
     fig_ch12_activations()
     fig_ch13_words()
-    fig_ch14_frontier(prices)
-    fig_ch15_backtest(prices)
-    fig_ch16_roc_ks()
-    fig_ch17_rag()
-    fig_ch18_agent_loop()
+    fig_ch14_pca(rets)
+    fig_ch14_regime()
+    fig_ch15_intraday()
+    fig_ch15_signature()
+    fig_ch16_frontier(prices)
+    fig_ch17_backtest(prices)
+    fig_ch18_roc_ks()
+    fig_ch19_rag()
+    fig_ch20_agent_loop()
     print("完成。")
 
 

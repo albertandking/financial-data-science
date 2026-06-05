@@ -35,7 +35,7 @@ $$\mathbf{a}^\top \mathbf{b} = \sum_{i=1}^n a_i b_i$$
 
 $$\cos\theta = \frac{\mathbf{a}^\top\mathbf{b}}{\|\mathbf{a}\|\,\|\mathbf{b}\|}$$
 
-> → 在本书中的应用：第13章用余弦相似度做文本检索；第17章 RAG 检索同理。
+> → 在本书中的应用：第13章用余弦相似度做文本检索；第19章 RAG 检索同理。
 
 ### B.1.3 矩阵乘法
 
@@ -49,7 +49,7 @@ $$C_{ij} = \sum_{l=1}^k A_{il} B_{lj}$$
 
 $$\mu_p = \mathbf{w}^\top \boldsymbol{\mu} = \sum_i w_i \mu_i$$
 
-> → 第2章（NumPy 向量化）、第14章（组合优化）。
+> → 第2章（NumPy 向量化）、第16章（组合优化）。
 
 ### B.1.4 特殊矩阵
 
@@ -69,7 +69,7 @@ $$\sigma_p^2 = \mathbf{w}^\top \Sigma \mathbf{w} = \sum_i\sum_j w_i w_j \sigma_{
 若对任意 $\mathbf{x}\neq\mathbf{0}$ 都有 $\mathbf{x}^\top A\mathbf{x} > 0$，称 $A$ **正定**。
 协方差矩阵 $\Sigma$ 半正定（方差非负），这保证了均值-方差优化是凸问题。
 
-> → 第5章（风险度量）、第14章（组合优化的凸性）。
+> → 第5章（风险度量）、第16章（组合优化的凸性）。
 
 ### B.1.6 特征值、特征向量与 PCA
 
@@ -124,7 +124,7 @@ $$\mathcal{L}(\mathbf{x}, \lambda) = f(\mathbf{x}) - \lambda\, g(\mathbf{x})$$
 
 $$\mathbf{w}_{\text{GMV}} = \frac{\Sigma^{-1}\mathbf{1}}{\mathbf{1}^\top\Sigma^{-1}\mathbf{1}}$$
 
-> → 第14章（组合优化的解析解推导）。
+> → 第16章（组合优化的解析解推导）。
 
 ### B.2.5 梯度下降
 
@@ -154,7 +154,7 @@ $$\mathrm{Var}(X) = \mathbb{E}[(X-\mu)^2] = \mathbb{E}[X^2] - \mu^2, \qquad \sig
 
 $$\mathrm{Var}(aX+bY) = a^2\mathrm{Var}(X) + b^2\mathrm{Var}(Y) + 2ab\,\mathrm{Cov}(X,Y)$$
 
-> → 第5章（收益与风险）、第14章（组合方差正是这条公式的多维推广）。
+> → 第5章（收益与风险）、第16章（组合方差正是这条公式的多维推广）。
 
 ### B.3.2 常见分布
 
@@ -188,7 +188,7 @@ $$\mathrm{Cov}(X,Y) = \mathbb{E}[(X-\mu_X)(Y-\mu_Y)], \qquad
 
 多资产时，所有两两协方差构成**协方差矩阵** $\Sigma$（对称半正定）。
 
-> → 第4章（相关性热力图）、第7章（贝塔 = $\mathrm{Cov}(r_i,r_m)/\mathrm{Var}(r_m)$）、第14章。
+> → 第4章（相关性热力图）、第7章（贝塔 = $\mathrm{Cov}(r_i,r_m)/\mathrm{Var}(r_m)$）、第16章。
 
 ### B.3.5 条件期望与独立
 
@@ -220,7 +220,7 @@ $$\frac{\bar{X}_n - \mu}{\sigma/\sqrt{n}} \xrightarrow{d} N(0,1)$$
 
 !!! warning "金融中的估计误差"
     期望收益 $\mu$ 极难估准（信噪比低，见第1章），其估计误差会被组合优化**放大**。
-    这正是第14章引入 Ledoit-Wolf 协方差收缩、以及等权组合常胜的原因。
+    这正是第16章引入 Ledoit-Wolf 协方差收缩、以及等权组合常胜的原因。
 
 ### B.4.2 极大似然估计（MLE）
 
@@ -253,7 +253,7 @@ $$\hat{\boldsymbol\theta}_{\text{MLE}} = \arg\max_{\boldsymbol\theta} \prod_i p(
 !!! danger "金融研究的头号陷阱"
     若同时检验 100 个无效因子，在 5% 显著性下平均会有约 5 个「碰巧显著」。
     反复试不同策略/参数直到「跑出」漂亮结果，即**数据窥探（data snooping）**。
-    缓解：Bonferroni 校正、样本外验证、控制错误发现率（FDR）。这是第9、15章
+    缓解：Bonferroni 校正、样本外验证、控制错误发现率（FDR）。这是第9、17章
     反复强调样本外检验与时序交叉验证的统计学根源。
 
 ---

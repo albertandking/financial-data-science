@@ -33,7 +33,7 @@ uv sync --extra data
 # 进阶章节：深度学习 / NLP（可选，较重）
 uv sync --extra advanced
 
-# 量化回测框架 akquant（第15章，可选）
+# 量化回测框架 akquant（第17章，可选）
 uv sync --extra quant
 ```
 
@@ -76,7 +76,7 @@ uv run python scripts/make_sample_data.py
 | `statsmodels` | 0.14.6 | 计量/时间序列（第6–9章） |
 | `arch` | 8.0.0 | GARCH 波动率模型（第6章） |
 | `linearmodels` | 7.0 | 面板数据回归（第8章） |
-| `scikit-learn` | 1.9.0 | 机器学习（第9–11、16章） |
+| `scikit-learn` | 1.9.0 | 机器学习（第9–11、14、18章） |
 | `pyarrow` | 24.0.0 | Parquet 读写 |
 | `tqdm` | 4.67.3 | 进度条 |
 | `openpyxl` | 3.1.5 | 读写 Excel |
@@ -102,7 +102,7 @@ uv run python scripts/make_sample_data.py
 
 | 库 | 版本 | 用途 |
 |---|---|---|
-| `akquant` | 0.2.40 | 事件驱动回测框架，Rust 内核（第15章） |
+| `akquant` | 0.2.40 | 事件驱动回测框架，Rust 内核（第17章） |
 
 ### 成书与工具（默认随 `uv sync` 安装）
 

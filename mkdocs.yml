@@ -78,12 +78,14 @@ nav:
       - 第11章 树模型与集成学习: part3/11-ensemble-trees.md
       - 第12章 深度学习与序列模型: part3/12-deep-learning.md
       - 第13章 金融文本与 NLP: part3/13-nlp-text.md
-  - 第四部分·应用与项目:
-      - 第14章 投资组合优化: part4/14-portfolio-optimization.md
-      - 第15章 量化策略与回测: part4/15-backtesting.md
-      - 第16章 信用风险与违约预测: part4/16-credit-risk.md
-      - 第17章 大模型与金融前沿: part4/17-llm-finance.md
-      - 第18章 金融智能体（AI Agents）: part4/18-ai-agents.md
+      - 第14章 无监督学习: part3/14-unsupervised.md
+  - 第四部分·应用与前沿:
+      - 第15章 高频数据与市场微结构: part4/15-high-frequency.md
+      - 第16章 投资组合优化: part4/16-portfolio-optimization.md
+      - 第17章 量化策略与回测: part4/17-backtesting.md
+      - 第18章 信用风险与违约预测: part4/18-credit-risk.md
+      - 第19章 大模型与金融前沿: part4/19-llm-finance.md
+      - 第20章 金融智能体（AI Agents）: part4/20-ai-agents.md
   - 附录:
       - 附录A 本地环境配置: appendix/a-setup.md
       - 附录B 数学与概率回顾: appendix/b-math-review.md

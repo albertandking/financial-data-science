@@ -486,4 +486,4 @@ y = feat_df['target'].values
 
 - **Gu, Kelly & Xiu（2020）**“Empirical Asset Pricing via Machine Learning”，*Review of Financial Studies*。用机器学习（含神经网络）预测美国股票横截面收益率，是金融 ML 领域的重要实证研究。
 
-- **Lim & Zohren（2021）**“Time-series forecasting with deep learning: a survey”，*Philosophical Transactions of the Royal Society A*。覆盖 Transformer 在时序预测中的应用，对第 17 章（大模型）有铺垫作用。
+- **Lim & Zohren（2021）**“Time-series forecasting with deep learning: a survey”，*Philosophical Transactions of the Royal Society A*。覆盖 Transformer 在时序预测中的应用，对第19章（大模型）有铺垫作用。
