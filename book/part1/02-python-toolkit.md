@@ -1,5 +1,7 @@
 # 第2章 Python 数据科学工具栈
 
+[![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch02_python_toolkit.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch02_python_toolkit.ipynb)
+
 !!! info "配套代码"
     本章代码见 `notebooks/ch02_python_toolkit.ipynb`，可逐格运行（依赖内置数据，离线可跑）。运行前请先执行 `uv run python scripts/make_sample_data.py` 生成内置数据集。
 

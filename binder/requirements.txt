@@ -1,0 +1,17 @@
+# Binder（mybinder.org）运行环境依赖。
+# 覆盖第1-11、14-18 章；第12章(torch)、第13章(transformers)较重，
+# 如需可在 notebook 内 `!pip install torch transformers` 临时安装。
+numpy>=1.26
+pandas>=2.2
+scipy>=1.13
+matplotlib>=3.8
+seaborn>=0.13
+statsmodels>=0.14
+arch>=6.3
+linearmodels>=6.0
+scikit-learn>=1.5
+pyarrow>=16.0
+openpyxl>=3.1
+tqdm>=4.66
+xgboost>=2.0
+jieba>=0.42

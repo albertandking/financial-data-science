@@ -1,5 +1,7 @@
 # 第14章 投资组合优化
 
+[![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch14_portfolio_optimization.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch14_portfolio_optimization.ipynb)
+
 !!! info "配套代码"
     `notebooks/ch14_portfolio_optimization.ipynb`（使用 scipy.optimize）
 

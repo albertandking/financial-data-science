@@ -11,6 +11,18 @@
 
 ---
 
+## 在线访问
+
+- 📖 **在线阅读**（GitHub Pages）：<https://albertandking.github.io/financial-data-science/>
+- ▶️ **在线运行代码**：每章正文顶部都有 **Colab** 与 **Binder** 徽章，点开即可在云端运行该章 notebook（无需本地环境）。
+  - Colab 会自动克隆本仓库并安装 `fds` 包（notebook 内置「自举单元」，本地运行时自动跳过）；
+  - Binder 通过 `binder/` 下的配置自动装好环境与内置数据。
+
+> 网站由 GitHub Actions 自动部署：push 到 `main` → 构建 MkDocs → 发布到 Pages（见 `.github/workflows/deploy.yml`）。
+> 首次启用：仓库 **Settings → Pages → Source 选「GitHub Actions」**。
+
+---
+
 ## 一、目录结构
 
 ```

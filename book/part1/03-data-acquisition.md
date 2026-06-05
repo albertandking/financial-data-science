@@ -1,5 +1,7 @@
 # 第3章 金融数据获取与清洗
 
+[![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch03_data_acquisition.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch03_data_acquisition.ipynb)
+
 !!! info "配套代码"
     本章代码见 `notebooks/ch03_data_acquisition.ipynb`。
     清洗与质量检查部分使用内置数据，**离线即可运行**；

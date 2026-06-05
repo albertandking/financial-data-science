@@ -1,0 +1,6 @@
+#!/bin/bash
+# Binder 构建后置脚本：安装本书工具包并生成内置数据。
+set -e
+pip install -e .
+python scripts/make_sample_data.py
+echo "Binder 环境就绪：fds 已安装、内置数据已生成。"

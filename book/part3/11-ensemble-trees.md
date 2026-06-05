@@ -1,5 +1,7 @@
 # 第11章 树模型与集成学习
 
+[![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch11_ensemble_trees.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch11_ensemble_trees.ipynb)
+
 !!! info "配套代码"
     `notebooks/ch11_ensemble_trees.ipynb`（使用 scikit-learn / xgboost）
 

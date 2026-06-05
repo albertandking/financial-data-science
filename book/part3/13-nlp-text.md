@@ -1,5 +1,7 @@
 # 第13章 金融文本与自然语言处理
 
+[![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch13_nlp_text.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch13_nlp_text.ipynb)
+
 !!! info "配套代码"
     `notebooks/ch13_nlp_text.ipynb`（使用 jieba / scikit-learn / transformers，需 `--extra advanced`）
 

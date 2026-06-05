@@ -1,6 +1,10 @@
 site_name: 金融数据科学
 site_description: 面向中国本科生与研究生的金融数据科学教材
 site_author: ""
+site_url: https://albertandking.github.io/financial-data-science/
+repo_url: https://github.com/albertandking/financial-data-science
+repo_name: albertandking/financial-data-science
+edit_uri: edit/main/book/
 docs_dir: book
 site_dir: site
 

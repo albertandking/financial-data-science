@@ -1,5 +1,7 @@
 # 第12章 深度学习与序列模型
 
+[![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch12_deep_learning.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch12_deep_learning.ipynb)
+
 !!! info "配套代码"
     `notebooks/ch12_deep_learning.ipynb`（使用 PyTorch，需 `--extra advanced`）
 

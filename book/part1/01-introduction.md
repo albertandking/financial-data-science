@@ -1,5 +1,7 @@
 # 第1章 导论：什么是金融数据科学
 
+[![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch01_introduction.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch01_introduction.ipynb)
+
 !!! info "配套代码"
     本章代码见 `notebooks/ch01_introduction.ipynb`，可在本地逐格运行。
     运行前请先生成内置数据：`uv run python scripts/make_sample_data.py`。

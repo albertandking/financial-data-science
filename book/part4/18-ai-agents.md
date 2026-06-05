@@ -1,5 +1,7 @@
 # 第18章 金融智能体（AI Agents）
 
+[![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch18_ai_agents.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch18_ai_agents.ipynb)
+
 !!! info "配套代码"
     `notebooks/ch18_ai_agents.ipynb`——从零手写 ReAct 智能体，所有工具用 `fds` 内置数据实现，**离线可跑**；真实 LLM API 调用已用 `try/except` 守卫，无密钥时自动回退到本地规则规划器。
 

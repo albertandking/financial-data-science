@@ -1,5 +1,7 @@
 # 第8章 面板数据与回归
 
+[![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch08_panel_regression.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch08_panel_regression.ipynb)
+
 !!! info "配套代码"
     `notebooks/ch08_panel_regression.ipynb`（使用 linearmodels / statsmodels）  
     本章实战部分采用**内置财务面板数据集 `fundamentals`（见附录C数据字典）**，  
