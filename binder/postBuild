@@ -1,6 +1,6 @@
 #!/bin/bash
-# Binder 构建后置脚本：安装本书工具包并生成内置数据。
+# Binder 构建后置脚本：把本书工具包 fds 装为可导入。
+# 依赖已由 environment.yml 安装；内置数据已随仓库提交，无需再生成。
 set -e
-pip install -e .
-python scripts/make_sample_data.py
-echo "Binder 环境就绪：fds 已安装、内置数据已生成。"
+pip install -e . --no-deps
+echo "Binder 环境就绪：fds 已安装、内置数据随仓库一并克隆。"
