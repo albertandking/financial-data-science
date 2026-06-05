@@ -117,3 +117,12 @@ uv run mkdocs build
 - 正文里需要展示代码/图表时，引用 notebook 导出的片段，避免代码两处维护
 - 所有 notebook 默认依赖**内置示例数据**，保证**断网也能跑**；用到联网接口的代码放在明确标注的「联网」小节
 - 复用逻辑（指标计算、绘图样式、数据加载）抽进 `src/fds`，正文与 notebook 都 `from fds import ...`
+
+---
+
+## 四、许可、引用与贡献
+
+- **许可证**：代码（`src/`、`scripts/`、`notebooks/`）采用 **MIT**；正文与图表（`book/`）采用 **CC BY 4.0**。详见 [`LICENSE`](LICENSE)。
+- **如何引用**：见 [`CITATION.cff`](CITATION.cff)（仓库页有「Cite this repository」按钮）。
+- **勘误与贡献**：发现问题请提 [Issue](https://github.com/albertandking/financial-data-science/issues)，参与改进见 [`CONTRIBUTING.md`](CONTRIBUTING.md)。
+- **更新日志**：见 [`CHANGELOG.md`](CHANGELOG.md)。

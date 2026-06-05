@@ -61,6 +61,7 @@ plugins:
 
 nav:
   - 首页: index.md
+  - 前言: preface.md
   - 第一部分·基础:
       - 第1章 导论：什么是金融数据科学: part1/01-introduction.md
       - 第2章 Python 数据科学工具栈: part1/02-python-toolkit.md
@@ -87,3 +88,4 @@ nav:
       - 附录A 本地环境配置: appendix/a-setup.md
       - 附录B 数学与概率回顾: appendix/b-math-review.md
       - 附录C 数据字典: appendix/c-data-dictionary.md
+      - 附录D 术语与符号表: appendix/d-glossary.md

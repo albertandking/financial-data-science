@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: 如果本书对你的研究或教学有帮助，请按如下方式引用。
+title: 金融数据科学（Financial Data Science）
+abstract: 面向中国本科生与研究生的金融数据科学教材，含可在线运行的 Jupyter Notebook。
+type: book
+authors:
+  - given-names: Albert
+    alias: albertandking
+version: 0.1.0
+date-released: "2026-06-06"
+license: CC-BY-4.0
+url: https://albertandking.github.io/financial-data-science/
+repository-code: https://github.com/albertandking/financial-data-science
+keywords:
+  - finance
+  - data science
+  - quantitative finance
+  - machine learning
+  - textbook
