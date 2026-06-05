@@ -12,6 +12,9 @@ from fds import (
     annualized_return,
     annualized_volatility,
     daily_returns,
+    load_credit,
+    load_fundamentals,
+    load_market,
     load_sample_prices,
     max_drawdown,
     sharpe_ratio,
@@ -40,3 +43,25 @@ def test_metrics_run():
     assert ann_vol > 0
     assert np.isfinite(sr)
     assert -1 <= mdd <= 0
+
+
+def test_load_market():
+    mkt = load_market()
+    assert {"index_close", "index_return", "rf_annual", "rf_daily"}.issubset(mkt.columns)
+    assert isinstance(mkt.index, pd.DatetimeIndex)
+    assert (mkt["index_close"] > 0).all()
+
+
+def test_load_fundamentals_panel():
+    f = load_fundamentals()
+    assert {"firm", "year", "roa", "leverage", "size", "revenue_growth"}.issubset(f.columns)
+    assert f["firm"].nunique() == 200
+    assert f["year"].nunique() == 8
+    assert len(f) == 1600  # 平衡面板
+
+
+def test_load_credit():
+    c = load_credit()
+    assert "default" in c.columns
+    assert set(c["default"].unique()) <= {0, 1}
+    assert 0 < c["default"].mean() < 1  # 存在两类样本（不平衡）

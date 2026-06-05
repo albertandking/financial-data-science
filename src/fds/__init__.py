@@ -5,7 +5,14 @@
     from fds import load_sample_prices, daily_returns, set_chinese_font
 """
 
-from fds.data import DATA_DIR, list_datasets, load_sample_prices
+from fds.data import (
+    DATA_DIR,
+    list_datasets,
+    load_credit,
+    load_fundamentals,
+    load_market,
+    load_sample_prices,
+)
 from fds.metrics import (
     annualized_return,
     annualized_volatility,
@@ -19,6 +26,9 @@ __all__ = [
     "DATA_DIR",
     "list_datasets",
     "load_sample_prices",
+    "load_market",
+    "load_fundamentals",
+    "load_credit",
     "daily_returns",
     "annualized_return",
     "annualized_volatility",

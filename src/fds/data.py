@@ -23,19 +23,56 @@ def list_datasets() -> list[str]:
     return sorted(p.name for p in DATA_DIR.glob("*.parquet"))
 
 
-def load_sample_prices() -> pd.DataFrame:
-    """加载内置的示例股票日度价格数据集。
-
-    返回一个以日期为索引、各列为不同股票收盘价的 DataFrame。
-    若数据不存在，提示先运行生成脚本。
-    """
-    path = DATA_DIR / "sample_prices.parquet"
+def _load(name: str) -> pd.DataFrame:
+    """读取 data/processed/<name>.parquet，缺失时给出友好提示。"""
+    path = DATA_DIR / f"{name}.parquet"
     if not path.exists():
         raise FileNotFoundError(
             f"未找到内置数据集 {path}。\n"
             f"请先运行：uv run python scripts/make_sample_data.py"
         )
-    df = pd.read_parquet(path)
+    return pd.read_parquet(path)
+
+
+def load_sample_prices() -> pd.DataFrame:
+    """加载内置的示例股票日度价格数据集。
+
+    返回以日期为索引、各列为不同股票收盘价的 DataFrame
+    （列：BANK / LIQUOR / TECH / UTILITY）。
+    """
+    df = _load("sample_prices")
     df.index = pd.to_datetime(df.index)
     df.index.name = "date"
     return df
+
+
+def load_market() -> pd.DataFrame:
+    """加载内置的市场指数与无风险利率日度序列。
+
+    列：index_close（指数收盘）、index_return（指数日收益）、
+    rf_annual（年化无风险利率）、rf_daily（日度无风险利率）。
+    内置 4 只股票对该指数有真实的 beta，可直接用于第7章 CAPM。
+    """
+    df = _load("market")
+    df.index = pd.to_datetime(df.index)
+    df.index.name = "date"
+    return df
+
+
+def load_fundamentals() -> pd.DataFrame:
+    """加载内置的公司-年度财务面板（平衡面板，200家×8年）。
+
+    列：firm、year、industry、roa、leverage、size（log总资产）、revenue_growth。
+    数据生成过程内置已知系数与公司固定效应，可用于第8章面板回归并验证还原。
+    """
+    return _load("fundamentals")
+
+
+def load_credit() -> pd.DataFrame:
+    """加载内置的信用违约样本（5000个借款人，约12%违约，含类别不平衡）。
+
+    特征列含 age、income、debt_to_income、credit_history_months、
+    num_open_accounts、num_delinquencies、utilization；标签列 default（0/1）。
+    用于第16章信用风险评分卡与不平衡处理。
+    """
+    return _load("credit")

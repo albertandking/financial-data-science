@@ -19,7 +19,54 @@ from fds import load_sample_prices
 prices = load_sample_prices()
 ```
 
-## C.2 真实数据字段（akshare `stock_zh_a_hist`）
+## C.2 内置市场数据 `market`
+
+市场指数与无风险利率日度序列；4 只股票对该指数有真实 beta（第7章 CAPM 用）。
+
+| 字段 | 类型 | 含义 |
+|---|---|---|
+| `date`（索引） | datetime | 交易日 |
+| `index_close` | float | 市场指数收盘（类沪深300，起点3000） |
+| `index_return` | float | 指数日收益率 |
+| `rf_annual` | float | 年化无风险利率（约2%） |
+| `rf_daily` | float | 日度无风险利率 |
+
+加载：`from fds import load_market`。
+
+## C.3 内置财务面板 `fundamentals`
+
+公司-年度平衡面板（200家×8年=1600行），内置已知系数与公司固定效应（第8章用）。
+
+| 字段 | 类型 | 含义 |
+|---|---|---|
+| `firm` | str | 公司代码 F000–F199 |
+| `year` | int | 年度 2018–2025 |
+| `industry` | str | 行业 |
+| `roa` | float | 资产收益率（因变量） |
+| `leverage` | float | 资产负债率（真实系数 −0.12） |
+| `size` | float | 公司规模（log 总资产） |
+| `revenue_growth` | float | 营收增长率 |
+
+加载：`from fds import load_fundamentals`。
+
+## C.4 内置信用样本 `credit`
+
+信用违约样本（5000个借款人，含类别不平衡，第16章用）。
+
+| 字段 | 类型 | 含义 |
+|---|---|---|
+| `age` | int | 年龄 |
+| `income` | int | 年收入（元） |
+| `debt_to_income` | float | 负债收入比 |
+| `credit_history_months` | int | 信用历史（月） |
+| `num_open_accounts` | int | 在用账户数 |
+| `num_delinquencies` | int | 历史逾期次数 |
+| `utilization` | float | 额度使用率 |
+| `default` | int | 违约标签（0/1） |
+
+加载：`from fds import load_credit`。
+
+## C.5 真实数据字段（akshare `stock_zh_a_hist`）
 
 | 字段 | 含义 |
 |---|---|
