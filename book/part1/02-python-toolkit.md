@@ -121,12 +121,17 @@ b = np.array([1, 2, 3], dtype=np.float32)   # 节省内存，牺牲精度
 
 常用 dtype：
 
-| dtype | 描述 | 金融场景 |
-|-------|------|---------|
-| `float64` | 双精度浮点 | **默认，价格/收益率** |
-| `float32` | 单精度浮点 | 大规模深度学习特征 |
-| `int64` | 64 位整数 | 成交量、股票代码 |
-| `bool` | 布尔 | 掩码、条件筛选 |
+| dtype | 描述 | 精度（十进制有效位） | 金融场景 |
+|-------|------|-------------------|---------|
+| `float64` | 双精度浮点（8 字节） | ≈ 15–16 位 | **默认，价格/收益率** |
+| `float32` | 单精度浮点（4 字节） | ≈ 6–7 位 | 大规模深度学习特征，节省内存 |
+| `int64` | 64 位整数（8 字节） | 精确 | 成交量、股票代码 |
+| `bool` | 布尔（1 字节） | — | 掩码、条件筛选 |
+
+金融计算中应坚持使用 `float64`：即使单个价格精度差异微小，
+在复利累积（$(1+r_1)(1+r_2)\cdots(1+r_T)$）或协方差矩阵运算中，
+`float32` 的累积误差可能超过 1 bp（基点），影响因子打分或风险模型结果。
+`float32` 只在确认精度损失可接受的场景（如神经网络权重）才值得使用。
 
 ### 2.3.2 轴（axis）概念
 
@@ -181,17 +186,71 @@ print(f"加速比：  {t_loop/t_vec:.0f}x")
 # 典型输出：循环 ~400 ms，向量化 ~3 ms，加速约 100x
 ```
 
-!!! warning "避免在金融计算中写 for 循环"
+!!! warning “避免在金融计算中写 for 循环”
     当数据量超过万条（A 股日度数据很容易达到几十万行），for 循环会成为明显瓶颈。
-    本书所有示例均采用向量化写法，请养成“先想有没有数组运算”的思维习惯。
+    本书所有示例均采用向量化写法，请养成”先想有没有数组运算”的思维习惯。
+
+!!! example “例 2.1：向量化 vs for 循环——百万级收益率计算的性能对比”
+    以计算 100 万个模拟价格的日度简单收益率为例，对比两种写法的实际耗时。
+
+    ```python
+    import numpy as np
+    import time
+
+    rng = np.random.default_rng(42)
+    n = 1_000_000
+    prices = rng.uniform(50, 150, size=n)   # 模拟 100 万个价格点
+
+    # ── 方式一：Python for 循环 ──────────────────────────────────
+    t0 = time.perf_counter()
+    ret_loop = []
+    for i in range(1, n):
+        ret_loop.append(prices[i] / prices[i - 1] - 1)
+    t_loop = time.perf_counter() - t0
+
+    # ── 方式二：NumPy 向量化 ─────────────────────────────────────
+    t0 = time.perf_counter()
+    ret_vec = prices[1:] / prices[:-1] - 1
+    t_vec = time.perf_counter() - t0
+
+    print(f”for 循环耗时 : {t_loop * 1000:7.1f} ms”)
+    print(f”向量化耗时   : {t_vec  * 1000:7.1f} ms”)
+    print(f”加速比       : {t_loop / t_vec:.0f}x”)
+    ```
+
+    **典型输出（参考值，因机器而异）：**
+
+    | 方式 | 耗时（ms） | 相对速度 |
+    |------|-----------|---------|
+    | Python for 循环 | ≈ 350–500 | 1× |
+    | NumPy 向量化 | ≈ 2–5 | **约 100×** |
+
+    加速比达到 **100 倍**左右的原因有二：
+    其一，NumPy 底层由 C 实现，单次运算无 Python 解释器的对象装箱/拆箱开销；
+    其二，`ndarray` 数据连续存储在内存，CPU 预取（prefetch）和 SIMD 指令可充分利用，
+    而 Python 列表中每个元素是独立的堆对象，内存不连续，缓存命中率极低。
 
 ### 2.3.4 广播规则（Broadcasting）
 
-当两个形状不同的数组运算时，NumPy 按以下规则自动“广播”对齐：
+当两个形状不同的数组运算时，NumPy 按以下规则自动”广播”对齐：
 
 1. 从最后一维开始对齐，维度数不足的在左侧补 1
 2. 每个维度大小必须相同，**或**其中一个为 1（则自动扩展）
 3. 任何维度不满足上述条件则报错
+
+**广播规则逐步判定示例**
+
+以「$250 \times 4$ 收益矩阵」减去「4 只股票的均值向量」为例，逐步演示形状对齐过程：
+
+| 步骤 | 操作 | 形状 A（矩阵） | 形状 B（均值向量） |
+|------|------|--------------|-----------------|
+| 原始形状 | — | `(250, 4)` | `(4,)` |
+| 步骤 1：左补 1 | B 维度不足，左侧补 1 | `(250, 4)` | `(1, 4)` |
+| 步骤 2：检查各维度 | 维度 0：250 vs 1，B 扩展为 250 | `(250, 4)` | `(250, 4)` |
+| 步骤 3：检查各维度 | 维度 1：4 vs 4，匹配 ✓ | `(250, 4)` | `(250, 4)` |
+| 最终结果 | 逐元素相减 | `(250, 4)` | — |
+
+若 B 的形状为 `(3,)` 而非 `(4,)`，则维度 1 为 4 vs 3，两者均不为 1，广播失败并抛出 `ValueError: operands could not be broadcast together`。
 
 **实例：给多只股票去均值（标准化截面）**
 
@@ -229,6 +288,34 @@ print(np.allclose(portfolio_ret, portfolio_ret2))   # True
     `@` 是 Python 3.5+ 引入的矩阵乘运算符（PEP 465）。
     `np.dot` 与 `@` 对二维数组等价，但 `@` 更易读、与数学符号直接对应，
     本书后续讨论均值-方差优化（$w^\top \mu$、$w^\top \Sigma w$）时将大量使用。
+
+!!! example "例 2.2：广播形状对齐算例——截面标准化"
+    **任务**：对「250 日 × 4 只股票」的模拟收益矩阵，按截面（每天）进行 z-score 标准化，
+    即每日各股票收益率减去当日均值、除以当日标准差。
+
+    ```python
+    import numpy as np
+
+    rng = np.random.default_rng(0)
+    R = rng.normal(0, 0.02, size=(250, 4))   # shape: (250, 4)
+
+    # ── 截面均值与标准差 ─────────────────────────────────────────
+    mu_cross    = R.mean(axis=1)   # shape: (250,)
+    sigma_cross = R.std(axis=1)    # shape: (250,)
+
+    # ── 广播除法：需要将 (250,) 变为列向量 (250, 1) ──────────────
+    # 直接做 R - mu_cross 会报错：(250,4) - (250,) 无法对齐
+    z = (R - mu_cross[:, np.newaxis]) / sigma_cross[:, np.newaxis]
+    # ── 验证：每行均值 ≈ 0，每行标准差 ≈ 1 ──────────────────────
+    print(z.mean(axis=1).round(10))    # array of ~0.0
+    print(z.std(axis=1).round(10))     # array of ~1.0
+    ```
+
+    **形状推导**：
+    - `mu_cross` 形状 `(250,)` → `mu_cross[:, np.newaxis]` 变为 `(250, 1)`
+    - `(250, 4)` - `(250, 1)` → 广播规则步骤 2 将 `(250, 1)` 扩展至 `(250, 4)` ✓
+    - 若省略 `np.newaxis` 直接写 `R - mu_cross`，
+      NumPy 将 `(250,)` 左补为 `(1, 250)`，尝试对维度 1 做 4 vs 250，报 `ValueError`。
 
 ### 2.3.5 随机数：default_rng
 
@@ -338,6 +425,44 @@ prices_copy.loc["2025-01-02", "BANK"] = 11.0
     正确做法是用 `df.loc[df["A"] > 0, "B"] = 1`。
     Pandas 2.0 会对链式赋值发出 `FutureWarning`，Pandas 3.0 将彻底禁止。
 
+!!! example "例 2.3：loc / iloc / 布尔索引对照例"
+    以下用同一个小 DataFrame 演示三种索引方式的相同点与差异：
+
+    ```python
+    import pandas as pd
+
+    df = pd.DataFrame(
+        {"股票": ["BANK", "LIQUOR", "TECH", "UTILITY"],
+         "收盘价": [11.20, 52.80, 98.60, 20.40],
+         "涨跌幅": [0.015, -0.003, 0.028, -0.008]},
+        index=pd.date_range("2025-03-03", periods=4, freq="B"),
+    )
+    ```
+
+    | 需求 | 代码 | 返回类型 | 说明 |
+    |------|------|---------|------|
+    | 取第 1 行第 2 列的值 | `df.iloc[0, 1]` | 标量 `11.20` | 完全基于整数位置 |
+    | 取第 1 行第 2 列的值 | `df.loc["2025-03-03", "收盘价"]` | 标量 `11.20` | 基于标签，两端均包含 |
+    | 取前两行 | `df.iloc[:2]` | DataFrame | 位置切片，不含右端 |
+    | 取前两行 | `df.loc[:"2025-03-04"]` | DataFrame | 标签切片，**含右端** |
+    | 找涨幅正的交易日 | `df[df["涨跌幅"] > 0]` | DataFrame | 布尔索引，返回满足条件的行 |
+    | 修改某单元格 | `df.loc["2025-03-03", "收盘价"] = 11.30` | 原地修改 | 必须用 `loc`，不能用 `iloc` 混用字符串列名 |
+
+    ```python
+    # 验证：loc 标签切片含两端
+    print(df.loc["2025-03-03":"2025-03-04"])   # 输出 2 行（含 03-04）
+
+    # 验证：iloc 位置切片不含右端
+    print(df.iloc[0:2])                         # 同样输出 2 行
+
+    # 布尔索引：找收盘价超过 50 元的行
+    big = df[df["收盘价"] > 50]
+    print(big)                                  # 只有 LIQUOR（52.80）和 TECH（98.60）
+    ```
+
+    **核心记忆法**：`loc` 认“标签名”，`iloc` 认“数字位”；
+    两者在切片时的最大差异是 `loc` **包含右端标签**，`iloc` **不含右端位置**。
+
 ### 2.4.3 DatetimeIndex 与时间切片
 
 ```python
@@ -371,6 +496,29 @@ prices.index.day_of_week            # 0=周一，4=周五
     Pandas 2.2 起，`M`/`Q`/`Y`/`A` 等别名已弃用并在 Pandas 3.0 中移除。
     请统一使用 `ME`/`QE`/`YE`，以免代码在未来版本报 `FutureWarning`。
 
+**DatetimeIndex 的常用访问器**
+
+`DatetimeIndex` 提供丰富的属性，可直接抽取时间分量，无需字符串解析，在特征工程（第 8 章）中频繁使用：
+
+```python
+idx = prices.index                # DatetimeIndex
+
+idx.year          # 年份（整数数组）
+idx.month         # 月份 1–12
+idx.day           # 日 1–31
+idx.day_of_week   # 0=周一 … 4=周五（工作日编号）
+idx.quarter       # 季度 1–4
+idx.is_month_end  # 布尔数组，是否为月末最后一个交易日
+idx.is_quarter_end
+
+# 转换为 Period（会计期）
+idx.to_period("M")    # 转为月度 Period 索引，如 "2025-01"
+idx.to_period("Q")    # 转为季度 Period 索引，如 "2025Q1"
+```
+
+`Period` 索引适合与宏观数据（季度 GDP、月度 CPI）做 `merge`，
+因为 `Period` 天然表达「整段时间」而非某一精确时刻，避免时区或日历错位问题。
+
 ### 2.4.4 缺失值处理
 
 金融数据经常遇到缺失值（停牌、节假日、数据源问题）。
@@ -393,6 +541,61 @@ prices_clean = prices.dropna()
 # volume.fillna(0)
 ```
 
+!!! example "例 2.4：缺失值 ffill / dropna 处理——停牌数据修复"
+    A 股中若某只股票停牌，当日数据源通常返回 `NaN`。以下用含缺口的小数据演示常见处理流程：
+
+    ```python
+    import pandas as pd
+    import numpy as np
+
+    idx = pd.date_range("2025-01-02", periods=8, freq="B")
+    raw = pd.Series(
+        [10.0, 10.2, np.nan, np.nan, 10.5, np.nan, 10.8, 10.9],
+        index=idx,
+        name="BANK_停牌示例",
+    )
+    print(raw)
+    ```
+
+    输出（`NaN` 对应停牌日）：
+
+    ```
+    2025-01-02    10.0
+    2025-01-03    10.2
+    2025-01-06     NaN   ← 停牌
+    2025-01-07     NaN   ← 停牌
+    2025-01-08    10.5
+    2025-01-09     NaN   ← 停牌
+    2025-01-10    10.8
+    2025-01-13    10.9
+    ```
+
+    ```python
+    # ── 方案一：前向填充（ffill）──────────────────────────────────
+    filled = raw.ffill()
+    # 01-06 → 10.2，01-07 → 10.2，01-09 → 10.5（用最近已知价填充）
+
+    # ── 方案二：限制填充步数（limit=1，超过 1 日仍为 NaN）──────────
+    filled_limit = raw.ffill(limit=1)
+    # 01-06 → 10.2，01-07 → NaN（连续停牌第 2 天不填充）
+
+    # ── 方案三：直接删除含缺失值的行 ─────────────────────────────
+    clean = raw.dropna()
+    # 保留 5 行，剔除停牌日
+
+    print(pd.concat([raw, filled, filled_limit, clean],
+                    axis=1,
+                    keys=["原始", "ffill", "ffill(limit=1)", "dropna"]))
+    ```
+
+    **如何选择**：
+
+    | 场景 | 推荐方案 | 理由 |
+    |------|---------|------|
+    | 价格序列、短暂停牌（1–3 日） | `ffill()` | 保持连续性，收益率计算不会突然跳空 |
+    | 停牌超过 1 周，怀疑数据质量 | `ffill(limit=n)` | 避免长期用过期价格掩盖真实缺口 |
+    | 计算收益率、统计截面信号 | `dropna()` | 避免填充引入的「假」价格污染模型 |
+
 ### 2.4.5 groupby：按年/月统计
 
 ```python
@@ -414,6 +617,44 @@ annual_ret = (
     .apply(lambda x: (1 + x).prod() - 1)   # 年化复利
 )
 ```
+
+!!! example "例 2.5：groupby 按月聚合——计算月均日度收益率"
+    以内置数据为例，计算每只股票每个月的「日度收益率均值」与「日度收益率标准差」：
+
+    ```python
+    import pandas as pd
+    import numpy as np
+    from fds import load_sample_prices
+
+    prices = load_sample_prices()
+
+    # ── 步骤 1：计算日度简单收益率 ─────────────────────────────────
+    ret = prices.pct_change().dropna()        # shape: (N-1, 4)
+
+    # ── 步骤 2：用 Grouper 按月分组（频率别名 ME = month-end）──────
+    monthly = (
+        ret
+        .groupby(pd.Grouper(freq="ME"))
+        .agg(["mean", "std"])
+        .round(4)
+    )
+    # monthly 是 MultiIndex 列（股票名 × 统计量），形如：
+    #            BANK        LIQUOR       TECH        UTILITY
+    #            mean   std  mean   std   mean   std  mean   std
+    # 2023-01-31  ...   ...   ...   ...    ...   ...   ...   ...
+    # 2023-02-28  ...   ...   ...   ...    ...   ...   ...   ...
+
+    # ── 步骤 3：仅看银行股，按月年化夏普 ─────────────────────────
+    bank_m = monthly["BANK"].copy()
+    bank_m["sharpe_annualized"] = (
+        bank_m["mean"] / bank_m["std"] * (252 ** 0.5)
+    )
+    print(bank_m.tail(6))
+    ```
+
+    **关键点**：`pd.Grouper(freq="ME")` 会将每个月内所有交易日的收益率归入该月，
+    聚合结果的索引是每月最后一个日历日（月末）。
+    若改为 `freq="QE"` 则按季末分组；改为 `freq="YE"` 则按年末分组。
 
 ### 2.4.6 merge 与 concat：多标的对齐
 
@@ -458,6 +699,58 @@ annual_price = prices.resample("YE").last()
 # OHLC（开高低收）聚合
 ohlc = prices["BANK"].resample("ME").ohlc()
 ```
+
+!!! example "例 2.6：A 股月度收益率——完整 resample 流程"
+    **任务**：取模拟「银行股」的日度收盘价，将其重采样为月度收益率序列，
+    并计算年化收益与年化波动率，演示 `resample` 的完整工作流程。
+
+    ```python
+    import pandas as pd
+    import numpy as np
+    from fds import load_sample_prices
+
+    # ── 步骤 1：取日度收盘价 ───────────────────────────────────────
+    prices = load_sample_prices()
+    bank_daily = prices["BANK"]    # DatetimeIndex，工作日频率
+
+    # ── 步骤 2：重采样为月末收盘价 ─────────────────────────────────
+    # "ME" = Month-End（Pandas 2.2+ 推荐别名，旧版为 "M"）
+    bank_monthly = bank_daily.resample("ME").last()
+    # bank_monthly 的索引是每月最后一个日历日，值为当月最后一个交易日的收盘价
+
+    # ── 步骤 3：计算月度简单收益率 $r_t = P_t/P_{t-1} - 1$ ─────────
+    bank_mret = bank_monthly.pct_change().dropna()
+    bank_mret.name = "月度收益率"
+
+    # ── 步骤 4：汇总统计 ───────────────────────────────────────────
+    n_months = len(bank_mret)
+    ann_ret  = (1 + bank_mret).prod() ** (12 / n_months) - 1   # 年化复利收益
+    ann_vol  = bank_mret.std() * (12 ** 0.5)                   # 年化波动率
+    sharpe   = ann_ret / ann_vol                                # 简化夏普（无风险利率=0）
+
+    print(f"月度样本数   : {n_months}")
+    print(f"年化收益率   : {ann_ret:.2%}")
+    print(f"年化波动率   : {ann_vol:.2%}")
+    print(f"夏普比率     : {sharpe:.2f}")
+
+    # ── 步骤 5（可选）：查看前 6 个月的数据 ───────────────────────
+    print(bank_mret.head(6).to_frame().assign(
+        累计净值=lambda d: (1 + d["月度收益率"]).cumprod()
+    ).round(4))
+    ```
+
+    整个流程只用三步：`.resample("ME").last()` → `.pct_change().dropna()` → 统计量计算。
+    将 `"ME"` 改为 `"QE"` 即可得到季度收益率，改为 `"YE"` 即年度收益率。
+
+    !!! tip "Pandas 2.x 频率别名的来历"
+        早期 Pandas 采用 `M`（Month）、`Q`（Quarter）、`A`/`Y`（Year）作为频率别名，
+        含义模糊——`M` 本意指“月末”，但读者常误解为“每月任意日”。
+        Pandas 2.2 引入更清晰的 `ME`（Month-End）、`MS`（Month-Start）、
+        `QE`（Quarter-End）、`QS`（Quarter-Start）、`YE`（Year-End）、`YS`（Year-Start）命名体系，
+        **End/Start 后缀**明确表达采样点落在周期的末端还是起始端，消除歧义。
+        旧别名 `M`/`Q`/`A`/`Y` 在 Pandas 2.x 仍可用但会触发 `FutureWarning`，
+        在 **Pandas 3.0 中已彻底移除**；若代码需要兼容多版本，
+        建议统一改写为新别名，并在 `requirements` 中锁定 `pandas>=2.2`。
 
 ### 2.4.8 rolling 与 ewm：移动窗口
 
@@ -506,6 +799,26 @@ sharpe_vec = ret.mean() / ret.std() * (252**0.5)
 # 两者结果相同，但后者快 10–50 倍
 # apply 保留给真正复杂、无法向量化的自定义逻辑
 ```
+
+**apply vs 向量化对比**
+
+| 维度 | `apply(func)` | 向量化方法 |
+|------|--------------|-----------|
+| 速度 | 慢（逐行/列调 Python 函数） | **快**（调用底层 C 实现） |
+| 灵活性 | 高（任意自定义函数） | 受限于内置运算 |
+| 适用场景 | 复杂自定义指标（如信息系数、最大回撤） | 均值/标准差/收益率等标准统计量 |
+| 调试难度 | 函数内部可加断点 | 链式表达式，需拆分调试 |
+| 内存效率 | 低（每次调用产生临时对象） | 高（原地广播） |
+
+!!! tip "apply 的合理用场"
+    当计算逻辑无法用 NumPy/Pandas 内置函数表达时（例如对每列做 Fama-MacBeth 截面回归、
+    计算每列的最大回撤路径），`apply` 是最简洁的选择。
+    此时可配合 `tqdm` 显示进度条：
+    ```python
+    from tqdm import tqdm
+    tqdm.pandas()
+    result = df.progress_apply(your_complex_func)
+    ```
 
 ### 2.4.10 MultiIndex 简介
 
