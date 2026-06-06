@@ -104,19 +104,13 @@ $$
     设两只股票 A、B，年化波动率分别为 $\sigma_A=30\%$、$\sigma_B=20\%$，
     相关系数 $\rho_{AB}=0.4$。按 $w_A=0.5$、$w_B=0.5$ 等权配置，组合方差为：
 
-    $$
-    \sigma_p^2 = w_A^2\sigma_A^2 + w_B^2\sigma_B^2 + 2w_A w_B \rho_{AB}\sigma_A\sigma_B
-    $$
+    $\sigma_p^2 = w_A^2\sigma_A^2 + w_B^2\sigma_B^2 + 2w_A w_B \rho_{AB}\sigma_A\sigma_B$
 
     代入数字：
 
-    $$
-    \sigma_p^2 = 0.25\times 0.09 + 0.25\times 0.04 + 2\times 0.5\times 0.5\times 0.4\times 0.30\times 0.20
-    $$
+    $\sigma_p^2 = 0.25\times 0.09 + 0.25\times 0.04 + 2\times 0.5\times 0.5\times 0.4\times 0.30\times 0.20$
 
-    $$
-    = 0.0225 + 0.0100 + 0.0120 = 0.0445,\quad \sigma_p = \sqrt{0.0445}\approx 21.1\%
-    $$
+    $= 0.0225 + 0.0100 + 0.0120 = 0.0445,\quad \sigma_p = \sqrt{0.0445}\approx 21.1\%$
 
     若把两只股票的波动率简单加权平均得 $0.5\times 30\%+0.5\times 20\%=25\%$，
     而组合实际波动率只有 $21.1\%$，**整整低了 3.9 个百分点**——这缩小的部分

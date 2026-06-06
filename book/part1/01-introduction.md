@@ -273,13 +273,13 @@ $$\text{IR} \approx \frac{\mu}{\sigma} \approx \frac{0.0002}{0.015} \approx 0.01
     
     **第一步：计算日度信息比**
     
-    $$\text{IR}_{daily} = \frac{\mu_d}{\sigma_d} = \frac{0.025\%}{1.2\%} \approx 0.021$$
+    $\text{IR}_{daily} = \frac{\mu_d}{\sigma_d} = \frac{0.025\%}{1.2\%} \approx 0.021$
     
     **第二步：年化信息比**
     
     由于一年约有252个交易日，假设每日收益率独立，年化标准差为 $\sigma_{annual} = \sigma_d \times \sqrt{252}$，年化均值为 $\mu_{annual} = \mu_d \times 252$，故：
     
-    $$\text{IR}_{annual} = \frac{\mu_{annual}}{\sigma_{annual}} = \frac{\mu_d \times 252}{\sigma_d \times \sqrt{252}} = \text{IR}_{daily} \times \sqrt{252} \approx 0.021 \times 15.87 \approx 0.33$$
+    $\text{IR}_{annual} = \frac{\mu_{annual}}{\sigma_{annual}} = \frac{\mu_d \times 252}{\sigma_d \times \sqrt{252}} = \text{IR}_{daily} \times \sqrt{252} \approx 0.021 \times 15.87 \approx 0.33$
     
     **第三步：与主动管理基准对比**
     
@@ -297,7 +297,7 @@ $$\text{IR} \approx \frac{\mu}{\sigma} \approx \frac{0.0002}{0.015} \approx 0.01
     
     Grinold (1989) 证明，信息比可以进一步分解：
     
-    $$\text{IR} \approx \text{IC} \times \sqrt{BR}$$
+    $\text{IR} \approx \text{IC} \times \sqrt{BR}$
     
     其中 $\text{IC}$（Information Coefficient）为预测值与实际收益率的截面相关系数（衡量「预测准不准」），$BR$（Breadth）为每年独立预测的次数（衡量「预测多少次」）。
     例如，若策略每月对300只股票截面排名选股，则 $BR \approx 300 \times 12 = 3600$；若 $\text{IC} = 0.04$，则 $\text{IR} \approx 0.04 \times \sqrt{3600} = 2.4$。
@@ -353,19 +353,19 @@ $$\text{Kurtosis} = \frac{E[(r_t - \mu)^4]}{\sigma^4}$$
     **背景**：2015年6月12日至6月26日，沪深300指数单周跌幅约 $13\%$。
     设同期月度收益率历史标准差约 $\sigma_{monthly} \approx 5\%$，则该跌幅对应的标准化偏离为：
     
-    $$z = \frac{-13\%}{5\%} = -2.6 \approx -3\sigma \quad (\text{月度频率})$$
+    $z = \frac{-13\%}{5\%} = -2.6 \approx -3\sigma \quad (\text{月度频率})$
     
     换算到**单周**尺度（$\sigma_{weekly} \approx \sigma_{monthly}/\sqrt{4} \approx 2.5\%$）：
     
-    $$z_{weekly} = \frac{-13\%}{2.5\%} = -5.2\sigma$$
+    $z_{weekly} = \frac{-13\%}{2.5\%} = -5.2\sigma$
     
     若进一步用**日度**波动率（$\sigma_{daily} \approx 1.6\%$）来衡量单周 $-13\%$ 中最惨烈的单日（约 $-7\%$）：
     
-    $$z_{daily} = \frac{-7\%}{1.6\%} \approx -4.4\sigma$$
+    $z_{daily} = \frac{-7\%}{1.6\%} \approx -4.4\sigma$
     
     2008年全球金融危机期间，部分指数单日跌幅达 $6\sim 8$ 个标准差。**以8σ为例**，正态分布下其概率为：
     
-    $$P(|Z| \geq 8) \approx 6.22 \times 10^{-16}$$
+    $P(|Z| \geq 8) \approx 6.22 \times 10^{-16}$
     
     即约每 $1.6 \times 10^{15}$ 个交易日才会出现一次——超过宇宙年龄的百万倍。**而实际金融市场中，类似量级的极端事件几十年就会出现一次。**
     
@@ -557,7 +557,7 @@ A股于2010年引入融资融券，但有以下限制：
     
     按此规则，正增速的季度为 Q1/Q2/Q4/Q1/Q2/Q4/Q1/Q2（共8个），均预测「跑赢」，其中 2022Q1、2022Q2、2022Q4、2024Q1、2024Q2 确实跑赢（5个）；负增速的 Q3 预测「跑输」，Q3 均跑输（2个）。
     
-    $$\text{有偏准确率} = \frac{5 + 2}{10} = 70\%$$
+    $\text{有偏准确率} = \frac{5 + 2}{10} = 70\%$
     
     **正确做法**：以**EPS公告日**为信号生效日期（意味着 Q4 季报的信号须等到次年3月才能使用，相当于跳过了整整一个季度的「信号空窗期」）。重新对齐后，实际可用信号次数减少，部分原本正确的预测变为错误（因为在公告日前市场走势已部分定价），真实准确率约为 $52\%\sim56\%$，与随机猜测差异不显著。
     

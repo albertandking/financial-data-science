@@ -35,11 +35,11 @@ advanced = [
     "transformers>=4.40",
     "jieba>=0.42",       # 中文分词，财经文本
 ]
-# 量化回测框架（第15章 akquant），按需 `uv sync --extra quant`
+# 量化回测框架（第17章 akquant），按需 `uv sync --extra quant`
 quant = [
     "akquant>=0.2",      # akshare 生态的事件驱动回测框架（Rust 内核）
 ]
-# 大模型/智能体（第17-18章真实 API 调用），按需 `uv sync --extra agent`
+# 大模型/智能体（第19-20章真实 API 调用），按需 `uv sync --extra agent`
 agent = [
     "openai>=1.0",       # OpenAI 兼容客户端，可经 base_url 接国产模型
 ]

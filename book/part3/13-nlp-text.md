@@ -420,9 +420,9 @@ $$P(y=1 | \mathbf{x}) = \frac{P(y=1) \prod_{j} P(x_j|y=1)}{P(\mathbf{x})}$$
 
     **预测新句** $x=$ `增长 风险`（一个含混的混合信号）：
 
-    $$P(\text{正})\!\cdot\!P(\text{增长}|\text{正})P(\text{风险}|\text{正})=0.5\cdot\tfrac{3}{11}\cdot\tfrac{1}{11}=\tfrac{1.5}{121}\approx 0.0124$$
+    $P(\text{正})\!\cdot\!P(\text{增长}|\text{正})P(\text{风险}|\text{正})=0.5\cdot\tfrac{3}{11}\cdot\tfrac{1}{11}=\tfrac{1.5}{121}\approx 0.0124$
 
-    $$P(\text{负})\!\cdot\!P(\text{增长}|\text{负})P(\text{风险}|\text{负})=0.5\cdot\tfrac{1}{11}\cdot\tfrac{2}{11}=\tfrac{1.0}{121}\approx 0.0083$$
+    $P(\text{负})\!\cdot\!P(\text{增长}|\text{负})P(\text{风险}|\text{负})=0.5\cdot\tfrac{1}{11}\cdot\tfrac{2}{11}=\tfrac{1.0}{121}\approx 0.0083$
 
     归一化后 $P(\text{正}\mid x)=\dfrac{1.5}{1.5+1.0}=0.6$。
 

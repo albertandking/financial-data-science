@@ -49,23 +49,23 @@ $$\ell_t = \ln\frac{P_t}{P_{t-1}} = \ln P_t - \ln P_{t-1}$$
 
     **第一步：计算各日简单收益率**
 
-    $$r_1 = \frac{102 - 100}{100} = +2.00\%,\quad r_2 = \frac{98.94 - 102}{102} = -3.00\%,\quad r_3 = \frac{99.93 - 98.94}{98.94} = +1.00\%$$
+    $r_1 = \frac{102 - 100}{100} = +2.00\%,\quad r_2 = \frac{98.94 - 102}{102} = -3.00\%,\quad r_3 = \frac{99.93 - 98.94}{98.94} = +1.00\%$
 
     **第二步：计算三日累计简单收益率（必须连乘）**
 
-    $$1 + R_{1:3} = (1+0.02)(1-0.03)(1+0.01) = 1.02 \times 0.97 \times 1.01 = 0.99929$$
+    $1 + R_{1:3} = (1+0.02)(1-0.03)(1+0.01) = 1.02 \times 0.97 \times 1.01 = 0.99929$
 
-    $$R_{1:3} = 0.99929 - 1 = -0.071\%$$
+    $R_{1:3} = 0.99929 - 1 = -0.071\%$
 
     注意：若直接相加 $2\% + (-3\%) + 1\% = 0\%$，**误差为 0.071 个百分点**，虽然日度误差小，但多期累积后误差不可忽视。
 
     **第三步：计算各日对数收益率**
 
-    $$\ell_1 = \ln(1.02) \approx +1.980\%,\quad \ell_2 = \ln(0.97) \approx -3.046\%,\quad \ell_3 = \ln(1.01) \approx +0.995\%$$
+    $\ell_1 = \ln(1.02) \approx +1.980\%,\quad \ell_2 = \ln(0.97) \approx -3.046\%,\quad \ell_3 = \ln(1.01) \approx +0.995\%$
 
     **第四步：验证时间可加性**
 
-    $$L_{1:3} = \ell_1 + \ell_2 + \ell_3 = 1.980\% - 3.046\% + 0.995\% = -0.071\%$$
+    $L_{1:3} = \ell_1 + \ell_2 + \ell_3 = 1.980\% - 3.046\% + 0.995\% = -0.071\%$
 
     直接用总价格比验证：$\ln(P_3/P_0) = \ln(99.93/100) = \ln(0.9993) \approx -0.070\%$（与求和结果一致，微小差异来自四舍五入）。
 
@@ -168,17 +168,17 @@ $$\sigma_{\text{年}} = \sigma_{\text{日}} \times \sqrt{252}$$
 
     先将对数收益率转为简单收益率：$\bar{r} = e^{0.00060} - 1 \approx 0.0600\%$，则：
 
-    $$r_{\text{年}} = (1 + 0.000600)^{252} - 1 \approx 1.1631 - 1 = 16.31\%$$
+    $r_{\text{年}} = (1 + 0.000600)^{252} - 1 \approx 1.1631 - 1 = 16.31\%$
 
     若误用算术年化：$252 \times 0.060\% = 15.12\%$，**低估 1.19 个百分点**。差异来自复利的“利滚利”效应，持有期越长、收益率越高，低估越严重。
 
     **（2）年化波动率（$\sqrt{T}$ 法则）**
 
-    $$\sigma_{\text{年}} = 1.20\% \times \sqrt{252} = 1.20\% \times 15.875 = 19.05\%$$
+    $\sigma_{\text{年}} = 1.20\% \times \sqrt{252} = 1.20\% \times 15.875 = 19.05\%$
 
     **（3）年化夏普比率**
 
-    $$\text{Sharpe} = \frac{16.31\% - 3\%}{19.05\%} \approx \mathbf{0.699}$$
+    $\text{Sharpe} = \frac{16.31\% - 3\%}{19.05\%} \approx \mathbf{0.699}$
 
     **直觉理解**：年化波动率约 19%，年化超额收益约 13%，每承担 1 单位风险获取约 0.7 单位回报——处于 A 股主动股票策略的中等偏上水平。
 
@@ -245,25 +245,25 @@ $$\sigma = \sqrt{\frac{1}{T-1}\sum_{t=1}^{T}(r_t - \bar{r})^2}$$
 !!! example "例 5.3：夏普比率年化公式的推导"
     夏普比率的日度版本为：
 
-    $$\text{Sharpe}_{\text{日}} = \frac{\bar{r}_{\text{日}} - r_{f,\text{日}}}{\sigma_{\text{日}}}$$
+    $\text{Sharpe}_{\text{日}} = \frac{\bar{r}_{\text{日}} - r_{f,\text{日}}}{\sigma_{\text{日}}}$
 
     其中 $r_{f,\text{日}} = r_{f,\text{年}} / 252$。现在推导年化版本。
 
     **分子的年化**：在 iid 假设下，252 个交易日的期望对数收益之和为：
 
-    $$E[L_{\text{年}}] = 252 \times \bar{r}_{\text{日}} - 252 \times r_{f,\text{日}} = 252(\bar{r}_{\text{日}} - r_{f,\text{日}})$$
+    $E[L_{\text{年}}] = 252 \times \bar{r}_{\text{日}} - 252 \times r_{f,\text{日}} = 252(\bar{r}_{\text{日}} - r_{f,\text{日}})$
 
     **分母的年化**：由 $\sqrt{T}$ 法则，$\sigma_{\text{年}} = \sigma_{\text{日}} \times \sqrt{252}$。
 
     **年化夏普比率**：
 
-    $$\text{Sharpe}_{\text{年}} = \frac{252(\bar{r}_{\text{日}} - r_{f,\text{日}})}{\sigma_{\text{日}} \times \sqrt{252}} = \frac{\bar{r}_{\text{日}} - r_{f,\text{日}}}{\sigma_{\text{日}}} \times \frac{252}{\sqrt{252}} = \text{Sharpe}_{\text{日}} \times \sqrt{252}$$
+    $\text{Sharpe}_{\text{年}} = \frac{252(\bar{r}_{\text{日}} - r_{f,\text{日}})}{\sigma_{\text{日}} \times \sqrt{252}} = \frac{\bar{r}_{\text{日}} - r_{f,\text{日}}}{\sigma_{\text{日}}} \times \frac{252}{\sqrt{252}} = \text{Sharpe}_{\text{日}} \times \sqrt{252}$
 
     因此，年化夏普比率 $=$ 日度夏普比率 $\times \sqrt{252}$，这也是 $\sqrt{252}$ 因子出现在夏普公式里的完整来源。
 
     **数字验证**：若 $\bar{r}_{\text{日}} - r_{f,\text{日}} = 0.048\%$（超额日均收益），$\sigma_{\text{日}} = 1.20\%$，则：
 
-    $$\text{Sharpe}_{\text{日}} = \frac{0.048\%}{1.20\%} = 0.040, \quad \text{Sharpe}_{\text{年}} = 0.040 \times \sqrt{252} \approx 0.635$$
+    $\text{Sharpe}_{\text{日}} = \frac{0.048\%}{1.20\%} = 0.040, \quad \text{Sharpe}_{\text{年}} = 0.040 \times \sqrt{252} \approx 0.635$
 
     直接用年化数字验证：$\frac{252 \times 0.048\%}{1.20\% \times \sqrt{252}} = \frac{12.096\%}{19.05\%} \approx 0.635$，完全一致。
 
@@ -354,7 +354,7 @@ MDD 以负值返回（如 $-0.35$ 表示最大回撤 35%），绝对值越大，
 
     **第二步：找最大回撤**
 
-    $$\text{MDD} = \min_t DD_t = -8.33\%$$
+    $\text{MDD} = \min_t DD_t = -8.33\%$
 
     即在第 3 日（净值历史最高 108）到第 4 日（净值跌至 99）之间，发生了 $8.33\%$ 的最大回撤。
 
@@ -414,13 +414,13 @@ $$\text{公式}：\widehat{\text{VaR}}_{0.95}^{\text{hist}} = -\text{Quantile}(r
 
     在 $N = 40$ 时，$5\%$ 分位数对应第 $\lfloor 0.05 \times 40 \rfloor = 2$ 个观测值（排名第 2）：
 
-    $$\widehat{\text{VaR}}_{0.95}^{\text{hist}} = -(-2.5\%) = \mathbf{2.5\%}$$
+    $\widehat{\text{VaR}}_{0.95}^{\text{hist}} = -(-2.5\%) = \mathbf{2.5\%}$
 
     解释：在 95% 的概率下，明日亏损不会超过 2.5%；换言之，历史上有 5%（约 2 天）的情况亏损超过 2.5%。
 
     **与正态法的比较**：若该 40 日数据的均值为 $\bar{r} = 0.05\%$，标准差为 $\sigma = 1.10\%$，正态参数法给出：
 
-    $$\text{VaR}_{0.95}^{\text{norm}} = -(0.05\% - 1.645 \times 1.10\%) = -(0.05\% - 1.81\%) = 1.76\%$$
+    $\text{VaR}_{0.95}^{\text{norm}} = -(0.05\% - 1.645 \times 1.10\%) = -(0.05\% - 1.81\%) = 1.76\%$
 
     历史法（2.5%）**显著高于**正态法（1.76%），差距约 42%。这正体现了厚尾分布在尾部的“超额概率质量”——极端亏损比正态分布预测的更频繁、更严重。
 
@@ -442,29 +442,29 @@ $$\text{VaR}_{0.95}^{\text{norm}} = -(\mu - 1.645\,\sigma)$$
 
     VaR 的定义要求：
 
-    $$P(r < -\text{VaR}_\alpha) = 1 - \alpha$$
+    $P(r < -\text{VaR}_\alpha) = 1 - \alpha$
 
     将不等式标准化：
 
-    $$P\!\left(\frac{r - \mu}{\sigma} < \frac{-\text{VaR}_\alpha - \mu}{\sigma}\right) = 1 - \alpha$$
+    $P\!\left(\frac{r - \mu}{\sigma} < \frac{-\text{VaR}_\alpha - \mu}{\sigma}\right) = 1 - \alpha$
 
-    $$\Phi\!\left(\frac{-\text{VaR}_\alpha - \mu}{\sigma}\right) = 1 - \alpha$$
+    $\Phi\!\left(\frac{-\text{VaR}_\alpha - \mu}{\sigma}\right) = 1 - \alpha$
 
     对两边取反函数 $\Phi^{-1}$：
 
-    $$\frac{-\text{VaR}_\alpha - \mu}{\sigma} = \Phi^{-1}(1 - \alpha) = z_{1-\alpha}$$
+    $\frac{-\text{VaR}_\alpha - \mu}{\sigma} = \Phi^{-1}(1 - \alpha) = z_{1-\alpha}$
 
     （注：对于 95% 置信水平，$z_{0.05} = \Phi^{-1}(0.05) \approx -1.645$）
 
     整理后得：
 
-    $$\text{VaR}_\alpha = -\mu - z_{1-\alpha}\,\sigma = -(\mu + z_{1-\alpha}\,\sigma)$$
+    $\text{VaR}_\alpha = -\mu - z_{1-\alpha}\,\sigma = -(\mu + z_{1-\alpha}\,\sigma)$
 
     由于 $z_{1-\alpha} < 0$（$\alpha > 0.5$ 时），$-z_{1-\alpha} > 0$，所以 VaR 为正值，表示损失量。
 
     **数字代入（95% 置信水平）**：$z_{0.05} = -1.645$，若 $\mu = 0.05\%$，$\sigma = 1.10\%$：
 
-    $$\text{VaR}_{0.95} = -(0.05\% + (-1.645) \times 1.10\%) = -(0.05\% - 1.810\%) = 1.76\%$$
+    $\text{VaR}_{0.95} = -(0.05\% + (-1.645) \times 1.10\%) = -(0.05\% - 1.810\%) = 1.76\%$
 
 ### 5.6.3 蒙特卡洛法
 
@@ -533,23 +533,23 @@ $$\text{ES}_\alpha^{\text{norm}} = -\mu + \sigma \cdot \frac{\phi(z_{1-\alpha})}
 !!! note "正态假设下 ES 公式推导"
     ES 的定义是：
 
-    $$\text{ES}_\alpha = -E[r \mid r \le -\text{VaR}_\alpha]$$
+    $\text{ES}_\alpha = -E[r \mid r \le -\text{VaR}_\alpha]$
 
     设 $r \sim N(\mu, \sigma^2)$，标准化 $Z = (r - \mu)/\sigma$，令 $c = (-\text{VaR}_\alpha - \mu)/\sigma = z_{1-\alpha}$（负数）。则：
 
-    $$E[r \mid r \le -\text{VaR}_\alpha] = \mu + \sigma \cdot E[Z \mid Z \le c]$$
+    $E[r \mid r \le -\text{VaR}_\alpha] = \mu + \sigma \cdot E[Z \mid Z \le c]$
 
     利用截断正态分布的公式（$E[Z \mid Z \le c] = -\phi(c)/\Phi(c)$，其中 $\Phi(c) = 1-\alpha$）：
 
-    $$E[r \mid r \le -\text{VaR}_\alpha] = \mu - \sigma \cdot \frac{\phi(z_{1-\alpha})}{1-\alpha}$$
+    $E[r \mid r \le -\text{VaR}_\alpha] = \mu - \sigma \cdot \frac{\phi(z_{1-\alpha})}{1-\alpha}$
 
     取负号得 ES：
 
-    $$\text{ES}_\alpha^{\text{norm}} = -\mu + \sigma \cdot \frac{\phi(z_{1-\alpha})}{1-\alpha}$$
+    $\text{ES}_\alpha^{\text{norm}} = -\mu + \sigma \cdot \frac{\phi(z_{1-\alpha})}{1-\alpha}$
 
     **数字代入（95% 置信水平）**：$z_{0.05} = -1.645$，$\phi(-1.645) \approx 0.1031$，$1-\alpha = 0.05$。若 $\mu = 0.05\%$，$\sigma = 1.10\%$：
 
-    $$\text{ES}_{0.95}^{\text{norm}} = -0.05\% + 1.10\% \times \frac{0.1031}{0.05} = -0.05\% + 1.10\% \times 2.062 = -0.05\% + 2.268\% = 2.22\%$$
+    $\text{ES}_{0.95}^{\text{norm}} = -0.05\% + 1.10\% \times \frac{0.1031}{0.05} = -0.05\% + 1.10\% \times 2.062 = -0.05\% + 2.268\% = 2.22\%$
 
     与 VaR（1.76%）相比，ES 高出约 26%——意味着在损失超过 VaR 的那 5% 情形中，平均损失约为 2.22%，而非仅仅刚好等于 1.76%。
 

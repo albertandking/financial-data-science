@@ -124,21 +124,13 @@ $$
     设资产 A 与资产 B 的年化波动率为 $\sigma_A=0.20$、$\sigma_B=0.30$，相关系数 $\rho=0.2$，故协方差 $\sigma_{AB}=\rho\sigma_A\sigma_B=0.2\times0.20\times0.30=0.012$。在“只要求权重和为 1、不限定收益”的设定下，求使组合方差最小的权重。
 
     令 $w_A=w,\ w_B=1-w$，组合方差为
-    $$
-    \sigma_p^2(w)=w^2\sigma_A^2+(1-w)^2\sigma_B^2+2w(1-w)\sigma_{AB}.
-    $$
+    $\sigma_p^2(w)=w^2\sigma_A^2+(1-w)^2\sigma_B^2+2w(1-w)\sigma_{AB}.$
     对 $w$ 求导并令其为零，得到两资产最小方差权重的经典闭式解：
-    $$
-    w_A^*=\frac{\sigma_B^2-\sigma_{AB}}{\sigma_A^2+\sigma_B^2-2\sigma_{AB}}.
-    $$
+    $w_A^*=\frac{\sigma_B^2-\sigma_{AB}}{\sigma_A^2+\sigma_B^2-2\sigma_{AB}}.$
     代入数字：分子 $=0.09-0.012=0.078$，分母 $=0.04+0.09-2\times0.012=0.106$，于是
-    $$
-    w_A^*=\frac{0.078}{0.106}\approx0.736,\qquad w_B^*\approx0.264.
-    $$
+    $w_A^*=\frac{0.078}{0.106}\approx0.736,\qquad w_B^*\approx0.264.$
     对应的最小方差为
-    $$
-    \sigma_p^2=0.736^2\times0.04+0.264^2\times0.09+2\times0.736\times0.264\times0.012\approx0.02376,
-    $$
+    $\sigma_p^2=0.736^2\times0.04+0.264^2\times0.09+2\times0.736\times0.264\times0.012\approx0.02376,$
     即 $\sigma_p\approx15.4\%$。注意这一波动率**低于风险更小的资产 A 的 20%**，这正是分散化的威力：通过混入波动更大但相关性较弱的 B，整体风险反而下降。若进一步扫描 $w\in[0,1]$ 并配以期望收益 $\mu_p=w\mu_A+(1-w)\mu_B$，把每个 $(\sigma_p,\mu_p)$ 描在平面上，最小方差点左侧那段不可改进的曲线即为该两资产问题的有效前沿。
 
 ---
@@ -197,17 +189,11 @@ $$
 
 !!! example "例 16.2（GMV 解析解代入数字）"
     考虑两只资产，年化协方差矩阵
-    $$
-    \Sigma=\begin{pmatrix}0.04 & 0.012\\ 0.012 & 0.09\end{pmatrix}
-    $$
+    $\Sigma=\begin{pmatrix}0.04 & 0.012\\ 0.012 & 0.09\end{pmatrix}$
     （即 $\sigma_1=0.20,\ \sigma_2=0.30,\ \rho=0.2$，与例 16.1 同一组数据）。先求逆矩阵，行列式 $\det\Sigma=0.04\times0.09-0.012^2=0.0036-0.000144=0.003456$，于是
-    $$
-    \Sigma^{-1}=\frac{1}{0.003456}\begin{pmatrix}0.09 & -0.012\\ -0.012 & 0.04\end{pmatrix}.
-    $$
+    $\Sigma^{-1}=\frac{1}{0.003456}\begin{pmatrix}0.09 & -0.012\\ -0.012 & 0.04\end{pmatrix}.$
     计算 $\Sigma^{-1}\mathbf 1$：第一分量 $=(0.09-0.012)/0.003456=0.078/0.003456\approx22.57$；第二分量 $=(-0.012+0.04)/0.003456=0.028/0.003456\approx8.10$。归一化常数 $\mathbf 1^\top\Sigma^{-1}\mathbf 1\approx22.57+8.10=30.67$，故
-    $$
-    w_{\text{GMV}}=\frac{1}{30.67}(22.57,\ 8.10)^\top\approx(0.736,\ 0.264)^\top.
-    $$
+    $w_{\text{GMV}}=\frac{1}{30.67}(22.57,\ 8.10)^\top\approx(0.736,\ 0.264)^\top.$
     与例 16.1 用两资产闭式公式手算的 $(0.736,0.264)$ **完全一致**——这并非巧合：两资产情形下，$w_{\text{GMV}}=\Sigma^{-1}\mathbf 1/(\mathbf 1^\top\Sigma^{-1}\mathbf 1)$ 与 $w_A^*=(\sigma_B^2-\sigma_{AB})/(\sigma_A^2+\sigma_B^2-2\sigma_{AB})$ 在代数上是同一个解，矩阵公式只是它推广到 $N$ 资产的统一写法。
 
 ### 16.4.3 有效前沿的扫描算法
@@ -305,25 +291,17 @@ $$
     第一分量 $=(0.09\times0.07-0.012\times0.13)/0.003456=(0.0063-0.00156)/0.003456=0.00474/0.003456\approx1.3715$；
     第二分量 $=(-0.012\times0.07+0.04\times0.13)/0.003456=(-0.00084+0.0052)/0.003456=0.00436/0.003456\approx1.2616$。
     归一化常数 $\approx1.3715+1.2616=2.6331$，故
-    $$
-    w_{\text{tan}}\approx(0.5209,\ 0.4791)^\top.
-    $$
+    $w_{\text{tan}}\approx(0.5209,\ 0.4791)^\top.$
     相比 GMV 的 $(0.736,0.264)$，切点组合给收益更高的资产 B 分配了更多权重，这正是“为追求更高夏普比率而向高收益资产倾斜”的体现。
 
 !!! example "例 16.4（引入无风险资产后 CML 斜率）"
     续例 16.3，计算切点组合的期望收益、波动率与夏普比率，从而写出 CML。
     组合期望收益
-    $$
-    \mu_{\text{tan}}=w_{\text{tan}}^\top\mu=0.5209\times0.10+0.4791\times0.16\approx0.1287.
-    $$
+    $\mu_{\text{tan}}=w_{\text{tan}}^\top\mu=0.5209\times0.10+0.4791\times0.16\approx0.1287.$
     组合方差
-    $$
-    \sigma_{\text{tan}}^2=w^\top\Sigma w=0.5209^2\times0.04+0.4791^2\times0.09+2\times0.5209\times0.4791\times0.012\approx0.03249,
-    $$
+    $\sigma_{\text{tan}}^2=w^\top\Sigma w=0.5209^2\times0.04+0.4791^2\times0.09+2\times0.5209\times0.4791\times0.012\approx0.03249,$
     即 $\sigma_{\text{tan}}\approx0.1803$。于是 CML 斜率（最大夏普比率）
-    $$
-    \text{SR}_{\max}=\frac{\mu_{\text{tan}}-r_f}{\sigma_{\text{tan}}}=\frac{0.1287-0.03}{0.1803}\approx0.547.
-    $$
+    $\text{SR}_{\max}=\frac{\mu_{\text{tan}}-r_f}{\sigma_{\text{tan}}}=\frac{0.1287-0.03}{0.1803}\approx0.547.$
     资本市场线为 $\mu=0.03+0.547\,\sigma$：投资者每多承担 1 个百分点的波动率，作为补偿可期望多获得约 0.547 个百分点的收益。作为对照，单独持有资产 B 的夏普比率仅为 $(0.16-0.03)/0.30\approx0.433$，明显低于切点组合的 0.547——再次印证“组合优于单一资产”。
 
 ---
@@ -409,17 +387,13 @@ alpha = lw.shrinkage_    # 收缩系数
 
 !!! example "例 16.5（Ledoit-Wolf 收缩前后权重稳定性对比）"
     设样本协方差矩阵
-    $$
-    \hat\Sigma=\begin{pmatrix}0.040 & 0.0376\\ 0.0376 & 0.040\end{pmatrix}
-    $$
+    $\hat\Sigma=\begin{pmatrix}0.040 & 0.0376\\ 0.0376 & 0.040\end{pmatrix}$
     （对应 $\sigma_1=\sigma_2=0.20$、相关系数 $\rho=0.94$，两资产高度同向，接近奇异）。其行列式 $\det=0.040^2-0.0376^2=0.0016-0.001414=0.000186$，很小，意味着条件数大、求逆不稳。
 
     **收缩前**，GMV 权重 $w\propto\Sigma^{-1}\mathbf 1$。由于矩阵对称、对角相等，$\Sigma^{-1}\mathbf 1$ 两分量相等，故 $w_{\text{GMV}}=(0.5,\ 0.5)$。但若 $\hat\Sigma$ 中某个协方差因抽样噪声从 $0.0376$ 变成 $0.0392$（仅扰动约 4%），重新计算会发现权重对非对称扰动极度敏感：例如把 $\hat\Sigma_{11}$ 扰动到 $0.044$、$\hat\Sigma_{22}$ 保持 $0.040$，则 $w\propto\Sigma^{-1}\mathbf1$ 解出约 $(0.40,\ 0.60)$，单只资产权重摆动达 10 个百分点。
 
     **收缩后**，取目标矩阵 $F=\bar\sigma^2 I$（即把非对角元收缩向零，$\bar\sigma^2=0.040$），并设 Ledoit-Wolf 解出 $\alpha=0.5$：
-    $$
-    \hat\Sigma_{\text{LW}}=0.5\begin{pmatrix}0.044 & 0.0376\\ 0.0376 & 0.040\end{pmatrix}+0.5\begin{pmatrix}0.040 & 0\\ 0 & 0.040\end{pmatrix}=\begin{pmatrix}0.042 & 0.0188\\ 0.0188 & 0.040\end{pmatrix}.
-    $$
+    $\hat\Sigma_{\text{LW}}=0.5\begin{pmatrix}0.044 & 0.0376\\ 0.0376 & 0.040\end{pmatrix}+0.5\begin{pmatrix}0.040 & 0\\ 0 & 0.040\end{pmatrix}=\begin{pmatrix}0.042 & 0.0188\\ 0.0188 & 0.040\end{pmatrix}.$
     此时非对角元被砍半，行列式抬升到 $0.042\times0.040-0.0188^2\approx0.00133$，条件数显著下降。重算 GMV 权重约为 $(0.485,\ 0.515)$——相比收缩前同一扰动下的 $(0.40,0.60)$，权重摆动从 10 个百分点收窄到约 1.5 个百分点。
 
     | 协方差来源 | 行列式（条件数代理） | GMV 权重（扰动前） | GMV 权重（扰动后） | 扰动引起的最大权重变动 |
