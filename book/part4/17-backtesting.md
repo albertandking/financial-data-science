@@ -488,6 +488,7 @@ $$\text{Calmar}=\frac{\bar{r}_{年化}}{|\text{MDD}|}$$
     Bailey & López de Prado（2016）提出的**回测过拟合概率**（Probability of Backtest Overfitting, PBO）更为精细，见本章拓展阅读。
 
 **检验标准**：
+
 - 最低夏普比率（Minimum Track Record Length）：样本外夏普需达到某一阈值才可信；
 - 参数敏感性：策略表现应对参数选择不敏感（见17.9节）。
 

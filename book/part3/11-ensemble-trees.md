@@ -464,6 +464,7 @@ $$\phi_j = \sum_{S \subseteq F \setminus \{j\}} \frac{|S|!(|F|-|S|-1)!}{|F|!} \l
 对树模型，TreeSHAP 算法将 Shapley 值的计算复杂度从指数降至多项式，并且精确而非近似。
 
 **常用图表**：
+
 - **Summary Plot**：所有样本所有特征的 SHAP 值分布，既看方向又看大小；
 - **Dependence Plot**：某特征的 SHAP 值与其取值的关系，揭示非线性与交互；
 - **Force Plot / Waterfall**：单样本解释，逐特征“叠加”至最终预测。

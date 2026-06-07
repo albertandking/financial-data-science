@@ -293,6 +293,7 @@ print(np.allclose(portfolio_ret, portfolio_ret2))   # True
     ```
 
     **形状推导**：
+
     - `mu_cross` 形状 `(250,)` → `mu_cross[:, np.newaxis]` 变为 `(250, 1)`
     - `(250, 4)` - `(250, 1)` → 广播规则步骤2将 `(250, 1)` 扩展至 `(250, 4)` ✓
     - 若省略 `np.newaxis` 直接写 `R - mu_cross`，NumPy 将 `(250,)` 左补为 `(1, 250)`，尝试对维度1做4 vs 250，报 `ValueError`。
