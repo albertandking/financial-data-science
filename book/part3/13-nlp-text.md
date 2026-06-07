@@ -379,10 +379,10 @@ NEGATIVE_WORDS = {
 
 ```
 原始文本
-  ↓ 预处理（jieba分词 + 去停用词）
+  ↓ 预处理（jieba 分词 + 去停用词）
 分词文本
   ↓ TF-IDF 向量化
-稀疏特征矩阵 (n_samples × n_features)
+稀疏特征矩阵（n_samples × n_features）
   ↓ 分类模型（逻辑回归 / 朴素贝叶斯）
 情感预测（正面/负面） + 概率分数
 ```
@@ -480,10 +480,10 @@ result = classifier("公司净利润同比大增40%，远超市场预期")
 
 ```
 词典法 (2000s)
-  → 朴素贝叶斯/SVM + TF-IDF (2010s)
-    → Word2Vec + 深度网络 (2015+)
-      → BERT/RoBERTa 微调 (2019+)
-        → GPT/LLM 零样本情感分析 (2023+)
+  → 朴素贝叶斯 / SVM + TF-IDF (2010s)
+  → Word2Vec + 深度网络 (2015+)
+  → BERT / RoBERTa 微调 (2019+)
+  → GPT / LLM 零样本情感分析 (2023+)
 ```
 
 ---
@@ -605,23 +605,23 @@ def build_sentiment_factor(news_df, returns_df):
 
 ```
 ① 硬编码数据集（50条带标签财经句子）
-         ↓
+    ↓
 ② jieba 分词 + 停用词过滤
-         ↓
+    ↓
 ③ 词频统计 + 高频词可视化（条形图）
-         ↓
+    ↓
 ④ TF-IDF 向量化（unigram + bigram）
-         ↓
+    ↓
 ⑤ 训练集/测试集划分（stratified）
-         ↓
+    ↓
 ⑥ 逻辑回归 + 朴素贝叶斯并行训练
-         ↓
+    ↓
 ⑦ 准确率、混淆矩阵、分类报告
-         ↓
+    ↓
 ⑧ 情感词典法打分（对比）
-         ↓
+    ↓
 ⑨ 两种方法结果对比可视化
-         ↓
+    ↓
 ⑩ （可选）FinBERT 推理，try/except 保护
 ```
 

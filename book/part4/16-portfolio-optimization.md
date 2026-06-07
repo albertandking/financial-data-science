@@ -197,8 +197,8 @@ $$
 
 ```
 对每个目标收益 μ₀ ∈ [μ_min, μ_max]：
-    使用 scipy.optimize.minimize 求解最小方差组合
-    记录 (σ*, μ₀)
+    1. 使用 scipy.optimize.minimize 求解最小方差组合
+    2. 记录点 (σ*, μ₀)
 连接所有点，绘制有效前沿
 ```
 
