@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch14_unsupervised.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch14_unsupervised.ipynb)
 
 !!! info "配套代码"
-    `notebooks/ch14_unsupervised.ipynb`（使用 scikit-learn / scipy，离线可运行）
+    本章示例可在配套 notebook 中运行，主要使用 scikit-learn 与 scipy，离线即可完成。
 
 ---
 
@@ -236,7 +236,7 @@ print('调整兰德指数:', adjusted_rand_score(true_group, labels))
 
 ARI 接近1说明在三特征空间中，KMeans 能够较好地区分由不同底层因子驱动的股票组。
 
-聚类结果还被投影到前两个主成分平面上可视化（见 notebook Cell `c14-032`），直观展示三个簇在二维空间的分离程度。
+聚类结果还可投影到前两个主成分平面上可视化，直观展示三个簇在二维空间的分离程度。
 
 #### KMeans 目标函数的推导：为什么质心要取均值
 
@@ -302,7 +302,7 @@ $$d_{ij} = 1 - \rho_{ij}$$
 
 #### notebook 演示：四只股票层次聚类
 
-notebook 对四只内置股票计算相关性距离，使用 `average` linkage 做层次聚类并绘制 dendrogram（Cell `c14-041`）：
+下面对四只内置股票计算相关性距离，使用 `average` linkage 做层次聚类并绘制 dendrogram：
 
 ```python
 from scipy.cluster.hierarchy import linkage, dendrogram
@@ -409,7 +409,7 @@ $$s(x,\ n) = 2^{-\,E[h(x)]\,/\,c(n)}$$
 
 ### 14.6.3 notebook 演示：标记极端交易日
 
-notebook（Cell `c14-051`）对内置股票「TECH」的日收益序列做孤立森林检测：
+下面对内置股票「TECH」的日收益序列做孤立森林检测：
 
 ```python
 from sklearn.ensemble import IsolationForest
@@ -449,7 +449,7 @@ outliers = rets['TECH'][flag == -1]
 
 $$\text{特征} = \bigl(\underbrace{r_t}_{\text{当日收益}},\; \underbrace{\hat{\sigma}_t^{(20)}}_{\text{20日滚动波动率}}\bigr)$$
 
-notebook（Cell `c14-061`）对市场指数日收益序列做如下处理：
+下面对市场指数日收益序列做如下处理：
 
 ```python
 r = load_market()['index_return'].dropna()
@@ -577,15 +577,15 @@ summary = feat2.groupby('regime').agg(
 
 ### 降维与聚类
 
-**习题14.1（对应 notebook 习题1）**：用 PCA 把四只内置股票的收益矩阵降到2维，以股票名称为标签绘制散点图，直观展示各股票在主成分空间的位置关系。
+**习题14.1**：用 PCA 把四只内置股票的收益矩阵降到2维，以股票名称为标签绘制散点图，直观展示各股票在主成分空间的位置关系。
 
-> **参考思路**：转置收益矩阵（每行为一只股票，每列为一个交易日），对转置后的矩阵做 `PCA(n_components=2)`，得到每只股票的二维坐标后用 `ax.scatter` 和 `ax.annotate` 绘图。注意 PCA 输入是「样本 × 特征」，此处「样本」是股票，「特征」是各交易日收益。notebook Cell `c14-092` 有完整实现。
+> **参考思路**：转置收益矩阵（每行为一只股票，每列为一个交易日），对转置后的矩阵做 `PCA(n_components=2)`，得到每只股票的二维坐标后用 `ax.scatter` 和 `ax.annotate` 绘图。注意 PCA 输入是「样本 × 特征」，此处「样本」是股票，「特征」是各交易日收益。
 
 ---
 
-**习题14.2（对应 notebook 习题2）**：将合成30只股票的 KMeans 簇数分别设为2、3、4，计算各情况下的调整兰德指数（ARI），与真实分组（3组）对比，分析 $K$ 的选择对聚类质量的影响。
+**习题14.2**：将合成30只股票的 KMeans 簇数分别设为2、3、4，计算各情况下的调整兰德指数（ARI），与真实分组（3组）对比，分析 $K$ 的选择对聚类质量的影响。
 
-> **参考思路**：在特征矩阵标准化后，循环 `k in (2, 3, 4)`，各跑一次 `KMeans(n_clusters=k, n_init=10, random_state=0)`，用 `adjusted_rand_score(true_group, lab_k)` 计算 ARI。预期 $k=3$ 时 ARI 最高（接近真实分组数），$k=2$ 和 $k=4$ 时 ARI 下降。notebook Cell `c14-094` 有完整实现。
+> **参考思路**：在特征矩阵标准化后，循环 `k in (2, 3, 4)`，各跑一次 `KMeans(n_clusters=k, n_init=10, random_state=0)`，用 `adjusted_rand_score(true_group, lab_k)` 计算 ARI。预期 $k=3$ 时 ARI 最高（接近真实分组数），$k=2$ 和 $k=4$ 时 ARI 下降。
 
 ---
 

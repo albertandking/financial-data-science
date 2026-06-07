@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch03_data_acquisition.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch03_data_acquisition.ipynb)
 
 !!! info "配套代码"
-    本章代码见 `notebooks/ch03_data_acquisition.ipynb`。清洗与质量检查部分使用内置数据，**离线即可运行**；末尾「联网抓取」小节需先执行 `uv sync --extra data`，notebook 中联网格已用 `try/except` 包裹，未联网时会安全跳过。
+    本章示例可在配套 notebook 中运行。清洗与质量检查部分使用内置数据，**离线即可完成**；末尾“联网抓取”小节需要额外接入在线数据源。
 
 ---
 

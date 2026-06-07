@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch05_returns_risk.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch05_returns_risk.ipynb)
 
 !!! info "配套代码"
-    本章代码见 `notebooks/ch05_returns_risk.ipynb`，依赖内置数据，离线可跑。大量复用 `fds.metrics` 中的函数；VaR/ES/索提诺等指标在 notebook 中自行实现。
+    本章示例可在配套 notebook 中运行，依赖内置数据，离线即可完成；VaR、ES 与索提诺比率等指标会在 notebook 中逐步实现。
 
 ## 5.1 本章导读与学习目标
 

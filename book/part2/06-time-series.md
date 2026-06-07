@@ -3,10 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch06_time_series.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch06_time_series.ipynb)
 
 !!! info "配套代码"
-    `notebooks/ch06_time_series.ipynb`（使用 statsmodels 与 arch 库）。运行前请先执行：
-    ```bash
-    uv run python scripts/make_sample_data.py
-    ```
+    本章示例可在配套 notebook 中运行，主要使用 `statsmodels` 与 `arch` 两个工具包；如需运行，请先准备内置样本数据。
 
 ---
 

@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch02_python_toolkit.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch02_python_toolkit.ipynb)
 
 !!! info "配套代码"
-    本章代码见 `notebooks/ch02_python_toolkit.ipynb`，可逐格运行（依赖内置数据，离线可跑）。运行前请先执行 `uv run python scripts/make_sample_data.py` 生成内置数据集。
+    本章示例可在配套 notebook 中逐格运行，主体实验依赖内置数据，离线即可完成。如需运行，请先按环境说明准备内置数据集。
 
 ## 2.1 本章导读与学习目标
 
@@ -41,10 +41,10 @@
 | `uv sync` | 按 `pyproject.toml` 安装全部依赖（含 `uv.lock` 锁定版本） |
 | `uv sync --extra data` | 额外安装数据获取组（akshare、tushare 等） |
 | `uv sync --extra advanced` | 额外安装进阶组（XGBoost、PyTorch 等） |
-| `uv run python xxx.py` | 在项目虚拟环境中运行脚本 |
-| `uv run jupyter lab` | 在项目环境中启动 JupyterLab |
-| `uv add numpy` | 添加新依赖并更新 `uv.lock` |
-| `uv remove numpy` | 移除依赖 |
+| `uv run python xxx.py` | 在当前项目环境中运行脚本 |
+| `uv run jupyter lab` | 在当前项目环境中启动 JupyterLab |
+| `uv add numpy` | 扩展实验时添加新依赖并更新 `uv.lock` |
+| `uv remove numpy` | 移除不再需要的依赖 |
 
 **pyproject.toml 结构**
 
@@ -69,7 +69,7 @@ dev  = ["pytest>=8.0"]
 ```
 
 !!! tip "可复现研究的关键"
-    把 `pyproject.toml` 和 `uv.lock` 一同提交到 Git 仓库。合作者只需 `uv sync` 一条命令，就能得到**完全一致**的环境，包括 Python 版本和所有第三方包的精确版本号。
+    将 `pyproject.toml` 和 `uv.lock` 与项目代码一并保存，在不同机器上只需执行 `uv sync`，就能得到**完全一致**的环境，包括 Python 版本和第三方包的精确版本号。
 
 ### 2.2.2 项目目录结构
 
@@ -78,10 +78,10 @@ financial-data-science/
 ├── book/           # Markdown 正文
 │   └── part1/
 ├── notebooks/      # 配套 Jupyter Notebook
-├── scripts/        # 数据生成与工具脚本
+├── scripts/        # 示例数据与辅助脚本
 ├── src/fds/        # 本书复用工具包
 ├── data/
-│   ├── raw/        # 原始数据（不提交 Git）
+│   ├── raw/        # 原始数据（通常单独管理）
 │   └── processed/  # 处理后数据
 ├── pyproject.toml
 └── uv.lock

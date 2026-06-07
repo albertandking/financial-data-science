@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch18_credit_risk.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch18_credit_risk.ipynb)
 
 !!! info "配套代码"
-    `notebooks/ch18_credit_risk.ipynb`
+    本章示例可在配套 notebook 中运行，使用内置 `credit` 数据集完整演示评分卡建模流程。
 
 ---
 
@@ -634,7 +634,7 @@ $$\text{Score} = \text{Base} - \frac{PDO}{\ln 2}\big(\ln \text{Odds} - \ln \text
 
 ## 18.9 实战：信用违约预测完整流程
 
-本节使用内置 `credit` 数据集（5000名借款人，约12% 违约）走完完整流程。详细代码见配套 notebook，这里给出要点总结。
+本节使用内置 `credit` 数据集（5000名借款人，约12% 违约）走完完整流程。下面给出流程要点与结果总结。
 
 ### 18.9.1 数据概览
 
@@ -767,7 +767,7 @@ print(f"违约率: {df['default'].mean():.2%}")
 3. 训练逻辑回归模型，计算测试集的 KS 统计量，并在 KS 曲线图上标注最大分离点。
 
 ??? tip "参考思路"
-    KS 曲线绘制：将测试集样本按预测概率升序排列，分别计算好客户和坏客户的累积比例，两条曲线差值最大处即 KS 值。参考 notebook Cell 6的实现。
+    KS 曲线绘制：将测试集样本按预测概率升序排列，分别计算好客户和坏客户的累积比例，两条曲线差值最大处即 KS 值。
 
 **习题18.4（不平衡处理）**
 

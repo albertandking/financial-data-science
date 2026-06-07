@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch19_llm_finance.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch19_llm_finance.ipynb)
 
 !!! info "配套代码"
-    `notebooks/ch19_llm_finance.ipynb`（演示 RAG 检索、结构化提示解析；真实 API 调用示例已用 try/except 保护，离线可全部运行）
+    本章示例可在配套 notebook 中运行，主要演示 RAG 检索与结构化提示解析；主体实验在离线环境下也可完成。
 
 ---
 
@@ -386,7 +386,7 @@ scores = cosine_similarity(query_vec, doc_vectors)[0]
 top_k = scores.argsort()[-3:][::-1]
 ```
 
-详细实现见配套 notebook。
+完整示例可在配套 notebook 中进一步复现。
 
 为了真正看懂检索这一步「算的是什么」，下面手工算一遍 TF-IDF 打分，把黑箱拆开。
 

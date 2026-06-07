@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch04_eda_visualization.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch04_eda_visualization.ipynb)
 
 !!! info "配套代码"
-    本章代码见 `notebooks/ch04_eda_visualization.ipynb`，依赖内置数据，离线可跑。
+    本章示例可在配套 notebook 中运行，依赖内置数据，离线即可完成。
 
 ## 4.1 本章导读
 

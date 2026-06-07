@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch10_feature_engineering.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch10_feature_engineering.ipynb)
 
 !!! info "配套代码"
-    `notebooks/ch10_feature_engineering.ipynb`
+    本章示例可在配套 notebook 中运行，主体实验依赖内置数据，离线即可完成。
 
 ## 10.1 本章导读
 

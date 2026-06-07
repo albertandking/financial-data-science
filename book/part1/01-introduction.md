@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch01_introduction.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch01_introduction.ipynb)
 
 !!! info "配套代码"
-    本章代码见 `notebooks/ch01_introduction.ipynb`，可在本地逐格运行。运行前请先生成内置数据：`uv run python scripts/make_sample_data.py`。
+    本章示例可在配套 notebook 中逐格运行；若使用本书提供的样本数据，请先按环境说明准备内置数据集。
 
 ---
 
@@ -594,8 +594,8 @@ A股于2010年引入融资融券，但有以下限制：
 
 1. **所有示例代码开源**，使用 `uv` 锁定依赖版本（`uv.lock`）
 2. **随机种子显式固定**：凡涉及随机操作的代码均设置 `random_state` 或 `np.random.seed`
-3. **数据生成可审计**：内置示例数据通过 `scripts/make_sample_data.py` 确定性生成
-4. **结果完全可复现**：按照 README 步骤，任何人在任何机器上应得到相同输出
+3. **示例数据生成规则透明**：内置样本数据按固定规则生成，便于追踪与核对
+4. **结果完全可复现**：按照统一步骤运行，原则上应得到一致输出
 
 研究者在发表策略或因子研究时，建议遵循以下的「预注册（Pre-registration）」精神：在查看数据之前，先将研究假说、因子定义、评估指标和截止日期明确写下，作为约束自己不随意调整参数的承诺。这一做法在医学随机对照试验中已成规范，在金融学界正逐步推广。
 
@@ -644,9 +644,6 @@ plt.ylabel("净值（初始=1）")
 plt.xlabel("日期")
 plt.show()
 ```
-
-> 在正式成书时，上面的代码与其输出图表由 `scripts/export_notebooks.py` 从
-> notebook 自动导出，避免代码两处维护。
 
 ---
 

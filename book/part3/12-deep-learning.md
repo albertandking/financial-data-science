@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch12_deep_learning.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch12_deep_learning.ipynb)
 
 !!! info "配套代码"
-    `notebooks/ch12_deep_learning.ipynb`（使用 PyTorch，需 `--extra advanced`）
+    本章示例可在配套 notebook 中运行，主要使用 PyTorch；如需运行进阶实验，请先按环境说明准备相关依赖。
 
 ## 12.1 本章导读
 
@@ -565,7 +565,7 @@ for epoch in range(30):
     optimizer.step()
 ```
 
-完整可运行代码详见配套 notebook。
+完整示例可在配套 notebook 中进一步复现。
 
 ### 12.9.4 A股案例：LSTM 预测波动率 vs GARCH
 

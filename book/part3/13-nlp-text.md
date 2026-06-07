@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch13_nlp_text.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch13_nlp_text.ipynb)
 
 !!! info "配套代码"
-    `notebooks/ch13_nlp_text.ipynb`（使用 jieba / scikit-learn / transformers，需 `--extra advanced`）
+    本章示例可在配套 notebook 中运行，主要使用 jieba、scikit-learn 与 transformers；如需运行进阶实验，请先按环境说明准备相关依赖。
 
 ---
 
@@ -11,7 +11,7 @@
 
 从季报年报到财经新闻，从分析师研报到股吧舆情，金融市场每天产生海量文本信息。这些文字背后隐藏着投资者情绪、公司基本面变化和市场预期的关键信号。传统量化方法依赖结构化数据（价格、财务指标），而**自然语言处理（NLP）** 技术打开了另一扇窗——让机器自动“读懂”非结构化文本，并将其转化为可量化的投资信号。
 
-本章以**中文金融文本**为主线，系统介绍从原始文字到可用因子的完整流程：分词与清洗 → 文本表示 → 情感分析 → 信号构建。核心代码在配套 notebook 中完整演示，全部**离线可运行**。
+本章以**中文金融文本**为主线，系统介绍从原始文字到可用因子的完整流程：分词与清洗 → 文本表示 → 情感分析 → 信号构建。相关示例可在配套 notebook 中完整复现，主体内容均可离线运行。
 
 ### 13.1.1 学习目标
 

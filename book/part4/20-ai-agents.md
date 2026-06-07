@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch20_ai_agents.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch20_ai_agents.ipynb)
 
 !!! info "配套代码"
-    `notebooks/ch20_ai_agents.ipynb`——从零手写 ReAct 智能体，所有工具用 `fds` 内置数据实现，**离线可跑**；真实 LLM API 调用已用 `try/except` 守卫，无密钥时自动回退到本地规则规划器。
+    本章示例可在配套 notebook 中运行：从零手写 ReAct 智能体，所有工具均基于 `fds` 内置数据实现，离线即可完成；无外部模型密钥时会自动回退到本地规则规划器。
 
 ---
 
@@ -15,7 +15,7 @@
 
 然而，金融场景的机会与红线同样清晰。agent 在信息收集、分析辅助、报告生成上有巨大价值；但在**自主交易、自主下单、自主对外发布投资建议**等方向，则面临技术可靠性与监管合规的双重约束。本章的核心主张之一，就是帮助读者建立清醒的能力边界认知。
 
-本章从 agent 的基本定义出发，依次讲解工具调用、推理规划、记忆设计、多智能体协作、agentic RAG，再结合中国金融场景讨论应用、评估与治理，最后通过配套 notebook“从零手写一个 ReAct 智能体”将全章知识落地为可运行代码。与上一章类似，本章优先强调**稳定的方法框架**：什么时候该用 agent、什么时候退回工作流、哪些动作必须有人在回路，以及如何设计可审计的护栏；至于平台名称、框架热度与产品形态，只作为工程选型示例，不是本章要求背诵的重点。
+本章从 agent 的基本定义出发，依次讲解工具调用、推理规划、记忆设计、多智能体协作、agentic RAG，再结合中国金融场景讨论应用、评估与治理，最后通过一个“从零手写 ReAct 智能体”的实践示例把全章知识落地为可运行代码。与上一章类似，本章优先强调**稳定的方法框架**：什么时候该用 agent、什么时候退回工作流、哪些动作必须有人在回路，以及如何设计可审计的护栏；至于平台名称、框架热度与产品形态，只作为工程选型示例，不是本章要求背诵的重点。
 
 !!! note "本章的阅读方式"
     **必须掌握**：agent 与 RAG / 固定工作流的区别、ReAct 循环、工具调用、护栏与 HITL。  
@@ -322,7 +322,7 @@ Reflexion 与20.6节的记忆设计是天然耦合的：它的「反思」必须
 
 ReAct 循环之所以可靠，关键在于它把「下一步做什么」完全建立在一个**显式、可检查的状态对象**之上——在 notebook 里这个状态就是 `history` 列表，每个元素是一个 `(action, observation)` 元组。规划器 `planner(query, history)` 是**无状态的纯函数**：它不依赖任何隐藏变量，给定相同的 `query` 与 `history`，永远返回相同的动作。这意味着整条轨迹可被完整重放与审计——把任意中间步的 `history` 喂回 `planner`，就能复现 agent 当时的决策，这对金融合规的「可追溯」要求至关重要。
 
-下面用一次真实可跑的轨迹，逐步展开「思考-行动-观察」如何驱动状态从空到满，最终触发终止条件。这条轨迹与配套 notebook 的 `rule_planner` 完全一致，使用的指标是 `fds` 内置样本数据真实算出的数值。
+下面用一次真实可跑的轨迹，逐步展开「思考-行动-观察」如何驱动状态从空到满，最终触发终止条件。这里使用的指标均由 `fds` 内置样本数据真实计算得到。
 
 !!! example "例 20.2　一次完整 ReAct 轨迹的逐步走查（rule_planner）"
     **用户问**：「请对比 TECH 和 BANK 的风险。」调用 `run_agent('请对比 TECH 和 BANK 的风险', rule_planner, TOOLS)`。
@@ -983,7 +983,7 @@ export LLM_MODEL="qwen-max"
 
 **实践提醒**
 
-配套 notebook 用不到300行 Python 代码演示了从工具层到护栏层的完整 agent 实现，全程离线可运行。真正掌握本章的标志，不是记住多少产品名称，而是能写出一个**可运行、可解释、可加护栏**的最小 agent。
+本章最后的实践示例用不到300行 Python 代码演示了从工具层到护栏层的完整 agent 实现，而且全程离线可运行。真正掌握本章的标志，不是记住多少产品名称，而是能写出一个**可运行、可解释、可加护栏**的最小 agent。
 
 ---
 
@@ -994,7 +994,7 @@ export LLM_MODEL="qwen-max"
 
 ### 主线代码
 
-**习题20.1**（工具扩展——对应 notebook 习题1）为 notebook 中的智能体新增工具 `cumulative_return(stock)`，计算并返回某只股票的**累计收益率**（区间内复利总收益，非年化）。完成后，向 agent 提问“哪只股票的累计收益最高？”，验证 agent 能正确调用新工具并给出答案。
+**习题20.1**（工具扩展）为 notebook 中的智能体新增工具 `cumulative_return(stock)`，计算并返回某只股票的**累计收益率**（区间内复利总收益，非年化）。完成后，向 agent 提问“哪只股票的累计收益最高？”，验证 agent 能正确调用新工具并给出答案。
 
 > **参考思路**：
 > - 累计收益计算：`(1 + r).prod() - 1`，其中 `r` 为日度收益率序列；
@@ -1003,7 +1003,7 @@ export LLM_MODEL="qwen-max"
 
 ---
 
-**习题20.2**（多股票对比——对应 notebook 习题2）验证并扩展 `rule_planner`，使其支持**三只及以上股票**的对比。测试查询“对比 BANK、TECH 和 UTILITY 的风险”，确认 agent 能正确查询全部三只股票并给出对比结论。
+**习题20.2**（多股票对比）验证并扩展 `rule_planner`，使其支持**三只及以上股票**的对比。测试查询“对比 BANK、TECH 和 UTILITY 的风险”，确认 agent 能正确查询全部三只股票并给出对比结论。
 
 > **参考思路**：
 > - 检查 `rule_planner` 中 `mentioned` 列表的生成逻辑，确认它依赖 `TICKERS` 列表做遍历，天然支持多股票；
@@ -1012,7 +1012,7 @@ export LLM_MODEL="qwen-max"
 
 ---
 
-**习题20.3**（护栏增强——对应 notebook 习题3）为 `run_agent` 增加“**任一工具调用超过 $N$ 次即中止**”的调用次数上限护栏，防止失控循环。实现函数 `run_agent_capped(query, planner, tools, max_steps=8, cap=3)`，并用一个会导致循环超限的查询验证护栏生效。
+**习题20.3**（护栏增强）为 `run_agent` 增加“**任一工具调用超过 $N$ 次即中止**”的调用次数上限护栏，防止失控循环。实现函数 `run_agent_capped(query, planner, tools, max_steps=8, cap=3)`，并用一个会导致循环超限的查询验证护栏生效。
 
 > **参考思路**：
 > - 用 `collections.Counter` 统计每个工具的调用次数；

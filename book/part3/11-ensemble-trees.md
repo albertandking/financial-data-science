@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch11_ensemble_trees.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch11_ensemble_trees.ipynb)
 
 !!! info "配套代码"
-    `notebooks/ch11_ensemble_trees.ipynb`（使用 scikit-learn / xgboost）
+    本章示例可在配套 notebook 中运行，主要使用 scikit-learn 与 xgboost；如需运行，请先准备相应依赖。
 
 ## 11.1 本章导读
 

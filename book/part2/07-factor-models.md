@@ -3,9 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch07_factor_models.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch07_factor_models.ipynb)
 
 !!! info "配套代码"
-    `notebooks/ch07_factor_models.ipynb`
-
-    运行前请先执行：`uv run python scripts/make_sample_data.py`
+    本章示例可在配套 notebook 中运行；如需运行，请先准备内置样本数据。
 
 ---
 
@@ -709,7 +707,7 @@ A 股受政策影响大，部分“因子”本质上是政策受益主题（如
 **习题7.2** 用 `load_market()` 提供的真实市场指数，对每只股票做时序 OLS 回归，估计各自的 $\beta$ 和 $\alpha$。哪只股票 $\beta$ 最高？CAPM 下哪只股票的预期收益最高？
 
 ??? hint "参考思路"
-    参考 notebook Cell 4的实现，重点关注 `result.summary()` 中的系数和 $t$ 统计量。参考值：UTILITY≈0.24, BANK≈0.39, LIQUOR≈1.09, TECH≈1.93；TECH beta 最高，CAPM 预期收益最高。
+    可重点关注 `result.summary()` 中的系数和 $t$ 统计量。参考值：UTILITY≈0.24, BANK≈0.39, LIQUOR≈1.09, TECH≈1.93；TECH beta 最高，CAPM 预期收益最高。
 
 ### 多因子诊断
 
