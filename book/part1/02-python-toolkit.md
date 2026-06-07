@@ -7,9 +7,7 @@
 
 ## 2.1 本章导读与学习目标
 
-金融数据科学离不开一套经过实战验证的工具栈。本章从项目管理（uv）开始，
-系统介绍 NumPy 的向量化思维、Pandas 的时间序列能力，以及如何高效存储与可视化金融数据。
-这些工具将贯穿全书——后续章节的每一个模型、每一张图，都建立在本章基础之上。
+金融数据科学离不开一套经过实战验证的工具栈。本章从项目管理（uv）开始，系统介绍 NumPy 的向量化思维、Pandas 的时间序列能力，以及如何高效存储与可视化金融数据。这些工具将贯穿全书——后续章节的每一个模型、每一张图，都建立在本章基础之上。
 
 **学习目标**
 
@@ -27,17 +25,14 @@
 
 金融数据科学的事实标准语言是 Python，原因主要有三：
 
-1. **生态完整**：从数据获取（akshare、tushare）、数值计算（NumPy）、数据处理（Pandas）、
-   统计建模（statsmodels）到机器学习（scikit-learn）、深度学习（PyTorch），
-   所有工具均可无缝协作。
+1. **生态完整**：从数据获取（akshare、tushare）、数值计算（NumPy）、数据处理（Pandas）、统计建模（statsmodels）到机器学习（scikit-learn）、深度学习（PyTorch），所有工具均可无缝协作。
 2. **可读性强**：代码贴近数学伪代码，如 $\mathbf{r} = \mathbf{P}_{t}/\mathbf{P}_{t-1} - 1$
    可直接写成 `r = P[1:] / P[:-1] - 1`，便于教学与学术协作。
 3. **可复现性**：配合 uv 等现代工具，环境与依赖可一键复现，是“可复现研究”的重要保障。
 
 ### 2.2.1 uv 环境管理
 
-本书采用 [uv](https://docs.astral.sh/uv/) 管理 Python 环境与依赖。
-uv 由 Rust 编写，速度极快，能在几秒内完成环境创建与依赖解析。
+本书采用 [uv](https://docs.astral.sh/uv/) 管理 Python 环境与依赖。uv 由 Rust 编写，速度极快，能在几秒内完成环境创建与依赖解析。
 
 **核心命令速查表**
 
@@ -74,9 +69,7 @@ dev  = ["pytest>=8.0"]
 ```
 
 !!! tip "可复现研究的关键"
-    把 `pyproject.toml` 和 `uv.lock` 一同提交到 Git 仓库。
-    合作者只需 `uv sync` 一条命令，就能得到**完全一致**的环境，
-    包括 Python 版本和所有第三方包的精确版本号。
+    把 `pyproject.toml` 和 `uv.lock` 一同提交到 Git 仓库。合作者只需 `uv sync` 一条命令，就能得到**完全一致**的环境，包括 Python 版本和所有第三方包的精确版本号。
 
 ### 2.2.2 项目目录结构
 
@@ -100,9 +93,7 @@ financial-data-science/
 
 ### 2.3.1 ndarray 与 dtype
 
-NumPy 的核心是 `ndarray`（N 维数组）。与 Python 列表不同，`ndarray` 要求
-所有元素具有**相同的数据类型（dtype）**，从而能存储在连续内存块中，
-大幅提升计算效率。
+NumPy 的核心是 `ndarray`（N 维数组）。与 Python 列表不同，`ndarray` 要求所有元素具有**相同的数据类型（dtype）**，从而能存储在连续内存块中，大幅提升计算效率。
 
 ```python
 import numpy as np
@@ -128,10 +119,7 @@ b = np.array([1, 2, 3], dtype=np.float32)   # 节省内存，牺牲精度
 | `int64` | 64位整数（8字节） | 精确 | 成交量、股票代码 |
 | `bool` | 布尔（1字节） | — | 掩码、条件筛选 |
 
-金融计算中应坚持使用 `float64`：即使单个价格精度差异微小，
-在复利累积（$(1+r_1)(1+r_2)\cdots(1+r_T)$）或协方差矩阵运算中，
-`float32` 的累积误差可能超过1 bp（基点），影响因子打分或风险模型结果。
-`float32` 只在确认精度损失可接受的场景（如神经网络权重）才值得使用。
+金融计算中应坚持使用 `float64`：即使单个价格精度差异微小，在复利累积（$(1+r_1)(1+r_2)\cdots(1+r_T)$）或协方差矩阵运算中，`float32` 的累积误差可能超过1 bp（基点），影响因子打分或风险模型结果。`float32` 只在确认精度损失可接受的场景（如神经网络权重）才值得使用。
 
 ### 2.3.2 轴（axis）概念
 
@@ -187,8 +175,7 @@ print(f"加速比：  {t_loop/t_vec:.0f}x")
 ```
 
 !!! warning “避免在金融计算中写 for 循环”
-    当数据量超过万条（A 股日度数据很容易达到几十万行），for 循环会成为明显瓶颈。
-    本书所有示例均采用向量化写法，请养成”先想有没有数组运算”的思维习惯。
+    当数据量超过万条（A 股日度数据很容易达到几十万行），for 循环会成为明显瓶颈。本书所有示例均采用向量化写法，请养成”先想有没有数组运算”的思维习惯。
 
 !!! example “例 2.1：向量化 vs for 循环——百万级收益率计算的性能对比”
     以计算100万个模拟价格的日度简单收益率为例，对比两种写法的实际耗时。
@@ -225,10 +212,7 @@ print(f"加速比：  {t_loop/t_vec:.0f}x")
     | Python for 循环 | ≈ 350–500 | 1× |
     | NumPy 向量化 | ≈ 2–5 | **约100×** |
 
-    加速比达到 **100倍**左右的原因有二：
-    其一，NumPy 底层由 C 实现，单次运算无 Python 解释器的对象装箱/拆箱开销；
-    其二，`ndarray` 数据连续存储在内存，CPU 预取（prefetch）和 SIMD 指令可充分利用，
-    而 Python 列表中每个元素是独立的堆对象，内存不连续，缓存命中率极低。
+    加速比达到 **100倍**左右的原因有二：其一，NumPy 底层由 C 实现，单次运算无 Python 解释器的对象装箱/拆箱开销；其二，`ndarray` 数据连续存储在内存，CPU 预取（prefetch）和 SIMD 指令可充分利用，而 Python 列表中每个元素是独立的堆对象，内存不连续，缓存命中率极低。
 
 ### 2.3.4 广播规则（Broadcasting）
 
@@ -267,8 +251,7 @@ print(demeaned.mean(axis=0).round(10))   # 每列均值 ≈ 0
 
 **实例：组合权重 × 收益矩阵**
 
-设 $\mathbf{w}$ 为4只股票的权重向量，$\mathbf{R}$ 为 $T \times 4$ 收益矩阵，
-则每日组合收益为：
+设 $\mathbf{w}$ 为4只股票的权重向量，$\mathbf{R}$ 为 $T \times 4$ 收益矩阵，则每日组合收益为：
 
 $$r_p = \mathbf{R} \cdot \mathbf{w} \quad \Leftrightarrow \quad \mathbf{R} @ \mathbf{w}$$
 
@@ -285,13 +268,10 @@ print(np.allclose(portfolio_ret, portfolio_ret2))   # True
 ```
 
 !!! info "为什么用 `@`"
-    `@` 是 Python 3.5+ 引入的矩阵乘运算符（PEP 465）。
-    `np.dot` 与 `@` 对二维数组等价，但 `@` 更易读、与数学符号直接对应，
-    本书后续讨论均值-方差优化（$w^\top \mu$、$w^\top \Sigma w$）时将大量使用。
+    `@` 是 Python 3.5+ 引入的矩阵乘运算符（PEP 465）。`np.dot` 与 `@` 对二维数组等价，但 `@` 更易读、与数学符号直接对应，本书后续讨论均值-方差优化（$w^\top \mu$、$w^\top \Sigma w$）时将大量使用。
 
 !!! example "例 2.2：广播形状对齐算例——截面标准化"
-    **任务**：对「250日 × 4只股票」的模拟收益矩阵，按截面（每天）进行 z-score 标准化，
-    即每日各股票收益率减去当日均值、除以当日标准差。
+    **任务**：对「250日 × 4只股票」的模拟收益矩阵，按截面（每天）进行 z-score 标准化，即每日各股票收益率减去当日均值、除以当日标准差。
 
     ```python
     import numpy as np
@@ -314,8 +294,7 @@ print(np.allclose(portfolio_ret, portfolio_ret2))   # True
     **形状推导**：
     - `mu_cross` 形状 `(250,)` → `mu_cross[:, np.newaxis]` 变为 `(250, 1)`
     - `(250, 4)` - `(250, 1)` → 广播规则步骤2将 `(250, 1)` 扩展至 `(250, 4)` ✓
-    - 若省略 `np.newaxis` 直接写 `R - mu_cross`，
-      NumPy 将 `(250,)` 左补为 `(1, 250)`，尝试对维度1做4 vs 250，报 `ValueError`。
+    - 若省略 `np.newaxis` 直接写 `R - mu_cross`，NumPy 将 `(250,)` 左补为 `(1, 250)`，尝试对维度1做4 vs 250，报 `ValueError`。
 
 ### 2.3.5 随机数：default_rng
 
@@ -335,8 +314,7 @@ z = rng.standard_normal((100, 4))
 ```
 
 !!! tip "可复现性"
-    固定 `seed` 是科研和教学的好习惯：结果可被他人精确复现，
-    方便排查 bug 和撰写报告。
+    固定 `seed` 是科研和教学的好习惯：结果可被他人精确复现，方便排查 bug 和撰写报告。
 
 ### 2.3.6 基础线性代数：点积与矩阵乘
 
@@ -421,9 +399,7 @@ prices_copy.loc["2025-01-02", "BANK"] = 11.0
 ```
 
 !!! warning "链式赋值陷阱"
-    `df[df["A"] > 0]["B"] = 1` 可能不会修改原始 DataFrame（取决于 Pandas 是否复制）。
-    正确做法是用 `df.loc[df["A"] > 0, "B"] = 1`。
-    Pandas 2.0会对链式赋值发出 `FutureWarning`，Pandas 3.0将彻底禁止。
+    `df[df["A"] > 0]["B"] = 1` 可能不会修改原始 DataFrame（取决于 Pandas 是否复制）。正确做法是用 `df.loc[df["A"] > 0, "B"] = 1`。Pandas 2.0会对链式赋值发出 `FutureWarning`，Pandas 3.0将彻底禁止。
 
 !!! example "例2.3：loc / iloc / 布尔索引对照例"
     以下用同一个小 DataFrame 演示三种索引方式的相同点与差异：
@@ -460,8 +436,7 @@ prices_copy.loc["2025-01-02", "BANK"] = 11.0
     print(big)                                  # 只有 LIQUOR（52.80）和 TECH（98.60）
     ```
 
-    **核心记忆法**：`loc` 认“标签名”，`iloc` 认“数字位”；
-    两者在切片时的最大差异是 `loc` **包含右端标签**，`iloc` **不含右端位置**。
+    **核心记忆法**：`loc` 认“标签名”，`iloc` 认“数字位”；两者在切片时的最大差异是 `loc` **包含右端标签**，`iloc` **不含右端位置**。
 
 ### 2.4.3 DatetimeIndex 与时间切片
 
@@ -493,8 +468,7 @@ prices.index.day_of_week            # 0=周一，4=周五
 | `YE` | 年末 | 旧版用 `A`/`Y` |
 
 !!! tip "Pandas 2.x 频率别名变更"
-    Pandas 2.2起，`M`/`Q`/`Y`/`A` 等别名已弃用并在 Pandas 3.0中移除。
-    请统一使用 `ME`/`QE`/`YE`，以免代码在未来版本报 `FutureWarning`。
+    Pandas 2.2起，`M`/`Q`/`Y`/`A` 等别名已弃用并在 Pandas 3.0中移除。请统一使用 `ME`/`QE`/`YE`，以免代码在未来版本报 `FutureWarning`。
 
 **DatetimeIndex 的常用访问器**
 
@@ -516,8 +490,7 @@ idx.to_period("M")    # 转为月度 Period 索引，如 "2025-01"
 idx.to_period("Q")    # 转为季度 Period 索引，如 "2025Q1"
 ```
 
-`Period` 索引适合与宏观数据（季度 GDP、月度 CPI）做 `merge`，
-因为 `Period` 天然表达「整段时间」而非某一精确时刻，避免时区或日历错位问题。
+`Period` 索引适合与宏观数据（季度 GDP、月度 CPI）做 `merge`，因为 `Period` 天然表达「整段时间」而非某一精确时刻，避免时区或日历错位问题。
 
 ### 2.4.4 缺失值处理
 
@@ -652,9 +625,7 @@ annual_ret = (
     print(bank_m.tail(6))
     ```
 
-    **关键点**：`pd.Grouper(freq="ME")` 会将每个月内所有交易日的收益率归入该月，
-    聚合结果的索引是每月最后一个日历日（月末）。
-    若改为 `freq="QE"` 则按季末分组；改为 `freq="YE"` 则按年末分组。
+    **关键点**：`pd.Grouper(freq="ME")` 会将每个月内所有交易日的收益率归入该月，聚合结果的索引是每月最后一个日历日（月末）。若改为 `freq="QE"` 则按季末分组；改为 `freq="YE"` 则按年末分组。
 
 ### 2.4.6 merge 与 concat：多标的对齐
 
@@ -701,8 +672,7 @@ ohlc = prices["BANK"].resample("ME").ohlc()
 ```
 
 !!! example "例 2.6：A 股月度收益率——完整 resample 流程"
-    **任务**：取模拟「银行股」的日度收盘价，将其重采样为月度收益率序列，
-    并计算年化收益与年化波动率，演示 `resample` 的完整工作流程。
+    **任务**：取模拟「银行股」的日度收盘价，将其重采样为月度收益率序列，并计算年化收益与年化波动率，演示 `resample` 的完整工作流程。
 
     ```python
     import pandas as pd
@@ -739,18 +709,10 @@ ohlc = prices["BANK"].resample("ME").ohlc()
     ).round(4))
     ```
 
-    整个流程只用三步：`.resample("ME").last()` → `.pct_change().dropna()` → 统计量计算。
-    将 `"ME"` 改为 `"QE"` 即可得到季度收益率，改为 `"YE"` 即年度收益率。
+    整个流程只用三步：`.resample("ME").last()` → `.pct_change().dropna()` → 统计量计算。将 `"ME"` 改为 `"QE"` 即可得到季度收益率，改为 `"YE"` 即年度收益率。
 
     !!! tip "Pandas 2.x 频率别名的来历"
-        早期 Pandas 采用 `M`（Month）、`Q`（Quarter）、`A`/`Y`（Year）作为频率别名，
-        含义模糊——`M` 本意指“月末”，但读者常误解为“每月任意日”。
-        Pandas 2.2引入更清晰的 `ME`（Month-End）、`MS`（Month-Start）、
-        `QE`（Quarter-End）、`QS`（Quarter-Start）、`YE`（Year-End）、`YS`（Year-Start）命名体系，
-        **End/Start 后缀**明确表达采样点落在周期的末端还是起始端，消除歧义。
-        旧别名 `M`/`Q`/`A`/`Y` 在 Pandas 2.x 仍可用但会触发 `FutureWarning`，
-        在 **Pandas 3.0中已彻底移除**；若代码需要兼容多版本，
-        建议统一改写为新别名，并在 `requirements` 中锁定 `pandas>=2.2`。
+        早期 Pandas 采用 `M`（Month）、`Q`（Quarter）、`A`/`Y`（Year）作为频率别名，含义模糊——`M` 本意指“月末”，但读者常误解为“每月任意日”。Pandas 2.2引入更清晰的 `ME`（Month-End）、`MS`（Month-Start）、`QE`（Quarter-End）、`QS`（Quarter-Start）、`YE`（Year-End）、`YS`（Year-Start）命名体系，**End/Start 后缀**明确表达采样点落在周期的末端还是起始端，消除歧义。旧别名 `M`/`Q`/`A`/`Y` 在 Pandas 2.x 仍可用但会触发 `FutureWarning`，在 **Pandas 3.0中已彻底移除**；若代码需要兼容多版本，建议统一改写为新别名，并在 `requirements` 中锁定 `pandas>=2.2`。
 
 ### 2.4.8 rolling 与 ewm：移动窗口
 
@@ -786,8 +748,7 @@ ewm_vol = prices["TECH"].pct_change().ewm(span=60).std() * (252**0.5)
 
 ### 2.4.9 apply vs 向量化
 
-`apply` 允许对 DataFrame 的每行/每列应用任意 Python 函数，但速度较慢。
-能向量化就不要用 `apply`：
+`apply` 允许对 DataFrame 的每行/每列应用任意 Python 函数，但速度较慢。能向量化就不要用 `apply`：
 
 ```python
 # 慢（apply + lambda）
@@ -811,9 +772,7 @@ sharpe_vec = ret.mean() / ret.std() * (252**0.5)
 | 内存效率 | 低（每次调用产生临时对象） | 高（原地广播） |
 
 !!! tip "apply 的合理用场"
-    当计算逻辑无法用 NumPy/Pandas 内置函数表达时（例如对每列做 Fama-MacBeth 截面回归、
-    计算每列的最大回撤路径），`apply` 是最简洁的选择。
-    此时可配合 `tqdm` 显示进度条：
+    当计算逻辑无法用 NumPy/Pandas 内置函数表达时（例如对每列做 Fama-MacBeth 截面回归、计算每列的最大回撤路径），`apply` 是最简洁的选择。此时可配合 `tqdm` 显示进度条：
     ```python
     from tqdm import tqdm
     tqdm.pandas()
@@ -908,11 +867,7 @@ assert prices.equals(back), "读写前后数据不一致！"
 ```
 
 !!! info "为什么优先 Parquet"
-    以本书内置数据（750交易日 × 4只股票）为例：
-    CSV 约45 KB，Parquet 约8 KB，体积节省80%；
-    读取速度 Parquet 约快3–5倍（数据量越大优势越明显）。
-    更重要的是，Parquet 保留 `DatetimeIndex` 的类型信息，
-    避免读回后需要再次 `pd.to_datetime` 转换。
+    以本书内置数据（750交易日 × 4只股票）为例：CSV 约45 KB，Parquet 约8 KB，体积节省80%；读取速度 Parquet 约快3–5倍（数据量越大优势越明显）。更重要的是，Parquet 保留 `DatetimeIndex` 的类型信息，避免读回后需要再次 `pd.to_datetime` 转换。
 
 ---
 
@@ -955,9 +910,7 @@ plt.show()
 ```
 
 !!! tip "中文字体"
-    `set_chinese_font()` 会自动检测系统可用的中文字体（Windows 上优先 SimHei，
-    macOS 上优先 PingFang SC，Linux 上优先 Noto Sans CJK），确保标题与标签正常显示。
-    在 notebook 第一格调用一次即可全局生效。
+    `set_chinese_font()` 会自动检测系统可用的中文字体（Windows 上优先 SimHei，macOS 上优先 PingFang SC，Linux 上优先 Noto Sans CJK），确保标题与标签正常显示。在 notebook 第一格调用一次即可全局生效。
 
 ---
 
@@ -979,10 +932,8 @@ plt.show()
 本章建立了贯穿全书的工具基础：
 
 - **uv**：通过 `pyproject.toml` + `uv.lock` 实现一键复现的 Python 环境
-- **NumPy**：`ndarray` 的向量化运算（快100x 以上）、广播规则、矩阵乘 `@`
-  为后续组合收益 $w^\top \mu$ 和组合方差 $w^\top \Sigma w$ 铺垫
-- **Pandas**：`DatetimeIndex` + `loc/iloc/布尔索引` + `resample/rolling/ewm`
-  构成金融时间序列处理的完整工具链
+- **NumPy**：`ndarray` 的向量化运算（快100x 以上）、广播规则、矩阵乘 `@`为后续组合收益 $w^\top \mu$ 和组合方差 $w^\top \Sigma w$ 铺垫
+- **Pandas**：`DatetimeIndex` + `loc/iloc/布尔索引` + `resample/rolling/ewm`构成金融时间序列处理的完整工具链
 - **存储**：日常数据优先 Parquet（快、小、保类型），对外交换用 CSV
 - **可视化**：`set_chinese_font()` 一行解决中文字体问题
 
@@ -990,29 +941,15 @@ plt.show()
 
 ## 2.10 习题
 
-1. **向量化练习**：用 NumPy 向量化（不使用循环）计算以下指标：
-   加载内置数据 `load_sample_prices()`，计算 LIQUOR 的5日简单移动平均
-   （提示：可用 `np.convolve(prices, np.ones(5)/5, mode='valid')`），
-   并与 Pandas `rolling(5).mean()` 结果对比，验证两者一致。
+1. **向量化练习**：用 NumPy 向量化（不使用循环）计算以下指标：加载内置数据 `load_sample_prices()`，计算 LIQUOR 的5日简单移动平均（提示：可用 `np.convolve(prices, np.ones(5)/5, mode='valid')`），并与 Pandas `rolling(5).mean()` 结果对比，验证两者一致。
 
-2. **广播应用**：对所有4只股票，用 NumPy 广播计算“超额收益”
-   （每日各股票收益率减去当日等权平均收益率），结果转为 DataFrame，
-   打印前5行。（提示：先用 `daily_returns` 算收益率矩阵，再减去行均值。）
+2. **广播应用**：对所有4只股票，用 NumPy 广播计算“超额收益”（每日各股票收益率减去当日等权平均收益率），结果转为 DataFrame，打印前5行。（提示：先用 `daily_returns` 算收益率矩阵，再减去行均值。）
 
-3. **时间序列分析**：对内置数据按以下步骤操作：
-   a. `resample("W-FRI")` 得到周频价格；
-   b. 计算周度收益率；
-   c. 用 `groupby(pd.Grouper(freq="YE"))` 统计每年的周度收益率均值与标准差；
-   d. 打印结果并说明哪一年波动最大。
+3. **时间序列分析**：对内置数据按以下步骤操作：a. `resample("W-FRI")` 得到周频价格；b. 计算周度收益率；c. 用 `groupby(pd.Grouper(freq="YE"))` 统计每年的周度收益率均值与标准差；d. 打印结果并说明哪一年波动最大。
 
-4. **Parquet 往返**：将波动率最高的一只股票（用 `std()` 衡量）的日度收益率
-   单独保存为 Parquet 文件，读回后验证 `equals()` 返回 `True`，
-   并比较该文件与对应 CSV 文件的字节大小。
+4. **Parquet 往返**：将波动率最高的一只股票（用 `std()` 衡量）的日度收益率单独保存为 Parquet 文件，读回后验证 `equals()` 返回 `True`，并比较该文件与对应 CSV 文件的字节大小。
 
-5. **可视化**：绘制一张图，同时展示 TECH 股的日度收盘价（蓝色细线，alpha=0.4）、
-   20日 SMA（橙色实线）、20日 EWMA（绿色虚线），
-   加上中文标题“科技股移动平均对比”和图例，保存为 PNG 文件。
-   思路：先调用 `set_chinese_font()`，再用 `fig, ax = plt.subplots()` 绘制。
+5. **可视化**：绘制一张图，同时展示 TECH 股的日度收盘价（蓝色细线，alpha=0.4）、20日 SMA（橙色实线）、20日 EWMA（绿色虚线），加上中文标题“科技股移动平均对比”和图例，保存为 PNG 文件。思路：先调用 `set_chinese_font()`，再用 `fig, ax = plt.subplots()` 绘制。
 
 ---
 

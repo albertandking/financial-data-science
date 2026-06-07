@@ -3,8 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch05_returns_risk.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch05_returns_risk.ipynb)
 
 !!! info "配套代码"
-    本章代码见 `notebooks/ch05_returns_risk.ipynb`，依赖内置数据，离线可跑。
-    大量复用 `fds.metrics` 中的函数；VaR/ES/索提诺等指标在 notebook 中自行实现。
+    本章代码见 `notebooks/ch05_returns_risk.ipynb`，依赖内置数据，离线可跑。大量复用 `fds.metrics` 中的函数；VaR/ES/索提诺等指标在 notebook 中自行实现。
 
 ## 5.1 本章导读与学习目标
 
@@ -217,8 +216,7 @@ print(ann_vol.round(4))
 - 超额峰度 $5.0$：比正态分布厚尾得多。正态分布下，超过 $3\sigma$ 的事件概率约为0.27%；而超额峰度为5的分布，对应概率可能高出数倍至十几倍。这意味着以正态分布为基础的风险模型（如参数法 VaR）会**系统性地低估**极端损失。
 
 !!! info "A 股收益分布的典型特征"
-    实证研究一致发现：A 股日收益率呈**左偏、厚尾**分布（超额峰度通常在2–8之间）。
-    这意味着正态分布会**严重低估**极端损失的概率，VaR/ES 的参数法结果需谨慎对待。
+    实证研究一致发现：A 股日收益率呈**左偏、厚尾**分布（超额峰度通常在2–8之间）。这意味着正态分布会**严重低估**极端损失的概率，VaR/ES 的参数法结果需谨慎对待。
 
 ---
 
@@ -399,8 +397,7 @@ $$\widehat{\text{VaR}}_\alpha^{\text{hist}} = -Q_{1-\alpha}^{\text{emp}}(r)$$
 
 $$\text{公式}：\widehat{\text{VaR}}_{0.95}^{\text{hist}} = -\text{Quantile}(r, 5\%)$$
 
-**优点**：无分布假设，自动捕捉厚尾与非对称性。
-**缺点**：依赖样本量；历史不一定代表未来；对极端事件估计不稳定。
+**优点**：无分布假设，自动捕捉厚尾与非对称性。**缺点**：依赖样本量；历史不一定代表未来；对极端事件估计不稳定。
 
 !!! example "例5.5：用历史模拟法手算95% VaR"
     假设我们有过去40个交易日的日收益率（单位：%），将其升序排列，最差的前4个数据如下：
@@ -434,8 +431,7 @@ $$\text{VaR}_\alpha^{\text{norm}} = -(\mu + z_\alpha \sigma)$$
 
 $$\text{VaR}_{0.95}^{\text{norm}} = -(\mu - 1.645\,\sigma)$$
 
-**优点**：计算简便，有解析解。
-**缺点**：正态假设与金融现实不符（收益率厚尾），**系统性低估**极端损失概率。
+**优点**：计算简便，有解析解。**缺点**：正态假设与金融现实不符（收益率厚尾），**系统性低估**极端损失概率。
 
 !!! note "正态参数法 VaR 公式的推导细节"
     设收益率 $r \sim N(\mu, \sigma^2)$，则标准化变量 $Z = (r - \mu)/\sigma \sim N(0,1)$。
@@ -476,8 +472,7 @@ $$\text{VaR}_{0.95}^{\text{norm}} = -(\mu - 1.645\,\sigma)$$
 
 $$\widehat{\text{VaR}}_\alpha^{\text{MC}} = -Q_{1-\alpha}\!\left(\{r^{(1)}, \ldots, r^{(N)}\}\right), \quad r^{(i)} \sim N(\hat\mu, \hat\sigma^2)$$
 
-**优点**：灵活，可引入任意分布（如 $t$ 分布）和相关结构。
-**缺点**：计算量大；结果取决于所假设的分布形式。
+**优点**：灵活，可引入任意分布（如 $t$ 分布）和相关结构。**缺点**：计算量大；结果取决于所假设的分布形式。
 
 ```python
 import numpy as np
@@ -566,8 +561,7 @@ $$\text{ES}_\alpha^{\text{norm}} = -\mu + \sigma \cdot \frac{\phi(z_{1-\alpha})}
 **次可加性**是关键：对于两个资产组合，若 $ES(A+B) \le ES(A) + ES(B)$ 总成立，则分散化被激励（合并比单独持有更安全）。VaR 不满足次可加性，可能出现“分散化反而让资本要求增加”的悖论。
 
 !!! warning “VaR 的局限——一个直觉例子”
-    某策略的95% VaR = 2%。但超过这个门槛后，平均亏损20% 还是2.1%？
-    VaR 什么都不告诉你。ES 则精确回答”尾部平均损失”，在极端情形下更有用。
+    某策略的95% VaR = 2%。但超过这个门槛后，平均亏损20% 还是2.1%？VaR 什么都不告诉你。ES 则精确回答”尾部平均损失”，在极端情形下更有用。
 
 ### 5.7.2 A 股案例：2015 年股灾期间的 VaR 失效
 
@@ -686,8 +680,7 @@ $$\beta_i = \frac{\text{Cov}(r_i, r_m)}{\text{Var}(r_m)}$$
 - **公用事业（UTILITY）**：最低波动，最小回撤，但收益率也最低——防御属性明显
 
 !!! note "不同指标给出不同排名"
-    夏普看风险调整后收益，索提诺更友好于“只有下行波动”的资产，卡尔玛衡量“最坏情形恢复力”。
-    使用哪个指标应与投资目标匹配，没有绝对最优。
+    夏普看风险调整后收益，索提诺更友好于“只有下行波动”的资产，卡尔玛衡量“最坏情形恢复力”。使用哪个指标应与投资目标匹配，没有绝对最优。
 
 ---
 
@@ -719,10 +712,7 @@ $$\beta_i = \frac{\text{Cov}(r_i, r_m)}{\text{Var}(r_m)}$$
 ## 5.12 习题
 
 !!! question "习题5.1：收益率性质验证"
-    对 BANK 和 TECH 各取连续20个交易日的日收益率：
-    (a) 验证对数收益率之和等于对应期间的总对数收益率；
-    (b) 验证简单收益率**不可直接相加**（用实际数据展示误差大小）；
-    (c) 当日收益率绝对值 $<1\%$ 时，两种收益率之差是否可忽略？给出定量结论。
+    对 BANK 和 TECH 各取连续20个交易日的日收益率：(a) 验证对数收益率之和等于对应期间的总对数收益率；(b) 验证简单收益率**不可直接相加**（用实际数据展示误差大小）；(c) 当日收益率绝对值 $<1\%$ 时，两种收益率之差是否可忽略？给出定量结论。
 
     **参考思路**：用 `daily_returns(prices, log=True)` 和 `.sum()` 对比 `np.log(prices.iloc[-1]/prices.iloc[0])`。
 
@@ -732,25 +722,17 @@ $$\beta_i = \frac{\text{Cov}(r_i, r_m)}{\text{Var}(r_m)}$$
     **参考思路**：实现 `sortino_ratio` 和 `calmar_ratio` 函数，调用 `fds.annualized_return/volatility/sharpe_ratio/max_drawdown`，用 `pd.DataFrame` 整合。
 
 !!! question "习题5.3：三种 VaR 方法对比"
-    对 TECH 股票：
-    (a) 分别用历史模拟法、正态参数法、蒙特卡洛法（$N=500000$，种子=42）计算95% 和99% 单日 VaR；
-    (b) 计算对应置信水平的 ES；
-    (c) 比较三种方法的差异，结合本章厚尾内容解释为何正态法偏低。
+    对 TECH 股票：(a) 分别用历史模拟法、正态参数法、蒙特卡洛法（$N=500000$，种子=42）计算95% 和99% 单日 VaR；(b) 计算对应置信水平的 ES；(c) 比较三种方法的差异，结合本章厚尾内容解释为何正态法偏低。
 
     **参考思路**：使用 `scipy.stats.norm.ppf` 和 `np.random.default_rng(42).normal`。
 
 !!! question "习题5.4：最大回撤深度与持续期"
-    对 LIQUOR：
-    (a) 找出最大回撤发生的开始日期（净值创新高的日期）和结束日期（最低点日期）；
-    (b) 计算该次回撤持续了多少个交易日；
-    (c) 绘制该段时间的净值曲线并标注回撤区间。
+    对 LIQUOR：(a) 找出最大回撤发生的开始日期（净值创新高的日期）和结束日期（最低点日期）；(b) 计算该次回撤持续了多少个交易日；(c) 绘制该段时间的净值曲线并标注回撤区间。
 
     **参考思路**：利用 `nav.cummax()` 找到水位线，`argmin()` 找最低点，反向查找前一个净值最高点。
 
 !!! question "习题5.5：ES 与 VaR 的差距"
-    对四只股票，分别计算95% 历史 VaR 和95% 历史 ES，计算 ES/VaR 的比值。
-    比值越高说明尾部越“重”（突破 VaR 后损失更大）。哪只股票的尾部最重？
-    结合偏度和峰度指标解释。
+    对四只股票，分别计算95% 历史 VaR 和95% 历史 ES，计算 ES/VaR 的比值。比值越高说明尾部越“重”（突破 VaR 后损失更大）。哪只股票的尾部最重？结合偏度和峰度指标解释。
 
     **参考思路**：实现 `es_hist(series, alpha=0.95)` 函数，计算 `es / var` 比值，用 `scipy.stats.skew/kurtosis` 计算矩。
 
@@ -758,17 +740,12 @@ $$\beta_i = \frac{\text{Cov}(r_i, r_m)}{\text{Var}(r_m)}$$
 
 ## 5.13 拓展阅读
 
-1. **Jorion, P. (2006). *Value at Risk: The New Benchmark for Managing Financial Risk* (3rd ed.). McGraw-Hill.**
-   VaR 领域最权威的系统性著作，涵盖历史模拟、参数法、蒙特卡洛的完整理论与实务。
+1. **Jorion, P. (2006). *Value at Risk: The New Benchmark for Managing Financial Risk* (3rd ed.). McGraw-Hill.**VaR 领域最权威的系统性著作，涵盖历史模拟、参数法、蒙特卡洛的完整理论与实务。
 
-2. **Hull, J. C. (2018). *Risk Management and Financial Institutions* (5th ed.). Wiley.**
-   面向从业者的风险管理教材，ES 与巴塞尔框架的讲解尤为清晰。
+2. **Hull, J. C. (2018). *Risk Management and Financial Institutions* (5th ed.). Wiley.**面向从业者的风险管理教材，ES 与巴塞尔框架的讲解尤为清晰。
 
-3. **Acerbi, C., & Tasche, D. (2002). On the Coherence of Expected Shortfall. *Journal of Banking & Finance*, 26(7), 1487–1503.**
-   ES 次可加性的原始证明，是理解 ES 理论优越性的必读论文。
+3. **Acerbi, C., & Tasche, D. (2002). On the Coherence of Expected Shortfall. *Journal of Banking & Finance*, 26(7), 1487–1503.**ES 次可加性的原始证明，是理解 ES 理论优越性的必读论文。
 
-4. **McNeil, A. J., Frey, R., & Embrechts, P. (2015). *Quantitative Risk Management* (2nd ed.). Princeton University Press.**
-   极端值理论（EVT）、Copula、VaR/ES 的高级处理，研究生进阶参考。
+4. **McNeil, A. J., Frey, R., & Embrechts, P. (2015). *Quantitative Risk Management* (2nd ed.). Princeton University Press.**极端值理论（EVT）、Copula、VaR/ES 的高级处理，研究生进阶参考。
 
-5. **Rockafellar, R. T., & Uryasev, S. (2000). Optimization of Conditional Value-at-Risk. *Journal of Risk*, 2(3), 21–41.**
-   CVaR 优化框架，连接风险度量与投资组合优化（见第8章）。
+5. **Rockafellar, R. T., & Uryasev, S. (2000). Optimization of Conditional Value-at-Risk. *Journal of Risk*, 2(3), 21–41.**CVaR 优化框架，连接风险度量与投资组合优化（见第8章）。

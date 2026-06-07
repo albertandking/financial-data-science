@@ -16,8 +16,7 @@
     curl -LsSf https://astral.sh/uv/install.sh | sh
     ```
 
-uv 会在需要时**自动下载 Python**，无需单独安装。本书推荐 **Python 3.14**
-（仓库 `.python-version` 已固定为3.14，`uv sync` 会自动使用它）。代码同样兼容3.11+。
+uv 会在需要时**自动下载 Python**，无需单独安装。本书推荐 **Python 3.14**（仓库 `.python-version` 已固定为3.14，`uv sync` 会自动使用它）。代码同样兼容3.11+。
 
 ## A.2 安装依赖
 
@@ -60,9 +59,7 @@ uv run python scripts/make_sample_data.py
 
 ## A.5 复现环境：库版本表
 
-下表为本书写作与全部 notebook 验证所用的精确版本（**Python 3.14.3**）。
-`uv.lock` 已锁定全部依赖的精确版本与哈希，`uv sync` 即可一字不差地复现；
-此表供查阅与离线参考。
+下表为本书写作与全部 notebook 验证所用的精确版本（**Python 3.14.3**）。`uv.lock` 已锁定全部依赖的精确版本与哈希，`uv sync` 即可一字不差地复现；此表供查阅与离线参考。
 
 ### 核心依赖（`uv sync`）
 
@@ -117,16 +114,13 @@ uv run python scripts/make_sample_data.py
 | `pytest` | 9.0.3 | 测试 |
 
 !!! tip "版本以 uv.lock 为准"
-    上表为可读参考；真正保证复现的是仓库内的 `uv.lock`（锁定精确版本与哈希）。
-    若需升级某个库：`uv lock --upgrade-package <名称>`，再 `uv sync`。
+    上表为可读参考；真正保证复现的是仓库内的 `uv.lock`（锁定精确版本与哈希）。若需升级某个库：`uv lock --upgrade-package <名称>`，再 `uv sync`。
 
 ## A.6 正文图示工作流（最佳实践）
 
-正文中的图由 `scripts/make_figures.py` 生成，保存为 PNG 到 `book/assets/figures/`，
-再在 Markdown 中引用。这样做的好处：
+正文中的图由 `scripts/make_figures.py` 生成，保存为 PNG 到 `book/assets/figures/`，再在 Markdown 中引用。这样做的好处：
 
-- **与 notebook 同源**：图示复用 `fds` 工具、内置数据与统一主题（`set_chinese_font`），
-  风格与各章 notebook 一致、可复现；
+- **与 notebook 同源**：图示复用 `fds` 工具、内置数据与统一主题（`set_chinese_font`），风格与各章 notebook 一致、可复现；
 - **纯 MkDocs**：无需插件即可在网页/PDF 中显示；
 - **可编辑**：哪张图放哪、配什么图注，完全可控；图片入库，使书无需运行代码即可查看。
 

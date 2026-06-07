@@ -4,8 +4,7 @@
 
 ## 本书定位
 
-本书面向**经济、金融、统计、计算机等专业的本科高年级学生与研究生**，介绍如何用
-数据科学方法分析金融问题。我们假设读者具备：
+本书面向**经济、金融、统计、计算机等专业的本科高年级学生与研究生**，介绍如何用数据科学方法分析金融问题。我们假设读者具备：
 
 - 初步的 Python 基础（变量、函数、循环）
 - 概率统计与微积分的基本概念（不熟悉的部分见[附录B](appendix/b-math-review.md)）
@@ -13,10 +12,8 @@
 
 ## 本书特色
 
-- **正文 + 代码分离**：概念与推导写在 Markdown 正文，可运行代码放在配套
-  Jupyter Notebook，正文按需引用代码与图表。
-- **本地可执行**：所有基础章节依赖**内置示例数据集**，断网也能跑；进阶章节
-  提供**中国市场真实数据**接口（akshare / tushare）。
+- **正文 + 代码分离**：概念与推导写在 Markdown 正文，可运行代码放在配套Jupyter Notebook，正文按需引用代码与图表。
+- **本地可执行**：所有基础章节依赖**内置示例数据集**，断网也能跑；进阶章节提供**中国市场真实数据**接口（akshare / tushare）。
 - **贴近中国市场**：示例与案例尽量采用 A 股、中国债券与宏观数据。
 
 ## 如何使用本书
@@ -36,5 +33,4 @@
 | 附录 | 参考 | 环境配置、数学回顾、数据字典、术语与符号表 |
 
 !!! info "许可与引用"
-    代码采用 **MIT**、正文与图表采用 **CC BY 4.0**（见仓库 `LICENSE`）；引用方式见 `CITATION.cff`。
-    勘误与建议欢迎到 [GitHub Issues](https://github.com/albertandking/financial-data-science/issues) 反馈。
+    代码采用 **MIT**、正文与图表采用 **CC BY 4.0**（见仓库 `LICENSE`）；引用方式见 `CITATION.cff`。勘误与建议欢迎到 [GitHub Issues](https://github.com/albertandking/financial-data-science/issues) 反馈。

@@ -45,8 +45,7 @@ prices = load_sample_prices()
 | `SMB` | float | 小市值因子（合成示意，股票池无市值无法真实构造） |
 | `MOM` | float | 动量因子（合成示意） |
 
-`MKT/HML` 基于真实数据构造、回归结论可信；`SMB/MOM` 为标注的合成因子。
-加载：`from fds import load_factors`。
+`MKT/HML` 基于真实数据构造、回归结论可信；`SMB/MOM` 为标注的合成因子。加载：`from fds import load_factors`。
 
 ## C.4 内置财务面板 `fundamentals`
 
