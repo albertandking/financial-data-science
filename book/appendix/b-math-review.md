@@ -172,7 +172,7 @@ $$\mathrm{Var}(aX+bY) = a^2\mathrm{Var}(X) + b^2\mathrm{Var}(Y) + 2ab\,\mathrm{C
 ### B.3.3 偏度与峰度
 
 **偏度**（三阶标准矩）衡量不对称：负偏表示左尾长（暴跌比暴涨剧烈）。
-**峰度**（四阶标准矩）衡量尾部厚度，正态峰度为 3，**超额峰度** = 峰度 − 3：
+**峰度**（四阶标准矩）衡量尾部厚度，正态峰度为3，**超额峰度** = 峰度 − 3：
 
 $$\text{Skew} = \mathbb{E}\!\left[\Big(\tfrac{X-\mu}{\sigma}\Big)^3\right], \qquad
 \text{Kurt} = \mathbb{E}\!\left[\Big(\tfrac{X-\mu}{\sigma}\Big)^4\right]$$
@@ -237,7 +237,7 @@ $$\hat{\boldsymbol\theta}_{\text{MLE}} = \arg\max_{\boldsymbol\theta} \prod_i p(
 
 1. 设原假设 $H_0$（如「该因子无效，系数=0」）与备择 $H_1$；
 2. 计算检验统计量（如 $t = \hat\beta/\mathrm{se}(\hat\beta)$）；
-3. 由 **p 值** 判断：$p<\alpha$（如 0.05）则拒绝 $H_0$。
+3. 由 **p 值** 判断：$p<\alpha$（如0.05）则拒绝 $H_0$。
 
 **p 值**是「若 $H_0$ 为真，观测到当前或更极端结果的概率」，**不是**「$H_0$ 为真的概率」。
 
@@ -251,7 +251,7 @@ $$\hat{\boldsymbol\theta}_{\text{MLE}} = \arg\max_{\boldsymbol\theta} \prod_i p(
 ### B.4.4 多重检验问题
 
 !!! danger "金融研究的头号陷阱"
-    若同时检验 100 个无效因子，在 5% 显著性下平均会有约 5 个「碰巧显著」。
+    若同时检验100个无效因子，在5% 显著性下平均会有约5个「碰巧显著」。
     反复试不同策略/参数直到「跑出」漂亮结果，即**数据窥探（data snooping）**。
     缓解：Bonferroni 校正、样本外验证、控制错误发现率（FDR）。这是第9、17章
     反复强调样本外检验与时序交叉验证的统计学根源。

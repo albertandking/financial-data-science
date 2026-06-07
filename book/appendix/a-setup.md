@@ -17,7 +17,7 @@
     ```
 
 uv 会在需要时**自动下载 Python**，无需单独安装。本书推荐 **Python 3.14**
-（仓库 `.python-version` 已固定为 3.14，`uv sync` 会自动使用它）。代码同样兼容 3.11+。
+（仓库 `.python-version` 已固定为3.14，`uv sync` 会自动使用它）。代码同样兼容3.11+。
 
 ## A.2 安装依赖
 
@@ -69,7 +69,7 @@ uv run python scripts/make_sample_data.py
 | 库 | 版本 | 用途 |
 |---|---|---|
 | `numpy` | 2.4.6 | 数值计算 |
-| `pandas` | 3.0.3 | 数据处理（注意 3.x 用 `ME`/`YE` 频率别名） |
+| `pandas` | 3.0.3 | 数据处理（注意3.x 用 `ME`/`YE` 频率别名） |
 | `scipy` | 1.17.1 | 科学计算、统计 |
 | `matplotlib` | 3.10.9 | 绘图 |
 | `seaborn` | 0.13.2 | 统计可视化 |
@@ -150,4 +150,4 @@ uv run python scripts/make_sample_data.py
 - **中文乱码**：调用 `from fds import set_chinese_font; set_chinese_font()`；Windows 通常已有“微软雅黑”。
 - **akshare 抓取失败**：多为网络或接口变更，重试或更新 `uv lock --upgrade-package akshare`。
 - **PyTorch 安装慢**：仅进阶章节需要，可单独 `uv sync --extra advanced`。
-- **Python 版本**：推荐 3.14；若所在平台某重依赖暂无 3.14 wheel，可在 `.python-version` 改回 3.11/3.12 后 `uv sync`。
+- **Python 版本**：推荐3.14；若所在平台某重依赖暂无3.14 wheel，可在 `.python-version` 改回3.11/3.12后 `uv sync`。

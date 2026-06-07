@@ -21,7 +21,7 @@ prices = load_sample_prices()
 
 ## C.2 内置市场数据 `market`
 
-市场指数与无风险利率日度序列；4 只股票对该指数有真实 beta（第7章 CAPM 用）。
+市场指数与无风险利率日度序列；4只股票对该指数有真实 beta（第7章 CAPM 用）。
 
 | 字段 | 类型 | 含义 |
 |---|---|---|
@@ -41,7 +41,7 @@ prices = load_sample_prices()
 |---|---|---|
 | `date`（索引） | datetime | 交易日 |
 | `MKT` | float | 市场超额收益（真实，= index_return − rf_daily） |
-| `HML` | float | 价值−成长，由 (BANK+UTILITY)/2 − (TECH+LIQUOR)/2 多空构造（真实相关） |
+| `HML` | float | 价值−成长，由 (BANK+UTILITY)/2 − (TECH+LIQUOR)/2多空构造（真实相关） |
 | `SMB` | float | 小市值因子（合成示意，股票池无市值无法真实构造） |
 | `MOM` | float | 动量因子（合成示意） |
 
@@ -55,7 +55,7 @@ prices = load_sample_prices()
 | 字段 | 类型 | 含义 |
 |---|---|---|
 | `firm` | str | 公司代码 F000–F199 |
-| `year` | int | 年度 2018–2025 |
+| `year` | int | 年度2018–2025 |
 | `industry` | str | 行业 |
 | `roa` | float | 资产收益率（因变量） |
 | `leverage` | float | 资产负债率（真实系数 −0.12） |
