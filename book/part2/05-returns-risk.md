@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch05_returns_risk.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch05_returns_risk.ipynb)
 
 !!! info "配套代码"
-    本章示例可在配套 notebook 中运行，依赖内置数据，离线即可完成；VaR、ES 与索提诺比率等指标会在 notebook 中逐步实现。
+    本章示例可在配套 notebook 中运行。主体实验依赖内置数据，离线即可完成。VaR、ES 与索提诺比率等指标会在 notebook 中逐步实现。
 
 ## 5.1 本章导读与学习目标
 
@@ -757,3 +757,4 @@ $$\beta_i = \frac{\text{Cov}(r_i, r_m)}{\text{Var}(r_m)}$$
 4. **McNeil, A. J., Frey, R., & Embrechts, P. (2015). *Quantitative Risk Management* (2nd ed.). Princeton University Press.**极端值理论（EVT）、Copula、VaR/ES 的高级处理，研究生进阶参考。
 
 5. **Rockafellar, R. T., & Uryasev, S. (2000). Optimization of Conditional Value-at-Risk. *Journal of Risk*, 2(3), 21–41.**CVaR 优化框架，连接风险度量与投资组合优化（见第8章）。
+

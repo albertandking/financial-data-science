@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch03_data_acquisition.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch03_data_acquisition.ipynb)
 
 !!! info "配套代码"
-    本章示例可在配套 notebook 中运行。清洗与质量检查部分使用内置数据，**离线即可完成**；末尾“联网抓取”小节需要额外接入在线数据源。
+    本章示例可在配套 notebook 中运行。清洗与质量检查部分使用内置数据，离线即可完成。末尾“联网抓取”小节需要额外接入在线数据源。
 
 ---
 
@@ -806,15 +806,15 @@ def data_quality_report(df: pd.DataFrame, limit_pct: float = 0.10) -> None:
 
 ## 3.8 联网抓取实操（可选）
 
-!!! note "需要 `uv sync --extra data`"
-    本节内容需要安装 akshare。执行下方命令后重启 Jupyter 内核：
+!!! note "联网抓取依赖"
+    本节内容需要额外安装 akshare。按下方命令准备环境后，请重启 Jupyter 内核：
     ```bash
     uv sync --extra data
     ```
 
 ### 3.8.1 一键抓取并落盘
 
-本仓库提供了脚本 `scripts/fetch_data.py`，封装了抓取、校验、落盘的完整流程：
+下面用脚本 `scripts/fetch_data.py` 说明抓取、校验与落盘流程：
 
 ```bash
 # 抓取贵州茅台 2022-2024 年前复权日线
@@ -920,3 +920,4 @@ def robust_fetch(symbol: str, retries: int = 3, delay: float = 2.0) -> pd.DataFr
 - **Leys et al. (2013)** *Detecting outliers: Do not use standard deviation around the mean, use absolute deviation around the median* — MAD 方法的经典参考论文
 - **Lo, Andrew W. (2002)** *The Statistics of Sharpe Ratios* — 说明数据清洗对统计估计的影响
 - 上交所股票交易规则：<https://www.sse.com.cn/> —— 涨跌停规则的权威来源
+

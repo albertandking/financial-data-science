@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch12_deep_learning.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch12_deep_learning.ipynb)
 
 !!! info "配套代码"
-    本章示例可在配套 notebook 中运行，主要使用 PyTorch；如需运行进阶实验，请先按环境说明准备相关依赖。
+    本章示例可在配套 notebook 中运行，主要使用 PyTorch。如需运行进阶实验，请先按环境说明准备相关依赖。
 
 ## 12.1 本章导读
 
@@ -565,7 +565,7 @@ for epoch in range(30):
     optimizer.step()
 ```
 
-完整示例可在配套 notebook 中进一步复现。
+完整示例可结合配套示例进一步练习。
 
 ### 12.9.4 A股案例：LSTM 预测波动率 vs GARCH
 
@@ -680,3 +680,4 @@ y = feat_df['target'].values
 - **Gu, Kelly & Xiu（2020）**“Empirical Asset Pricing via Machine Learning”，*Review of Financial Studies*。用机器学习（含神经网络）预测美国股票横截面收益率，是金融 ML 领域的重要实证研究。
 
 - **Lim & Zohren（2021）**“Time-series forecasting with deep learning: a survey”，*Philosophical Transactions of the Royal Society A*。覆盖 Transformer 在时序预测中的应用，对第19章（大模型）有铺垫作用。
+

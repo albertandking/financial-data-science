@@ -1,9 +1,9 @@
-# 第1章 导论：什么是金融数据科学
+# 第1章 金融数据科学导论
 
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch01_introduction.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch01_introduction.ipynb)
 
 !!! info "配套代码"
-    本章示例可在配套 notebook 中逐格运行；若使用本书提供的样本数据，请先按环境说明准备内置数据集。
+    本章示例可在配套 notebook 中逐格运行。如需运行，请先按环境说明准备内置样本数据。
 
 ---
 
@@ -617,7 +617,7 @@ A股于2010年引入融资融券，但有以下限制：
 </figure>
 
 
-下面用内置示例数据集计算四只虚构股票的累计收益并作图。完整可运行代码见配套notebook，这里展示核心片段：
+下面用内置示例数据集计算四只虚构股票的累计收益并作图。这里先展示核心代码片段：
 
 ```python
 from fds import load_sample_prices, daily_returns, set_chinese_font
@@ -750,3 +750,4 @@ plt.show()
 - [**QuantLib**](https://www.quantlib.org)：开源金融衍生品定价库
 - [**AKShare**](https://akshare.akfamily.xyz)：开源A股数据获取Python库
 - [**WRDS**](https://wrds-www.wharton.upenn.edu)（Wharton Research Data Services）：国际学术数据库，许多高校订阅
+

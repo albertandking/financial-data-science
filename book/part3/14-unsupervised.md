@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch14_unsupervised.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch14_unsupervised.ipynb)
 
 !!! info "配套代码"
-    本章示例可在配套 notebook 中运行，主要使用 scikit-learn 与 scipy，离线即可完成。
+    本章示例可在配套 notebook 中运行，主要使用 scikit-learn 与 scipy。离线即可完成。
 
 ---
 
@@ -105,7 +105,7 @@ $$\text{EVR}_k = \frac{\lambda_k}{\sum_j \lambda_j}$$
 !!! tip "呼应第7章因子模型"
     Fama-French 三因子模型中，市场因子 $R_m - R_f$ 解释了横截面收益方差的最大份额。PCA 从数据驱动角度「发现」了同一个事实：第一主成分载荷近似等权，正好对应等权市场组合。
 
-在 notebook 中，对四只内置股票收益矩阵运行：
+下面对四只内置股票收益矩阵运行：
 
 ```python
 from sklearn.decomposition import PCA
@@ -220,9 +220,9 @@ $$\underset{C_1,\ldots,C_K}{\min} \sum_{k=1}^K \sum_{\mathbf{x} \in C_k} \|\math
 !!! tip "金融实践中的 $K$ 选择"
     资产分群时，$K$ 往往结合业务语义确定：三大类风格（成长/价值/红利）对应 $K=3$，或参照行业分类体系对应更大的 $K$。纯粹数据驱动的 $K$ 选择结果需用经济逻辑验证。
 
-#### notebook 演示：合成 30 只股票聚类
+#### 示例：合成 30 只股票聚类
 
-内置数据只有4只股票，不足以演示聚类分析。notebook 中**合成了30只股票**（分为3个真实组，每组10只），为每只股票计算三个特征：年化收益率、年化波动率、与等权市场组合的相关系数，然后用 KMeans（$K=3$）聚类，并用调整兰德指数（ARI）衡量聚类对真实分组的还原程度：
+内置数据只有4只股票，不足以演示聚类分析。为便于说明，这里**合成30只股票**（分为3个真实组，每组10只），为每只股票计算三个特征：年化收益率、年化波动率、与等权市场组合的相关系数，然后用 KMeans（$K=3$）聚类，并用调整兰德指数（ARI）衡量聚类对真实分组的还原程度：
 
 ```python
 feat = pd.DataFrame({'ret':  df.mean() * 252,
@@ -300,7 +300,7 @@ $$d_{ij} = 1 - \rho_{ij}$$
 | `average`（平均距离） | 所有跨簇点对距离的均值 | **金融资产分群常用** |
 | `ward`（最小方差） | 合并后簇内方差增量最小 | 等大小的球形簇 |
 
-#### notebook 演示：四只股票层次聚类
+#### 示例：四只股票层次聚类
 
 下面对四只内置股票计算相关性距离，使用 `average` linkage 做层次聚类并绘制 dendrogram：
 
@@ -407,7 +407,7 @@ $$s(x,\ n) = 2^{-\,E[h(x)]\,/\,c(n)}$$
 | **数据质量清洗** | 收益率绝对值、价格涨跌幅 | 高频数据尤其重要 |
 | **欺诈交易识别** | 交易时间、金额、对手方等 | 通常配合有监督模型使用 |
 
-### 14.6.3 notebook 演示：标记极端交易日
+### 14.6.3 示例：标记极端交易日
 
 下面对内置股票「TECH」的日收益序列做孤立森林检测：
 
@@ -640,3 +640,5 @@ summary = feat2.groupby('regime').agg(
 - `scikit-learn` 文档：[Clustering](https://scikit-learn.org/stable/modules/clustering.html)、[Anomaly Detection](https://scikit-learn.org/stable/modules/outlier_detection.html)——官方文档含完整示例与算法对比。
 - `hmmlearn` 库：提供高斯隐马尔可夫模型（`GaussianHMM`），可直接用于市场状态识别进阶实验。
 - López de Prado, M. (2018). *Advances in Financial Machine Learning.* Wiley.——第四部分「有用的金融特征」与第五部分「组合构建」含有大量无监督学习的量化实践示例，是本章最佳延伸阅读。
+
+

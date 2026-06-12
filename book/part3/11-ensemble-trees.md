@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch11_ensemble_trees.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch11_ensemble_trees.ipynb)
 
 !!! info "配套代码"
-    本章示例可在配套 notebook 中运行，主要使用 scikit-learn 与 xgboost；如需运行，请先准备相应依赖。
+    本章示例可在配套 notebook 中运行，主要使用 scikit-learn 与 xgboost。如需运行，请先按环境说明准备相关依赖。
 
 ## 11.1 本章导读
 
@@ -549,11 +549,11 @@ $$\phi_j = \sum_{S \subseteq F \setminus \{j\}} \frac{|S|!(|F|-|S|-1)!}{|F|!} \l
 | 指标 | XGBoost | 逻辑回归 |
 |------|---------|---------|
 | 训练 AUC | — | — |
-| 测试 AUC | （见 notebook 运行结果）| （见 notebook 运行结果）|
+| 测试 AUC | （见下文示例结果）| （见下文示例结果）|
 | 主要优势 | 捕捉非线性交互 | 可解释系数，不易过拟合 |
 | 主要风险 | 超参敏感，需交叉验证 | 假设线性，错失非线性信息 |
 
-上表的数字留待 notebook 实跑填写，但「该读出什么结论」可以先讲透。下面给一组贴近真实日频实验的典型数值，演示如何从训练/测试 AUC 的对比里读出过拟合，并理解「为什么 XGBoost 不一定打得过逻辑回归」。
+上表先不固定具体数值，但「该读出什么结论」可以先讲透。下面给一组贴近真实日频实验的典型数值，演示如何从训练/测试 AUC 的对比里读出过拟合，并理解「为什么 XGBoost 不一定打得过逻辑回归」。
 
 !!! example "例 11.6 A 股涨跌预测：XGBoost vs 逻辑回归 AUC"
     在某只 A 股的日频数据上，用11.11.1的7个技术特征预测次日涨跌，按时间 $70\%/30\%$ 切分训练与测试，得到一组典型结果（数值随随机种子与区间略有波动）：
@@ -658,3 +658,4 @@ $$\phi_j = \sum_{S \subseteq F \setminus \{j\}} \frac{|S|!(|F|-|S|-1)!}{|F|!} \l
 6. **scikit-learn 官方文档**. [Ensemble methods](https://scikit-learn.org/stable/modules/ensemble.html). 随机森林与梯度提升的参数详解与示例。
 
 7. **XGBoost 官方文档**. [XGBoost Parameters](https://xgboost.readthedocs.io/en/stable/parameter.html). 全部超参数说明与调优建议。
+

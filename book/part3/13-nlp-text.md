@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch13_nlp_text.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch13_nlp_text.ipynb)
 
 !!! info "配套代码"
-    本章示例可在配套 notebook 中运行，主要使用 jieba、scikit-learn 与 transformers；如需运行进阶实验，请先按环境说明准备相关依赖。
+    本章示例可在配套 notebook 中运行，主要使用 jieba、scikit-learn 与 transformers。如需运行进阶实验，请先按环境说明准备相关依赖。
 
 ---
 
@@ -11,7 +11,7 @@
 
 从季报年报到财经新闻，从分析师研报到股吧舆情，金融市场每天产生海量文本信息。这些文字背后隐藏着投资者情绪、公司基本面变化和市场预期的关键信号。传统量化方法依赖结构化数据（价格、财务指标），而**自然语言处理（NLP）** 技术打开了另一扇窗——让机器自动“读懂”非结构化文本，并将其转化为可量化的投资信号。
 
-本章以**中文金融文本**为主线，系统介绍从原始文字到可用因子的完整流程：分词与清洗 → 文本表示 → 情感分析 → 信号构建。相关示例可在配套 notebook 中完整复现，主体内容均可离线运行。
+本章以**中文金融文本**为主线，系统介绍从原始文字到可用因子的完整流程：分词与清洗 → 文本表示 → 情感分析 → 信号构建。相关示例覆盖完整流程，主体内容均可离线运行。
 
 ### 13.1.1 学习目标
 
@@ -590,11 +590,11 @@ def build_sentiment_factor(news_df, returns_df):
 
 ## 13.8 实战：中文财经情感分类 Pipeline
 
-本节的完整代码在 `notebooks/ch13_nlp_text.ipynb` 中逐步实现，概要如下：
+本节给出一套可直接运行的实现框架，概要如下：
 
 ### 13.8.1 数据集构建
 
-我们在 notebook 中**硬编码**一个由50条中文财经句子组成的小型数据集，涵盖：
+下面构造一个由50条中文财经句子组成的小型数据集，涵盖：
 - 正面（利好）：业绩超预期、股价创新高、大额回购、分红提升等
 - 负面（利空）：亏损扩大、问询函、减持公告、债务危机等
 - 中性：日常公告、管理层换届等（可选扩展）
@@ -731,9 +731,9 @@ $D_3$：“公司发布新品，市场反应良好”
 
 ---
 
-**习题13.5** 实战挑战
+**习题13.5** 综合练习
 
-基于本章 notebook 中的50条数据集：
+基于本章前文使用的50条数据集：
 
 (a) 将数据集扩充至80条（自行添加30条合理的财经句子），重新训练并观察准确率变化；(b) 尝试将 `ngram_range=(1,2)` 改为 `(1,3)`，比较结果差异并解释原因；(c) 使用 `class_weight='balanced'` 参数，观察对混淆矩阵的影响；(d) （进阶）爬取10条真实财经新闻标题，用训练好的模型预测情感，主观评估预测质量。
 
@@ -753,3 +753,4 @@ $D_3$：“公司发布新品，市场反应良好”
 | jieba 官方文档 | 文档 | github.com/fxsjy/jieba |
 | sklearn 文本特征提取 | 文档 | scikit-learn.org/stable/modules/feature\_extraction.html |
 | Hugging Face Hub | 模型库 | huggingface.co — 中文金融模型搜索关键词：FinBERT-Chinese |
+

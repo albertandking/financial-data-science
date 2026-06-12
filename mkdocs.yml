@@ -12,7 +12,6 @@ theme:
   name: material
   language: zh
   features:
-    - navigation.tabs
     - navigation.sections
     - navigation.top
     - toc.follow
@@ -63,7 +62,7 @@ nav:
   - 首页: index.md
   - 前言: preface.md
   - 第一部分·基础:
-      - 第1章 导论：什么是金融数据科学: part1/01-introduction.md
+      - 第1章 金融数据科学导论: part1/01-introduction.md
       - 第2章 Python 数据科学工具栈: part1/02-python-toolkit.md
       - 第3章 金融数据获取与清洗: part1/03-data-acquisition.md
       - 第4章 探索性分析与可视化: part1/04-eda-visualization.md
@@ -85,7 +84,7 @@ nav:
       - 第17章 量化策略与回测: part4/17-backtesting.md
       - 第18章 信用风险与违约预测: part4/18-credit-risk.md
       - 第19章 大模型与金融前沿: part4/19-llm-finance.md
-      - 第20章 金融智能体（AI Agents）: part4/20-ai-agents.md
+      - 第20章 金融智能体: part4/20-ai-agents.md
   - 附录:
       - 附录A 本地环境配置: appendix/a-setup.md
       - 附录B 数学与概率回顾: appendix/b-math-review.md

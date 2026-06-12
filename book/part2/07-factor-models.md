@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch07_factor_models.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch07_factor_models.ipynb)
 
 !!! info "配套代码"
-    本章示例可在配套 notebook 中运行；如需运行，请先准备内置样本数据。
+    本章示例可在配套 notebook 中运行。如需运行，请先按环境说明准备内置样本数据。
 
 ---
 
@@ -745,8 +745,9 @@ A 股受政策影响大，部分“因子”本质上是政策受益主题（如
 ---
 
 !!! note "数据说明"
-    本章 notebook 全部使用内置数据集，**完全离线可跑**：
+    本章示例使用内置数据集，离线即可完成：
 
     1. **股票价格**（`load_sample_prices()`）：4只 A 股风格资产（BANK/LIQUOR/TECH/UTILITY），约750个交易日。
     2. **市场数据**（`load_market()`）：真实市场指数日收益与无风险利率（`rf_daily`），用于 CAPM 时序回归。4只股票对该指数有真实 beta。
     3. **因子数据**（`load_factors()`）：749行日度数据。其中 `MKT`（市场超额收益）与 `HML`（价值−成长多空构造）**基于真实数据，结论可信**；`SMB` 和 `MOM` 为**合成示意因子**（本股票池仅4只、无市值/动量数据，无法真实构造），仅用于演示多因子回归的操作流程，不代表真实 A 股结论。如需完整真实因子，请参见附录C数据字典，或从 CSMAR、Wind 获取。
+

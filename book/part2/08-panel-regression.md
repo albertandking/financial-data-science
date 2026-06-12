@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch08_panel_regression.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch08_panel_regression.ipynb)
 
 !!! info "配套代码"
-    本章示例可在配套 notebook 中运行，主要使用 linearmodels 与 statsmodels。本章实战部分采用内置财务面板数据集 `fundamentals`，并预设已知系数与公司固定效应，便于检验 FE 估计能否还原真实参数；离线即可完成。
+    本章示例可在配套 notebook 中运行，主要使用 linearmodels 与 statsmodels。实战部分采用内置财务面板数据集 `fundamentals`，并预设已知系数与公司固定效应，便于检验 FE 估计能否还原真实参数。离线即可完成。
 
 ---
 
@@ -601,3 +601,5 @@ $$H_{\text{手动}} = \frac{(\hat{\beta}_{\text{FE}} - \hat{\beta}_{\text{RE}})^
 
 6. **Cameron, A. C., & Miller, D. L. (2015)**. A practitioner's guide to cluster-robust inference. *Journal of Human Resources*, 50(2), 317—372.
    — 聚类标准误的实践指南，涵盖何时聚类、如何选择聚类变量、小样本修正等实际操作问题。
+
+

@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch09_supervised_learning.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch09_supervised_learning.ipynb)
 
 !!! info "配套代码"
-    本章示例可在配套 notebook 中运行，主要使用 scikit-learn，离线即可完成。
+    本章示例可在配套 notebook 中运行，主要使用 scikit-learn。离线即可完成。
 
 ---
 
@@ -911,3 +911,5 @@ acc_ts = ...   # 通常明显低于 acc_rnd
 5. **scikit-learn 官方文档**：[交叉验证](https://scikit-learn.org/stable/modules/cross_validation.html)、[Pipeline](https://scikit-learn.org/stable/modules/pipeline.html)、[线性模型](https://scikit-learn.org/stable/modules/linear_model.html)
 
 6. **Gu, Kelly & Xiu (2020)**，“Empirical Asset Pricing via Machine Learning”，*Review of Financial Studies*。大规模实证研究，展示 ML 在美股选股中的应用。
+
+
