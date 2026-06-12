@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch18_credit_risk.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch18_credit_risk.ipynb)
 
 !!! info "配套代码"
-    本章示例可在配套 notebook 中运行。主体实验使用内置 `credit` 数据集完整演示评分卡建模流程。离线即可完成。
+    本章示例可在配套示例 中运行。主体实验使用内置 `credit` 数据集完整演示评分卡建模流程。离线即可完成。
 
 ---
 
@@ -811,5 +811,6 @@ print(f"违约率: {df['default'].mean():.2%}")
 5. **Chen, T. & Guestrin, C. (2016)** *XGBoost: A Scalable Tree Boosting System*. KDD 2016. — XGBoost 原始论文，单调约束（monotone_constraints）在 XGBoost 1.0版本引入，适合信用场景。
 
 6. **Lundberg, S.M. et al. (2020)** *From local explanations to global understanding with explainable AI for trees*. Nature Machine Intelligence. — TreeSHAP 在信用风险模型解释中的应用，兼顾精度与效率。
+
 
 

@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch15_high_frequency.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch15_high_frequency.ipynb)
 
 !!! info "配套代码"
-    本章示例可在配套 notebook 中运行。示例数据使用 `np.random.default_rng(15)` 生成的**合成日内数据**，无需真实 Level-2 数据源。离线即可完成。
+    本章示例可在配套示例 中运行。示例数据使用 `np.random.default_rng(15)` 生成的**合成日内数据**，无需真实 Level-2 数据源。离线即可完成。
 
 ---
 
@@ -690,5 +690,6 @@ ohlcv = tick_df.resample('1min').agg({
 
 - 上海证券交易所市场质量报告（年度）：包含流动性、成交量分布、集合竞价等统计数据，免费公开。
 - 深圳证券交易所 Level-2数据说明文档：逐笔成交与委托数据格式规范的权威参考。
+
 
 

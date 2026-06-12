@@ -50,16 +50,16 @@ uv run python scripts/make_sample_data.py
 | 运行测试 | `uv run pytest` |
 | 代码检查（PEP8/类型/import） | `uv run ruff check src scripts tests` |
 | 代码格式化 | `uv run ruff format src scripts tests` |
-| 执行某 notebook | `uv run jupyter nbconvert --to notebook --execute notebooks/ch01_introduction.ipynb` |
+| 执行某配套示例 | `uv run jupyter nbconvert --to notebook --execute notebooks/ch01_introduction.ipynb` |
 | 生成正文图示（PNG） | `uv run python scripts/make_figures.py` |
-| 导出 notebook 到 md | `uv run python scripts/export_notebooks.py` |
+| 导出配套示例到 md | `uv run python scripts/export_notebooks.py` |
 | 本地预览书 | `uv run mkdocs serve` |
 | 构建静态网站 | `uv run mkdocs build` |
 | 导出全书 PDF | `uv run python scripts/build_pdf.py` |
 
 ## A.5 复现环境：库版本表
 
-下表为本书写作与全部 notebook 验证所用的精确版本（**Python 3.14.3**）。`uv.lock` 已锁定全部依赖的精确版本与哈希，`uv sync` 即可一字不差地复现；此表供查阅与离线参考。
+下表为本书写作与全部配套示例验证所用的精确版本（**Python 3.14.3**）。`uv.lock` 已锁定全部依赖的精确版本与哈希，`uv sync` 即可一字不差地复现；此表供查阅与离线参考。
 
 ### 核心依赖（`uv sync`）
 
@@ -120,7 +120,7 @@ uv run python scripts/make_sample_data.py
 
 正文中的图由 `scripts/make_figures.py` 生成，保存为 PNG 到 `book/assets/figures/`，再在 Markdown 中引用。这样做的好处：
 
-- **与 notebook 同源**：图示复用 `fds` 工具、内置数据与统一主题（`set_chinese_font`），风格与各章 notebook 一致、可复现；
+- **与配套示例同源**：图示复用 `fds` 工具、内置数据与统一主题（`set_chinese_font`），风格与各章配套示例一致、可复现；
 - **纯 MkDocs**：无需插件即可在网页/PDF 中显示；
 - **可编辑**：哪张图放哪、配什么图注，完全可控；图片入库，使书无需运行代码即可查看。
 
@@ -145,3 +145,4 @@ uv run python scripts/make_sample_data.py
 - **akshare 抓取失败**：多为网络或接口变更，重试或更新 `uv lock --upgrade-package akshare`。
 - **PyTorch 安装慢**：仅进阶章节需要，可单独 `uv sync --extra advanced`。
 - **Python 版本**：推荐3.14；若所在平台某重依赖暂无3.14 wheel，可在 `.python-version` 改回3.11/3.12后 `uv sync`。
+

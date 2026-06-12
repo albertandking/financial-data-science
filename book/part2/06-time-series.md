@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch06_time_series.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch06_time_series.ipynb)
 
 !!! info "配套代码"
-    本章示例可在配套 notebook 中运行，主要使用 `statsmodels` 与 `arch` 两个工具包。如需运行，请先按环境说明准备内置样本数据。
+    本章示例可在配套示例 中运行，主要使用 `statsmodels` 与 `arch` 两个工具包。如需运行，请先按环境说明准备内置样本数据。
 
 ---
 
@@ -812,4 +812,5 @@ returns = daily_returns(prices, log=True)['TECH']
 | Hyndman, R.J., & Athanasopoulos, G. (2021). *Forecasting: Principles and Practice* (3rd ed.). OTexts. [免费在线](https://otexts.com/fpp3/) | 面向实践的预测方法书，含 ARIMA 和 ETS 详细讲解，配套 R/Python 代码 |
 | `arch` 库文档：[https://arch.readthedocs.io](https://arch.readthedocs.io) | Python ARCH/GARCH 库官方文档，含丰富示例 |
 | `statsmodels` 文档：[https://www.statsmodels.org](https://www.statsmodels.org) | Python 统计建模库，ARIMA、ADF、ACF/PACF 等均在此 |
+
 

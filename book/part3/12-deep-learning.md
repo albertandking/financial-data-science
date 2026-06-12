@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch12_deep_learning.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch12_deep_learning.ipynb)
 
 !!! info "配套代码"
-    本章示例可在配套 notebook 中运行，主要使用 PyTorch。如需运行进阶实验，请先按环境说明准备相关依赖。
+    本章示例可在配套示例 中运行，主要使用 PyTorch。如需运行进阶实验，请先按环境说明准备相关依赖。
 
 ## 12.1 本章导读
 
@@ -241,7 +241,7 @@ $$
 \tilde{\mathbf{c}}_t = \tanh\!\left(\mathbf{W}_c [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_c\right)
 $$
 
-**记忆更新**（Cell State）：
+**记忆更新**（单元状态）：
 
 $$
 \mathbf{c}_t = \mathbf{f}_t \odot \mathbf{c}_{t-1} + \mathbf{i}_t \odot \tilde{\mathbf{c}}_t
@@ -680,4 +680,5 @@ y = feat_df['target'].values
 - **Gu, Kelly & Xiu（2020）**“Empirical Asset Pricing via Machine Learning”，*Review of Financial Studies*。用机器学习（含神经网络）预测美国股票横截面收益率，是金融 ML 领域的重要实证研究。
 
 - **Lim & Zohren（2021）**“Time-series forecasting with deep learning: a survey”，*Philosophical Transactions of the Royal Society A*。覆盖 Transformer 在时序预测中的应用，对第19章（大模型）有铺垫作用。
+
 

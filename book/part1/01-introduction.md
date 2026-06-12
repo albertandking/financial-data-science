@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch01_introduction.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch01_introduction.ipynb)
 
 !!! info "配套代码"
-    本章示例可在配套 notebook 中逐格运行。如需运行，请先按环境说明准备内置样本数据。
+    本章示例可在配套示例 中逐格运行。如需运行，请先按环境说明准备内置样本数据。
 
 ---
 
@@ -680,7 +680,7 @@ plt.show()
 > 参考思路：前视偏差是时间维度上的信息泄漏（用了未来信息），数据窥探是参数空间的
 > 过拟合（同一历史集上选优）。前视偏差通常更隐蔽，因为它可能藏在数据预处理步骤中。
 
-**习题1.2（代码实践）**：修改配套notebook，只画出波动率最高与最低的两只股票的累计净值，并在图例中标注其年化波动率数值（精度两位小数）。
+**习题1.2（代码实践）**：修改本章配套示例，只画出波动率最高与最低的两只股票的累计净值，并在图例中标注其年化波动率数值（精度两位小数）。
 
 > 参考思路：用 `annualized_volatility(rets)` 找出最高/最低列，
 > 再 `.idxmax()` / `.idxmin()` 取列名，最后在 `plt.legend()` 中加入数值。
@@ -750,4 +750,5 @@ plt.show()
 - [**QuantLib**](https://www.quantlib.org)：开源金融衍生品定价库
 - [**AKShare**](https://akshare.akfamily.xyz)：开源A股数据获取Python库
 - [**WRDS**](https://wrds-www.wharton.upenn.edu)（Wharton Research Data Services）：国际学术数据库，许多高校订阅
+
 

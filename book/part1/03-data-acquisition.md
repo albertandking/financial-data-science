@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch03_data_acquisition.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch03_data_acquisition.ipynb)
 
 !!! info "配套代码"
-    本章示例可在配套 notebook 中运行。清洗与质量检查部分使用内置数据，离线即可完成。末尾“联网抓取”小节需要额外接入在线数据源。
+    本章示例可在配套示例 中运行。清洗与质量检查部分使用内置数据，离线即可完成。末尾“联网抓取”小节需要额外接入在线数据源。
 
 ---
 
@@ -920,4 +920,5 @@ def robust_fetch(symbol: str, retries: int = 3, delay: float = 2.0) -> pd.DataFr
 - **Leys et al. (2013)** *Detecting outliers: Do not use standard deviation around the mean, use absolute deviation around the median* — MAD 方法的经典参考论文
 - **Lo, Andrew W. (2002)** *The Statistics of Sharpe Ratios* — 说明数据清洗对统计估计的影响
 - 上交所股票交易规则：<https://www.sse.com.cn/> —— 涨跌停规则的权威来源
+
 

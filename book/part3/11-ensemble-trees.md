@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch11_ensemble_trees.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch11_ensemble_trees.ipynb)
 
 !!! info "配套代码"
-    本章示例可在配套 notebook 中运行，主要使用 scikit-learn 与 xgboost。如需运行，请先按环境说明准备相关依赖。
+    本章示例可在配套示例 中运行，主要使用 scikit-learn 与 xgboost。如需运行，请先按环境说明准备相关依赖。
 
 ## 11.1 本章导读
 
@@ -658,4 +658,5 @@ $$\phi_j = \sum_{S \subseteq F \setminus \{j\}} \frac{|S|!(|F|-|S|-1)!}{|F|!} \l
 6. **scikit-learn 官方文档**. [Ensemble methods](https://scikit-learn.org/stable/modules/ensemble.html). 随机森林与梯度提升的参数详解与示例。
 
 7. **XGBoost 官方文档**. [XGBoost Parameters](https://xgboost.readthedocs.io/en/stable/parameter.html). 全部超参数说明与调优建议。
+
 

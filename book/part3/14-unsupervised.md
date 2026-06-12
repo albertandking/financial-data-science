@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch14_unsupervised.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch14_unsupervised.ipynb)
 
 !!! info "配套代码"
-    本章示例可在配套 notebook 中运行，主要使用 scikit-learn 与 scipy。离线即可完成。
+    本章示例可在配套示例 中运行，主要使用 scikit-learn 与 scipy。离线即可完成。
 
 ---
 
@@ -640,5 +640,6 @@ summary = feat2.groupby('regime').agg(
 - `scikit-learn` 文档：[Clustering](https://scikit-learn.org/stable/modules/clustering.html)、[Anomaly Detection](https://scikit-learn.org/stable/modules/outlier_detection.html)——官方文档含完整示例与算法对比。
 - `hmmlearn` 库：提供高斯隐马尔可夫模型（`GaussianHMM`），可直接用于市场状态识别进阶实验。
 - López de Prado, M. (2018). *Advances in Financial Machine Learning.* Wiley.——第四部分「有用的金融特征」与第五部分「组合构建」含有大量无监督学习的量化实践示例，是本章最佳延伸阅读。
+
 
 

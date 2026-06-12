@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch02_python_toolkit.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch02_python_toolkit.ipynb)
 
 !!! info "配套代码"
-    本章示例可在配套 notebook 中逐格运行。主体实验依赖内置数据，离线即可完成。如需运行，请先按环境说明准备内置样本数据。
+    本章示例可在配套示例 中逐格运行。主体实验依赖内置数据，离线即可完成。如需运行，请先按环境说明准备内置样本数据。
 
 ## 2.1 本章导读与学习目标
 
@@ -77,7 +77,7 @@ dev  = ["pytest>=8.0"]
 financial-data-science/
 ├── book/           # Markdown 正文
 │   └── part1/
-├── notebooks/      # 配套 Jupyter Notebook
+├── notebooks/      # 配套交互式示例
 ├── scripts/        # 示例数据与辅助脚本
 ├── src/fds/        # 本书复用工具包
 ├── data/
@@ -912,7 +912,7 @@ plt.show()
 ```
 
 !!! tip "中文字体"
-    `set_chinese_font()` 会自动检测系统可用的中文字体（Windows 上优先 SimHei，macOS 上优先 PingFang SC，Linux 上优先 Noto Sans CJK），确保标题与标签正常显示。在 notebook 第一格调用一次即可全局生效。
+    `set_chinese_font()` 会自动检测系统可用的中文字体（Windows 上优先 SimHei，macOS 上优先 PingFang SC，Linux 上优先 Noto Sans CJK），确保标题与标签正常显示。在配套示例开头调用一次即可全局生效。
 
 ---
 
@@ -983,4 +983,5 @@ plt.show()
 5. **VanderPlas, J.** (2023). *Python Data Science Handbook*, 2nd ed. O'Reilly.
    开源全文：<https://jakevdp.github.io/PythonDataScienceHandbook/>
 6. **uv 文档**：<https://docs.astral.sh/uv/>，工作区与依赖组的完整说明。
+
 

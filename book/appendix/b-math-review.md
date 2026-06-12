@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/appendix_b_math.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/appendix_b_math.ipynb)
 
 !!! info "配套代码"
-    本附录示例可在配套 notebook 中运行，主要使用 NumPy 与 SciPy 演示关键计算。离线即可完成。
+    本附录示例可在配套示例 中运行，主要使用 NumPy 与 SciPy 演示关键计算。离线即可完成。
 
 本附录为金融数据科学所需的数学基础做系统回顾，**面向已学过但需要唤醒记忆的读者**。每节末尾标注「→ 在本书中的应用」，把抽象概念与正文章节对应起来。若某一处推导暂时跳过也无妨，遇到正文用到时再回查即可。
 
@@ -260,5 +260,6 @@ $$\hat{\boldsymbol\beta} = (X^\top X)^{-1} X^\top \mathbf{y}$$
 - **概率统计**：Wasserman,《All of Statistics》；陈希孺,《概率论与数理统计》
 - **凸优化**：Boyd & Vandenberghe,《Convex Optimization》（免费电子版）
 - **计量经济学**：Wooldridge,《计量经济学导论》
+
 
 

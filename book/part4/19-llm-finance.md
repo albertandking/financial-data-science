@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch19_llm_finance.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch19_llm_finance.ipynb)
 
 !!! info "配套代码"
-    本章示例可在配套 notebook 中运行，主要演示 RAG 检索与结构化提示解析。离线即可完成。
+    本章示例可在配套示例 中运行，主要演示 RAG 检索与结构化提示解析。离线即可完成。
 
 ---
 
@@ -895,5 +895,6 @@ LLM 是强大的**信息处理和辅助分析工具**，但不是决策工具。
 | 报告 | 中国信通院《大模型标准化白皮书》（2024） | 国内大模型评测与合规框架 |
 | 工具 | LangChain 文档（langchain.com） | RAG/Agent 开发框架 |
 | 工具 | LlamaIndex 文档 | 结构化数据 RAG 框架 |
+
 
 

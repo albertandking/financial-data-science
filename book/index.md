@@ -12,7 +12,7 @@
 
 ## 本书特色
 
-- **正文 + 代码分离**：概念与推导写在 Markdown 正文，可运行代码放在配套Jupyter Notebook，正文按需引用代码与图表。
+- **正文 + 代码分离**：概念与推导写在 Markdown 正文，可运行代码放在配套交互式示例，正文按需引用代码与图表。
 - **本地可执行**：所有基础章节依赖**内置示例数据集**，断网也能跑；进阶章节提供**中国市场真实数据**接口（akshare / tushare）。
 - **贴近中国市场**：示例与案例尽量采用 A 股、中国债券与宏观数据。
 
@@ -20,7 +20,7 @@
 
 1. 按[附录A](appendix/a-setup.md)配置本地环境（`uv sync` 一条命令）。
 2. 生成内置数据：`uv run python scripts/make_sample_data.py`。
-3. 阅读正文，配合 `notebooks/` 下对应章节的 notebook 逐格运行。
+3. 阅读正文，配合 `notebooks/` 下对应章节的配套示例逐步运行。
 
 ## 全书结构
 
@@ -34,3 +34,4 @@
 
 !!! info "许可与引用"
     代码采用 **MIT**、正文与图表采用 **CC BY 4.0**（见仓库 `LICENSE`）；引用方式见 `CITATION.cff`。勘误与建议欢迎到 [GitHub Issues](https://github.com/albertandking/financial-data-science/issues) 反馈。
+

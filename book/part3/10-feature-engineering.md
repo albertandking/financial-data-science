@@ -3,7 +3,7 @@
 [![在 Colab 打开](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albertandking/financial-data-science/blob/main/notebooks/ch10_feature_engineering.ipynb) [![在 Binder 打开](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/albertandking/financial-data-science/main?labpath=notebooks/ch10_feature_engineering.ipynb)
 
 !!! info "配套代码"
-    本章示例可在配套 notebook 中运行。主体实验依赖内置数据，离线即可完成。
+    本章示例可在配套示例 中运行。主体实验依赖内置数据，离线即可完成。
 
 ## 10.1 本章导读
 
@@ -677,4 +677,5 @@ feat_c = prices.pct_change(20).shift(1)        # 收益率再 shift
 4. **López de Prado, M. (2018)**. *Advances in Financial Machine Learning*. Wiley. — 第4~6章专门讲述金融特征工程，强调前视偏差与标准化。
 
 5. **华泰证券研究所 A 股多因子系列报告**（2016~2023）——对 A 股动量、反转、波动率因子有深入的实证分析与改进方案。
+
 
