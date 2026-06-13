@@ -255,7 +255,7 @@ print(result.summary())
 |---|---|---|
 | `const`（$\alpha$） | 超额 alpha | = 0 |
 | 斜率（$\beta$） | 市场敏感度 | 因股而异 |
-| $t$-统计量 | 系数是否显著异于0 | $\|\alpha\text{ }t\text{-stat}\| < 2$ |
+| $t$-统计量 | 系数是否显著异于0 | $\lvert \alpha\text{ }t\text{-stat} \rvert < 2$ |
 | $p$-值 | 显著性概率 | $\alpha$ 的 $p > 0.05$ |
 | $R^2$ | 系统性风险占总风险比例 | 越高说明特质风险越小 |
 

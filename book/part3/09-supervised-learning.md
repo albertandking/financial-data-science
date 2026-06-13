@@ -368,8 +368,8 @@ $$\hat{\boldsymbol{\beta}}_{\text{EN}} = \arg\min_{\boldsymbol{\beta}} \left\{ \
 | 方法 | 惩罚 | 系数特点 | 适用场景 |
 |------|------|---------|---------|
 | OLS | 无 | 最小二乘无约束 | 特征少、低噪声 |
-| Ridge | L2：$\lambda\|\boldsymbol{\beta}\|_2^2$ | 连续收缩，不为零 | 多重共线性 |
-| Lasso | L1：$\lambda\|\boldsymbol{\beta}\|_1$ | 稀疏，部分为零 | 高维特征选择 |
+| Ridge | L2：$\lambda\lVert \boldsymbol{\beta} \rVert_2^2$ | 连续收缩，不为零 | 多重共线性 |
+| Lasso | L1：$\lambda\lVert \boldsymbol{\beta} \rVert_1$ | 稀疏，部分为零 | 高维特征选择 |
 | Elastic Net | L1 + L2 | 稀疏 + 稳健 | 高维+共线性 |
 
 !!! tip "超参数 $\lambda$ 的选取"
@@ -558,7 +558,7 @@ pipe = Pipeline([
 |------|------|------|
 | MSE | $\frac{1}{n}\sum(y_i - \hat{y}_i)^2$ | 对大误差惩罚重（单位为 $y^2$） |
 | RMSE | $\sqrt{\text{MSE}}$ | 与 $y$ 同量纲 |
-| MAE | $\frac{1}{n}\sum|y_i - \hat{y}_i|$ | 对异常值更鲁棒 |
+| MAE | $\frac{1}{n}\sum \lvert y_i - \hat{y}_i \rvert$ | 对异常值更鲁棒 |
 | $R^2$ | $1 - \frac{\text{SS}_{\text{res}}}{\text{SS}_{\text{tot}}}$ | 解释方差比例，越大越好 |
 
 !!! warning "$R^2$ 在金融中通常极低"
@@ -598,7 +598,7 @@ RankIC 对极端值更鲁棒，A 股实践中更常用。
 
 | 指标 | 参考阈值 | 说明 |
 |------|---------|------|
-| IC | \|IC\| > 0.02 | 日频已有参考价值 |
+| IC | $\lvert IC \rvert > 0.02$ | 日频已有参考价值 |
 | IC > 0.05 | 实盘可用级别 | 月频更容易达到 |
 | ICIR = IC / σ(IC) | > 0.5 | 信息比率，越大越稳定 |
 | RankIC | 与 IC 类似 | A 股普遍用 RankIC |
