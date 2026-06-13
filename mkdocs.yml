@@ -32,6 +32,7 @@ theme:
 markdown_extensions:
   - admonition
   - pymdownx.details
+  - tables
   - footnotes
   - attr_list
   - md_in_html
