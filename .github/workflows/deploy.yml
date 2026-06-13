@@ -10,10 +10,6 @@ permissions:
   pages: write
   id-token: write
 
-# 强制所有 JavaScript actions 使用 Node.js 24（消除 Node 20 弃用警告）
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
-
 # 同一时间只跑一个部署
 concurrency:
   group: pages
@@ -23,10 +19,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: 安装 uv
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
 
@@ -37,7 +33,7 @@ jobs:
         run: uv run mkdocs build
 
       - name: 上传 Pages 产物
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: site
 
@@ -50,4 +46,4 @@ jobs:
     steps:
       - name: 部署到 GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
