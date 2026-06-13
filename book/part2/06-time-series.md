@@ -774,31 +774,44 @@ returns = daily_returns(prices, log=True)['TECH']
 
 ### 平稳性与定阶
 
-**习题6.1** 平稳性判断对 `BANK`、`LIQUOR`、`UTILITY` 三只股票的**价格**和**对数收益率**分别做 ADF 检验和 KPSS 检验。整理结果表格，说明哪些序列存在单位根，哪些平稳。根据两种检验的交叉验证结论，判断差分次数 $d$。
+**习题6.1（平稳性判断）**
 
-> **参考思路**：价格 → ADF 不显著+KPSS 显著 → 单位根；对数收益率 → ADF 显著+KPSS 不显著 → 平稳，$d=0$。
+对 `BANK`、`LIQUOR`、`UTILITY` 三只股票的**价格**和**对数收益率**分别做 ADF 检验和 KPSS 检验。整理结果表格，说明哪些序列存在单位根，哪些平稳。根据两种检验的交叉验证结论，判断差分次数 $d$。
 
-**习题6.2** ARIMA 定阶对 `LIQUOR` 日度对数收益率做 AIC/BIC 网格搜索（$p, q \in \{0,1,2,3\}$），画出 AIC 热力图，选出最优模型并拟合。对最优模型的残差做 Ljung-Box 检验（前10阶），判断残差是否为白噪声。
+??? tip "参考思路"
+    价格 → ADF 不显著+KPSS 显著 → 单位根；对数收益率 → ADF 显著+KPSS 不显著 → 平稳，$d=0$。
 
-> **参考思路**：用嵌套循环 + try/except 实现网格搜索，用 `seaborn.heatmap` 画热力图；Ljung-Box $p>0.05$ 为通过。
+**习题6.2（ARIMA 定阶）**
+
+对 `LIQUOR` 日度对数收益率做 AIC/BIC 网格搜索（$p, q \in \{0,1,2,3\}$），画出 AIC 热力图，选出最优模型并拟合。对最优模型的残差做 Ljung-Box 检验（前10阶），判断残差是否为白噪声。
+
+??? tip "参考思路"
+    用嵌套循环 + try/except 实现网格搜索，用 `seaborn.heatmap` 画热力图；Ljung-Box $p>0.05$ 为通过。
 
 ### 波动率建模
 
-**习题6.3** GARCH 建模与杠杆效应对 `TECH` 日度对数收益率（×100）分别拟合 GARCH(1,1)、GJR-GARCH(1,1,1) 和 EGARCH(1,1)，比较三种模型的 AIC/BIC。GJR-GARCH 中 $\gamma$ 的符号和显著性说明了什么？
+**习题6.3（GARCH 建模与杠杆效应）**
 
-> **参考思路**：`arch_model(..., vol="GARCH")` / `vol="GARCH", o=1` / `vol="EGARCH"`；$\gamma>0$ 且显著 → 杠杆效应存在，下跌引发更大波动。
+对 `TECH` 日度对数收益率（×100）分别拟合 GARCH(1,1)、GJR-GARCH(1,1,1) 和 EGARCH(1,1)，比较三种模型的 AIC/BIC。GJR-GARCH 中 $\gamma$ 的符号和显著性说明了什么？
+
+??? tip "参考思路"
+    `arch_model(..., vol="GARCH")` / `vol="GARCH", o=1` / `vol="EGARCH"`；$\gamma>0$ 且显著 → 杠杆效应存在，下跌引发更大波动。
 
 ### 样本外预测
 
-**习题6.4** 滚动窗口预测对 `BANK` 对数收益率做滚动窗口（窗口250天）的一步 ARIMA(1,0,1) 预测（预测最后150天），计算 RMSE 和 MAE，与**随机游走基准**（预测值=前一日收益率）比较。ARIMA 是否优于随机游走？
+**习题6.4（滚动窗口预测）**
 
-> **参考思路**：随机游走预测 $\hat{r}_{t+1} = r_t$，ARIMA 通常很难稳定战胜随机游走（有效市场），这本身就是重要发现。
+对 `BANK` 对数收益率做滚动窗口（窗口250天）的一步 ARIMA(1,0,1) 预测（预测最后150天），计算 RMSE 和 MAE，与**随机游走基准**（预测值=前一日收益率）比较。ARIMA 是否优于随机游走？
 
-**习题6.5** 波动率预测评估用 GARCH(1,1) 对 `TECH` 做5步条件波动率预测（样本外最后60天），以**实际绝对收益率**（$|r_t|$）作为真实波动率的代理，计算 RMSE 并与**历史波动率基准**（前20日收益率标准差）比较。
+??? tip "参考思路"
+    随机游走预测 $\hat{r}_{t+1} = r_t$，ARIMA 通常很难稳定战胜随机游走（有效市场），这本身就是重要发现。
 
-> **参考思路**：`res.forecast(horizon=5)` 返回5步预测；GARCH 在波动率高企时通常显著优于历史波动率。
+**习题6.5（波动率预测评估）**
 
----
+用 GARCH(1,1) 对 `TECH` 做5步条件波动率预测（样本外最后60天），以**实际绝对收益率**（$|r_t|$）作为真实波动率的代理，计算 RMSE 并与**历史波动率基准**（前20日收益率标准差）比较。
+
+??? tip "参考思路"
+    `res.forecast(horizon=5)` 返回5步预测；GARCH 在波动率高企时通常显著优于历史波动率。
 
 ## 6.12 拓展阅读
 
@@ -812,5 +825,4 @@ returns = daily_returns(prices, log=True)['TECH']
 | Hyndman, R.J., & Athanasopoulos, G. (2021). *Forecasting: Principles and Practice* (3rd ed.). OTexts. [免费在线](https://otexts.com/fpp3/) | 面向实践的预测方法书，含 ARIMA 和 ETS 详细讲解，配套 R/Python 代码 |
 | `arch` 库文档：[https://arch.readthedocs.io](https://arch.readthedocs.io) | Python ARCH/GARCH 库官方文档，含丰富示例 |
 | `statsmodels` 文档：[https://www.statsmodels.org](https://www.statsmodels.org) | Python 统计建模库，ARIMA、ADF、ACF/PACF 等均在此 |
-
 

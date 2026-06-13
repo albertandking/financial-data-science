@@ -957,21 +957,38 @@ plt.show()
 
 ### 数值计算
 
-**习题2.1（向量化练习）**：用 NumPy 向量化（不使用循环）计算以下指标：加载内置数据 `load_sample_prices()`，计算 LIQUOR 的5日简单移动平均（提示：可用 `np.convolve(prices, np.ones(5)/5, mode='valid')`），并与 Pandas `rolling(5).mean()` 结果对比，验证两者一致。
+**习题2.1（向量化练习）**
 
-**习题2.2（广播应用）**：对所有4只股票，用 NumPy 广播计算“超额收益”（每日各股票收益率减去当日等权平均收益率），结果转为 DataFrame，打印前5行。（提示：先用 `daily_returns` 算收益率矩阵，再减去行均值。）
+用 NumPy 向量化（不使用循环）计算以下指标：加载内置数据 `load_sample_prices()`，计算 LIQUOR 的5日简单移动平均，并与 Pandas `rolling(5).mean()` 结果对比，验证两者一致。
+
+??? tip "参考思路"
+    可用 `np.convolve(prices, np.ones(5)/5, mode='valid')` 计算滑动平均，再与 `rolling(5).mean()` 的结果逐项对比。
+
+**习题2.2（广播应用）**
+
+对所有4只股票，用 NumPy 广播计算“超额收益”（每日各股票收益率减去当日等权平均收益率），结果转为 DataFrame，打印前5行。
+
+??? tip "参考思路"
+    先用 `daily_returns` 得到收益率矩阵，再减去每一行的均值；广播会自动把行均值扩展到每只股票。
 
 ### 时间序列处理
 
-**习题2.3（时间序列分析）**：对内置数据按以下步骤操作：a. `resample("W-FRI")` 得到周频价格；b. 计算周度收益率；c. 用 `groupby(pd.Grouper(freq="YE"))` 统计每年的周度收益率均值与标准差；d. 打印结果并说明哪一年波动最大。
+**习题2.3（时间序列分析）**
 
-### 工程输出
+对内置数据按以下步骤操作：a. `resample("W-FRI")` 得到周频价格；b. 计算周度收益率；c. 用 `groupby(pd.Grouper(freq="YE"))` 统计每年的周度收益率均值与标准差；d. 打印结果并说明哪一年波动最大。
 
-**习题2.4（Parquet 往返）**：将波动率最高的一只股票（用 `std()` 衡量）的日度收益率单独保存为 Parquet 文件，读回后验证 `equals()` 返回 `True`，并比较该文件与对应 CSV 文件的字节大小。
+### 文件与图表输出
 
-**习题2.5（可视化）**：绘制一张图，同时展示 TECH 股的日度收盘价（蓝色细线，alpha=0.4）、20日 SMA（橙色实线）、20日 EWMA（绿色虚线），加上中文标题“科技股移动平均对比”和图例，保存为 PNG 文件。思路：先调用 `set_chinese_font()`，再用 `fig, ax = plt.subplots()` 绘制。
+**习题2.4（Parquet 往返）**
 
----
+将波动率最高的一只股票（用 `std()` 衡量）的日度收益率单独保存为 Parquet 文件，读回后验证 `equals()` 返回 `True`，并比较该文件与对应 CSV 文件的字节大小。
+
+**习题2.5（可视化）**
+
+绘制一张图，同时展示 TECH 股的日度收盘价（蓝色细线，alpha=0.4）、20日 SMA（橙色实线）、20日 EWMA（绿色虚线），加上中文标题“科技股移动平均对比”和图例，保存为 PNG 文件。
+
+??? tip "参考思路"
+    先调用 `set_chinese_font()`，再用 `fig, ax = plt.subplots()` 统一绘制三条曲线，最后保存为 PNG 文件。
 
 ## 2.11 拓展阅读
 
@@ -983,5 +1000,4 @@ plt.show()
 5. **VanderPlas, J.** (2023). *Python Data Science Handbook*, 2nd ed. O'Reilly.
    开源全文：<https://jakevdp.github.io/PythonDataScienceHandbook/>
 6. **uv 文档**：<https://docs.astral.sh/uv/>，工作区与依赖组的完整说明。
-
 

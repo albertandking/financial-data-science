@@ -715,36 +715,44 @@ $$\beta_i = \frac{\text{Cov}(r_i, r_m)}{\text{Var}(r_m)}$$
 
 ### 收益率与基础风险
 
-!!! question "习题5.1：收益率性质验证"
-    对 BANK 和 TECH 各取连续20个交易日的日收益率：(a) 验证对数收益率之和等于对应期间的总对数收益率；(b) 验证简单收益率**不可直接相加**（用实际数据展示误差大小）；(c) 当日收益率绝对值 $<1\%$ 时，两种收益率之差是否可忽略？给出定量结论。
+**习题5.1（收益率性质验证）**
 
-    **参考思路**：用 `daily_returns(prices, log=True)` 和 `.sum()` 对比 `np.log(prices.iloc[-1]/prices.iloc[0])`。
+对 BANK 和 TECH 各取连续20个交易日的日收益率：(a) 验证对数收益率之和等于对应期间的总对数收益率；(b) 验证简单收益率**不可直接相加**（用实际数据展示误差大小）；(c) 当日收益率绝对值 $<1\%$ 时，两种收益率之差是否可忽略？给出定量结论。
 
-!!! question "习题5.2：全套风险指标对比"
-    对四只股票（BANK、LIQUOR、TECH、UTILITY）计算年化收益、年化波动、夏普（$r_f=2\%$）、索提诺（$r_f=2\%$）、卡尔玛、最大回撤，做成一张对比表并分别按各指标排序。
+??? tip "参考思路"
+    用 `daily_returns(prices, log=True)` 和 `.sum()` 对比 `np.log(prices.iloc[-1]/prices.iloc[0])`。
 
-    **参考思路**：实现 `sortino_ratio` 和 `calmar_ratio` 函数，调用 `fds.annualized_return/volatility/sharpe_ratio/max_drawdown`，用 `pd.DataFrame` 整合。
+**习题5.2（全套风险指标对比）**
+
+对四只股票（BANK、LIQUOR、TECH、UTILITY）计算年化收益、年化波动、夏普（$r_f=2\%$）、索提诺（$r_f=2\%$）、卡尔玛、最大回撤，做成一张对比表并分别按各指标排序。
+
+??? tip "参考思路"
+    实现 `sortino_ratio` 和 `calmar_ratio` 函数，调用 `fds.annualized_return/volatility/sharpe_ratio/max_drawdown`，用 `pd.DataFrame` 整合。
 
 ### 尾部风险
 
-!!! question "习题5.3：三种 VaR 方法对比"
-    对 TECH 股票：(a) 分别用历史模拟法、正态参数法、蒙特卡洛法（$N=500000$，种子=42）计算95% 和99% 单日 VaR；(b) 计算对应置信水平的 ES；(c) 比较三种方法的差异，结合本章厚尾内容解释为何正态法偏低。
+**习题5.3（三种 VaR 方法对比）**
 
-    **参考思路**：使用 `scipy.stats.norm.ppf` 和 `np.random.default_rng(42).normal`。
+对 TECH 股票：(a) 分别用历史模拟法、正态参数法、蒙特卡洛法（$N=500000$，种子=42）计算95% 和99% 单日 VaR；(b) 计算对应置信水平的 ES；(c) 比较三种方法的差异，结合本章厚尾内容解释为何正态法偏低。
 
-!!! question "习题5.4：最大回撤深度与持续期"
-    对 LIQUOR：(a) 找出最大回撤发生的开始日期（净值创新高的日期）和结束日期（最低点日期）；(b) 计算该次回撤持续了多少个交易日；(c) 绘制该段时间的净值曲线并标注回撤区间。
+??? tip "参考思路"
+    使用 `scipy.stats.norm.ppf` 和 `np.random.default_rng(42).normal`。
 
-    **参考思路**：利用 `nav.cummax()` 找到水位线，`argmin()` 找最低点，反向查找前一个净值最高点。
+**习题5.4（最大回撤深度与持续期）**
+
+对 LIQUOR：(a) 找出最大回撤发生的开始日期（净值创新高的日期）和结束日期（最低点日期）；(b) 计算该次回撤持续了多少个交易日；(c) 绘制该段时间的净值曲线并标注回撤区间。
+
+??? tip "参考思路"
+    利用 `nav.cummax()` 找到水位线，`argmin()` 找最低点，反向查找前一个净值最高点。
 
 ### 综合讨论
 
-!!! question "习题5.5：ES 与 VaR 的差距"
-    对四只股票，分别计算95% 历史 VaR 和95% 历史 ES，计算 ES/VaR 的比值。比值越高说明尾部越“重”（突破 VaR 后损失更大）。哪只股票的尾部最重？结合偏度和峰度指标解释。
+**习题5.5（ES 与 VaR 的差距）**
 
-    **参考思路**：实现 `es_hist(series, alpha=0.95)` 函数，计算 `es / var` 比值，用 `scipy.stats.skew/kurtosis` 计算矩。
+对四只股票，分别计算95% 历史 VaR 和95% 历史 ES，计算 ES/VaR 的比值。比值越高说明尾部越“重”（突破 VaR 后损失更大）。哪只股票的尾部最重？结合偏度和峰度指标解释。
 
----
+??? tip "参考思路"
+    实现 `es_hist(series, alpha=0.95)` 函数，计算 `es / var` 比值，用 `scipy.stats.skew/kurtosis` 计算矩。
 
 ## 5.13 拓展阅读
 

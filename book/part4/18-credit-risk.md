@@ -719,7 +719,7 @@ print(f"违约率: {df['default'].mean():.2%}")
 
 ### 风险量化与分箱
 
-**习题18.1（概念理解）**
+**习题18.1（预期损失计算）**
 
 某银行个人消费贷产品：PD = 3%，LGD = 55%，EAD = 50,000元。
 1. 计算该笔贷款的预期损失（EL）。
@@ -759,7 +759,7 @@ print(f"违约率: {df['default'].mean():.2%}")
 
 ### 建模与评估
 
-**习题18.3（代码实践）**
+**习题18.3（评分模型评估）**
 
 使用内置 `credit` 数据集：
 1. 计算 `num_delinquencies` 和 `utilization` 两个特征的 IV，并解读预测能力。
@@ -796,8 +796,6 @@ print(f"违约率: {df['default'].mean():.2%}")
 
     PD = 8% → Odds = 92/8 = 11.5 → Score = 600 - 20 × (ln(11.5) - ln(50))/ln(2) ≈ 600 - 20 × (-2.16) ≈ 600 + 43.2 → 但注意公式方向：高 Odds（低 PD）应得高分，因此方向应是 $Score = Base + PDO \times \log_2(Odds/BaseOdds)$，即 Score ≈ 600 + 20 × log₂(11.5/50) ≈ 600 - 43 = 557分。低于截止分580，该申请被拒绝。
 
----
-
 ## 18.12 拓展阅读
 
 1. **Thomas, L.C. (2009)** *Consumer Credit Models: Pricing, Profit and Portfolios*. Oxford University Press. — 信用评分领域的标准教材，全面覆盖评分卡开发、组合管理、行为评分。
@@ -811,6 +809,5 @@ print(f"违约率: {df['default'].mean():.2%}")
 5. **Chen, T. & Guestrin, C. (2016)** *XGBoost: A Scalable Tree Boosting System*. KDD 2016. — XGBoost 原始论文，单调约束（monotone_constraints）在 XGBoost 1.0版本引入，适合信用场景。
 
 6. **Lundberg, S.M. et al. (2020)** *From local explanations to global understanding with explainable AI for trees*. Nature Machine Intelligence. — TreeSHAP 在信用风险模型解释中的应用，兼顾精度与效率。
-
 
 

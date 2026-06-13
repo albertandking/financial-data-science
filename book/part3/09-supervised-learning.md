@@ -848,9 +848,10 @@ acc_ts = ...   # 通常明显低于 acc_rnd
 
 说明在构造过程中如何确保不存在前视偏差，并画出两种标签的分布图。
 
-> **参考思路**：使用 `pct_change().shift(-1)` 构造明日收益，
-> 用 `rolling(5).sum().shift(-5) > 0` 构造5日标签；
-> 特征均需 `.shift(1)` 或更大的 shift 以保证时序一致性。
+??? tip "参考思路"
+    使用 `pct_change().shift(-1)` 构造明日收益，
+    用 `rolling(5).sum().shift(-5) > 0` 构造5日标签；
+    特征均需 `.shift(1)` 或更大的 shift 以保证时序一致性。
 
 **习题9.2（时序交叉验证）**
 
@@ -859,8 +860,9 @@ acc_ts = ...   # 通常明显低于 acc_rnd
 - (b) 对比两种方式下的平均准确率和标准差
 - (c) 解释为什么随机 K-Fold 的准确率更高，这个高出的部分有实际意义吗？
 
-> **参考思路**：使用 `cross_val_score(pipe, X, y, cv=KFold(5, shuffle=True), scoring='accuracy')`
-> 和 `cross_val_score(pipe, X, y, cv=TimeSeriesSplit(5), scoring='accuracy')` 对比。
+??? tip "参考思路"
+    使用 `cross_val_score(pipe, X, y, cv=KFold(5, shuffle=True), scoring='accuracy')`
+    和 `cross_val_score(pipe, X, y, cv=TimeSeriesSplit(5), scoring='accuracy')` 对比。
 
 ### 模型与指标
 
@@ -871,8 +873,9 @@ acc_ts = ...   # 通常明显低于 acc_rnd
 - (b) 观察随 $\lambda$ 增大，各系数如何收缩
 - (c) 用 `RidgeCV` 找到最优 $\lambda$，与图中最优点对应
 
-> **参考思路**：循环拟合 `Ridge(alpha=lam)`，收集所有 `coef_` 绘图；
-> 使用 `RidgeCV(alphas=..., cv=TimeSeriesSplit(5))` 自动选参。
+??? tip "参考思路"
+    循环拟合 `Ridge(alpha=lam)`，收集所有 `coef_` 绘图；
+    使用 `RidgeCV(alphas=..., cv=TimeSeriesSplit(5))` 自动选参。
 
 **习题9.4（IC 计算与分析）**
 
@@ -881,8 +884,9 @@ acc_ts = ...   # 通常明显低于 acc_rnd
 - (b) 计算 ICIR（IC 均值/IC 标准差）
 - (c) 判断该因子在样本期内是否具有持续预测能力
 
-> **参考思路**：逐日对4只股票计算 `pearsonr(ret_20[t], ret_next[t])[0]`；
-> 若数据量不足，可用全部可用截面数据（4只）计算。
+??? tip "参考思路"
+    逐日对4只股票计算 `pearsonr(ret_20[t], ret_next[t])[0]`；
+    若数据量不足，可用全部可用截面数据（4只）计算。
 
 ### 方法反思
 
@@ -893,10 +897,9 @@ acc_ts = ...   # 通常明显低于 acc_rnd
 - (b) 计算并对比 AUC 值
 - (c) 解释 AUC = 0.5的经济含义
 
-> **参考思路**：使用 `roc_curve` 和 `roc_auc_score` 绘制 ROC；
-> 随机猜测的 AUC 约为0.5（对角线），逻辑回归若有效应高于此基准。
-
----
+??? tip "参考思路"
+    使用 `roc_curve` 和 `roc_auc_score` 绘制 ROC；
+    随机猜测的 AUC 约为0.5（对角线），逻辑回归若有效应高于此基准。
 
 ## 9.12 拓展阅读
 

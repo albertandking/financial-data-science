@@ -577,39 +577,44 @@ summary = feat2.groupby('regime').agg(
 
 ### 降维与聚类
 
-**习题14.1**：用 PCA 把四只内置股票的收益矩阵降到2维，以股票名称为标签绘制散点图，直观展示各股票在主成分空间的位置关系。
+**习题14.1（PCA 降维可视化）**
 
-> **参考思路**：转置收益矩阵（每行为一只股票，每列为一个交易日），对转置后的矩阵做 `PCA(n_components=2)`，得到每只股票的二维坐标后用 `ax.scatter` 和 `ax.annotate` 绘图。注意 PCA 输入是「样本 × 特征」，此处「样本」是股票，「特征」是各交易日收益。
+用 PCA 把四只内置股票的收益矩阵降到2维，以股票名称为标签绘制散点图，直观展示各股票在主成分空间的位置关系。
 
----
+??? tip "参考思路"
+    转置收益矩阵（每行为一只股票，每列为一个交易日），对转置后的矩阵做 `PCA(n_components=2)`，得到每只股票的二维坐标后用 `ax.scatter` 和 `ax.annotate` 绘图。注意 PCA 输入是「样本 × 特征」，此处「样本」是股票，「特征」是各交易日收益。
 
-**习题14.2**：将合成30只股票的 KMeans 簇数分别设为2、3、4，计算各情况下的调整兰德指数（ARI），与真实分组（3组）对比，分析 $K$ 的选择对聚类质量的影响。
+**习题14.2（KMeans 簇数与 ARI）**
 
-> **参考思路**：在特征矩阵标准化后，循环 `k in (2, 3, 4)`，各跑一次 `KMeans(n_clusters=k, n_init=10, random_state=0)`，用 `adjusted_rand_score(true_group, lab_k)` 计算 ARI。预期 $k=3$ 时 ARI 最高（接近真实分组数），$k=2$ 和 $k=4$ 时 ARI 下降。
+将合成30只股票的 KMeans 簇数分别设为2、3、4，计算各情况下的调整兰德指数（ARI），与真实分组（3组）对比，分析 $K$ 的选择对聚类质量的影响。
 
----
+??? tip "参考思路"
+    在特征矩阵标准化后，循环 `k in (2, 3, 4)`，各跑一次 `KMeans(n_clusters=k, n_init=10, random_state=0)`，用 `adjusted_rand_score(true_group, lab_k)` 计算 ARI。预期 $k=3$ 时 ARI 最高（接近真实分组数），$k=2$ 和 $k=4$ 时 ARI 下降。
 
-**习题14.3**：手肘法选择最优簇数。对合成30只股票特征，计算 $K = 2, 3, \ldots, 8$ 时 KMeans 的 WCSS（即 `inertia_`），绘制手肘图。观察「肘点」是否明显，并与 ARI 最优的 $K$ 对比。
+**习题14.3（手肘法选取 K）**
 
-> **参考思路**：`km = KMeans(n_clusters=k, n_init=10, random_state=0).fit(Xs)`，`km.inertia_` 即为 WCSS。绘制折线图后，通过视觉判断「曲率最大」的位置作为最优 $K$。
+手肘法选择最优簇数。对合成30只股票特征，计算 $K = 2, 3, \ldots, 8$ 时 KMeans 的 WCSS（即 `inertia_`），绘制手肘图。观察「肘点」是否明显，并与 ARI 最优的 $K$ 对比。
 
----
+??? tip "参考思路"
+    `km = KMeans(n_clusters=k, n_init=10, random_state=0).fit(Xs)`，`km.inertia_` 即为 WCSS。绘制折线图后，通过视觉判断「曲率最大」的位置作为最优 $K$。
 
 ### 异常检测
 
-**习题14.4**：修改异常检测参数。将 `IsolationForest` 的 `contamination` 分别设为0.01、0.03、0.05，比较三种设置下标记出的异常日数量及最大异常收益绝对值的变化。思考 `contamination` 的选择对实际风控的影响。
+**习题14.4（contamination 敏感性）**
 
-> **参考思路**：循环三个参数值，每次重新 `fit_predict`，记录 `flag == -1` 的样本数。`contamination` 越高，被标记为异常的样本越多；风控实践中，过低会漏报，过高会误报，需根据历史极端事件频率校准。
+修改异常检测参数。将 `IsolationForest` 的 `contamination` 分别设为0.01、0.03、0.05，比较三种设置下标记出的异常日数量及最大异常收益绝对值的变化。思考 `contamination` 的选择对实际风控的影响。
 
----
+??? tip "参考思路"
+    循环三个参数值，每次重新 `fit_predict`，记录 `flag == -1` 的样本数。`contamination` 越高，被标记为异常的样本越多；风控实践中，过低会漏报，过高会误报，需根据历史极端事件频率校准。
 
 ### 市场状态识别
 
-**习题14.5**：市场状态扩展。将市场状态数 `n_clusters` 从2改为3，尝试识别「低波动上涨」「震荡」「高波动下跌」三种状态。对照每种状态的平均收益和平均波动率，给出经济解读，并讨论三状态划分相比两状态是否更有信息量。
+**习题14.5（三状态识别）**
 
-> **参考思路**：重用 `feat2`（收益 + 滚动波动率），将 `n_clusters=3`，重新聚类后用 `groupby('regime').agg(平均收益=('r','mean'), 平均波动=('vol','mean'), 天数=('r','size'))` 汇总，根据「波动率高低」和「收益均值正负」给三个簇贴上业务标签。
+市场状态扩展。将市场状态数 `n_clusters` 从2改为3，尝试识别「低波动上涨」「震荡」「高波动下跌」三种状态。对照每种状态的平均收益和平均波动率，给出经济解读，并讨论三状态划分相比两状态是否更有信息量。
 
----
+??? tip "参考思路"
+    重用 `feat2`（收益 + 滚动波动率），将 `n_clusters=3`，重新聚类后用 `groupby('regime').agg(平均收益=('r','mean'), 平均波动=('vol','mean'), 天数=('r','size'))` 汇总，根据「波动率高低」和「收益均值正负」给三个簇贴上业务标签。
 
 ## 14.11 拓展阅读
 
@@ -640,6 +645,5 @@ summary = feat2.groupby('regime').agg(
 - `scikit-learn` 文档：[Clustering](https://scikit-learn.org/stable/modules/clustering.html)、[Anomaly Detection](https://scikit-learn.org/stable/modules/outlier_detection.html)——官方文档含完整示例与算法对比。
 - `hmmlearn` 库：提供高斯隐马尔可夫模型（`GaussianHMM`），可直接用于市场状态识别进阶实验。
 - López de Prado, M. (2018). *Advances in Financial Machine Learning.* Wiley.——第四部分「有用的金融特征」与第五部分「组合构建」含有大量无监督学习的量化实践示例，是本章最佳延伸阅读。
-
 
 
