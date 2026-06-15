@@ -82,8 +82,8 @@ uv run python scripts/make_sample_data.py
 
 | 库 | 版本 | 用途 |
 |---|---|---|
-| `akshare` | 1.18.64 | A股/宏观数据（免注册） |
-| `tushare` | 1.4.29 | A股数据（需 token） |
+| `akshare` | 1.18.64 | A 股/宏观数据（免注册） |
+| `tushare` | 1.4.29 | A 股数据（需 token） |
 | `requests` | 2.34.2 | HTTP 请求 |
 
 ### 进阶/深度（`uv sync --extra advanced`）

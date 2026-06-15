@@ -61,7 +61,7 @@ $$\text{预期损失 (EL)} = PD \times LGD \times EAD$$
 
 **数值示例：**
 
-!!! example "预期损失计算"
+!!! note "预期损失计算"
     某借款人申请20万元消费贷款：
     - 模型输出 $PD = 5\%$
     - 历史统计 $LGD = 60\%$
@@ -424,7 +424,7 @@ $$KS = \max_\tau \left| F_{\text{Good}}(\tau) - F_{\text{Bad}}(\tau) \right|$$
 - $KS \in [0.4, 0.75)$：良好
 - $KS > 0.75$：过高（疑似数据泄露）
 
-!!! example "KS 的直觉理解"
+!!! note "KS 的直觉理解"
     想象将所有申请人按“坏人概率”从低到高排成一排，然后分别累积“好人比例”和“坏人比例”。两条曲线分离程度越大，模型越能将好坏客户分开。KS 就是这两条曲线最大分离处的距离。
 
 **KS 与 AUC 的关系（推导与辨析）。** 二者都建立在「好坏客户得分分布的分离程度」之上，但刻画的侧面不同：
@@ -809,5 +809,4 @@ print(f"违约率: {df['default'].mean():.2%}")
 5. **Chen, T. & Guestrin, C. (2016)** *XGBoost: A Scalable Tree Boosting System*. KDD 2016. — XGBoost 原始论文，单调约束（monotone_constraints）在 XGBoost 1.0版本引入，适合信用场景。
 
 6. **Lundberg, S.M. et al. (2020)** *From local explanations to global understanding with explainable AI for trees*. Nature Machine Intelligence. — TreeSHAP 在信用风险模型解释中的应用，兼顾精度与效率。
-
 

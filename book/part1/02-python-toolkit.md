@@ -145,7 +145,7 @@ mat.mean(axis=1)   # 每天的截面均价，shape (3,)
 mat.std(axis=0)    # 每只股票的价格波动
 ```
 
-### 2.3.3 向量化 vs for 循环：性能对比
+### 2.3.3 向量化与 for 循环：性能对比
 
 向量化的速度优势来自两个方面：
 1. NumPy 底层用 C/Fortran 实现，避免 Python 解释器开销
@@ -178,7 +178,7 @@ print(f"加速比：  {t_loop/t_vec:.0f}x")
 !!! warning "避免在金融计算中写 for 循环"
     当数据量超过万条（A 股日度数据很容易达到几十万行），for 循环会成为明显瓶颈。本书所有示例均采用向量化写法，请养成”先想有没有数组运算”的思维习惯。
 
-!!! example "例 2.1：向量化 vs for 循环——百万级收益率计算的性能对比"
+!!! example "例 2.1　向量化与 for 循环：百万级收益率计算的性能对比"
     以计算100万个模拟价格的日度简单收益率为例，对比两种写法的实际耗时。
 
     ```python
@@ -271,7 +271,7 @@ print(np.allclose(portfolio_ret, portfolio_ret2))   # True
 !!! info "为什么用 `@`"
     `@` 是 Python 3.5+ 引入的矩阵乘运算符（PEP 465）。`np.dot` 与 `@` 对二维数组等价，但 `@` 更易读、与数学符号直接对应，本书后续讨论均值-方差优化（$w^\top \mu$、$w^\top \Sigma w$）时将大量使用。
 
-!!! example "例 2.2：广播形状对齐算例——截面标准化"
+!!! example "例 2.2　广播形状对齐算例——截面标准化"
     **任务**：对「250日 × 4只股票」的模拟收益矩阵，按截面（每天）进行 z-score 标准化，即每日各股票收益率减去当日均值、除以当日标准差。
 
     ```python
@@ -403,7 +403,7 @@ prices_copy.loc["2025-01-02", "BANK"] = 11.0
 !!! warning "链式赋值陷阱"
     `df[df["A"] > 0]["B"] = 1` 可能不会修改原始 DataFrame（取决于 Pandas 是否复制）。正确做法是用 `df.loc[df["A"] > 0, "B"] = 1`。Pandas 2.0会对链式赋值发出 `FutureWarning`，Pandas 3.0将彻底禁止。
 
-!!! example "例2.3：loc / iloc / 布尔索引对照例"
+!!! example "例 2.3　loc / iloc / 布尔索引对照例"
     以下用同一个小 DataFrame 演示三种索引方式的相同点与差异：
 
     ```python
@@ -516,7 +516,7 @@ prices_clean = prices.dropna()
 # volume.fillna(0)
 ```
 
-!!! example "例2.4：缺失值 ffill / dropna 处理——停牌数据修复"
+!!! example "例 2.4　缺失值 ffill / dropna 处理——停牌数据修复"
     A 股中若某只股票停牌，当日数据源通常返回 `NaN`。以下用含缺口的小数据演示常见处理流程：
 
     ```python
@@ -593,7 +593,7 @@ annual_ret = (
 )
 ```
 
-!!! example "例2.5：groupby 按月聚合——计算月均日度收益率"
+!!! example "例 2.5　groupby 按月聚合——计算月均日度收益率"
     以内置数据为例，计算每只股票每个月的「日度收益率均值」与「日度收益率标准差」：
 
     ```python
@@ -673,7 +673,7 @@ annual_price = prices.resample("YE").last()
 ohlc = prices["BANK"].resample("ME").ohlc()
 ```
 
-!!! example "例 2.6：A 股月度收益率——完整 resample 流程"
+!!! example "例 2.6　A 股月度收益率——完整 resample 流程"
     **任务**：取模拟「银行股」的日度收盘价，将其重采样为月度收益率序列，并计算年化收益与年化波动率，演示 `resample` 的完整工作流程。
 
     ```python
@@ -748,7 +748,7 @@ ewm_vol = prices["TECH"].pct_change().ewm(span=60).std() * (252**0.5)
 | `ewm(span=n).mean()` | 指数权重，更敏感 | EWMA 均线 |
 | `ewm(span=n).std()` | 指数权重 | RiskMetrics 波动率 |
 
-### 2.4.9 apply vs 向量化
+### 2.4.9 apply 与向量化
 
 `apply` 允许对 DataFrame 的每行/每列应用任意 Python 函数，但速度较慢。能向量化就不要用 `apply`：
 
@@ -763,7 +763,7 @@ sharpe_vec = ret.mean() / ret.std() * (252**0.5)
 # apply 保留给真正复杂、无法向量化的自定义逻辑
 ```
 
-**apply vs 向量化对比**
+**apply 与向量化对比**
 
 | 维度 | `apply(func)` | 向量化方法 |
 |------|--------------|-----------|
@@ -839,7 +839,7 @@ print(len(trading_days))   # ~261个工作日（非精确交易日）
 
 ---
 
-## 2.6 数据存储：CSV vs Parquet
+## 2.6 数据存储：CSV 与 Parquet
 
 金融数据处理中，选对存储格式事半功倍。
 
@@ -895,7 +895,7 @@ fig, axes = plt.subplots(2, 1, figsize=(12, 8), sharex=True)
 axes[0].plot(prices.index, prices["TECH"], label="科技", color="steelblue")
 axes[0].plot(prices.index, prices["BANK"], label="银行", color="salmon")
 axes[0].set_ylabel("价格（元）")
-axes[0].set_title("A股风格模拟数据：科技 vs 银行")
+axes[0].set_title("A股风格模拟数据：科技与银行")
 axes[0].legend()
 
 # 下子图：科技股 20 日移动平均

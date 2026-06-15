@@ -70,7 +70,7 @@
 | SFT / RLHF | Supervised Fine-Tuning / RL from Human Feedback | 有监督微调 / 人类反馈强化学习 |
 | ReAct | Reasoning + Acting | 推理+行动（智能体范式） |
 | HITL | Human-In-The-Loop | 人在回路 |
-| T+1 | — | 当日买入次日才可卖出（A股交收制度） |
+| T+1 | — | 当日买入次日才可卖出（A 股交收制度） |
 | ETF | Exchange-Traded Fund | 交易型开放式指数基金 |
 
 ## D.3 中英术语对照
@@ -141,5 +141,5 @@
 |---|---|---|
 | 复权 | adjusted price | 消除分红送股造成的价格跳变（第3章） |
 | 停牌 | trading suspension | 暂停交易（第3章） |
-| 涨跌停 | price limit | A股日涨跌幅限制（±10%/±20%等，第1章） |
+| 涨跌停 | price limit | A 股日涨跌幅限制（±10%/±20%等，第1章） |
 | 换手率 | turnover ratio | 成交量 / 流通股本（第10章） |

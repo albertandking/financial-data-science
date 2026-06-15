@@ -422,7 +422,7 @@ outliers = rets['TECH'][flag == -1]
 
 `contamination=0.03` 表示预期约3% 的样本为异常。标记出的异常日通常与已知的市场极端事件（熔断、黑天鹅）吻合，是风控数据清洗的第一道关卡。
 
-!!! note "单特征 vs 多特征"
+!!! note "单特征与多特征"
     上例只用了单只股票收益作为输入。实践中可以将收益率、换手率、成交量变化率等多个特征联合输入孤立森林，从多角度定义「异常」，检测效果更稳健。
 
 ---
@@ -487,7 +487,7 @@ summary = feat2.groupby('regime').agg(
 
 为了把「收益 + 波动」双特征聚类讲透，下面先用一个最小数字例展示状态如何被划分，再落到一个 A 股案例。
 
-!!! example "例14.5手算市场状态（收益+波动两特征聚类）"
+!!! example "例 14.5　手算市场状态（收益+波动两特征聚类）"
     取6个交易日的标准化双特征 $(r,\ \sigma)$（$r$ 为当日收益、$\sigma$ 为20日滚动波动率，均已标准化）：
 
     | 日 | $r$ | $\sigma$ |
@@ -507,7 +507,7 @@ summary = feat2.groupby('regime').agg(
 
     再次分配各点归属不变，收敛。**解读：** 簇 P 平均收益为正、波动为负（低波动上涨）即**平静期**；簇 Q 平均收益为负、波动为正（高波动下跌）即**动荡期**。两质心在「收益-波动」平面上几乎关于原点对称，正是平静期与动荡期此消彼长的几何写照。
 
-!!! example "例14.6　A 股案例：识别2015与2018危机状态"
+!!! example "例 14.6　A 股案例：识别2015与2018危机状态"
     取沪深300指数2014–2019年日收益，构造 $(r_t,\ \hat{\sigma}_t^{(20)})$ 双特征，标准化后用 KMeans（$K=2$）聚类。典型结果如下（数值为说明性示意，随样本区间略有出入）：
 
     | 状态 | 占比天数 | 平均日收益 | 平均年化波动 | 对应区间 |
@@ -645,5 +645,4 @@ summary = feat2.groupby('regime').agg(
 - `scikit-learn` 文档：[Clustering](https://scikit-learn.org/stable/modules/clustering.html)、[Anomaly Detection](https://scikit-learn.org/stable/modules/outlier_detection.html)——官方文档含完整示例与算法对比。
 - `hmmlearn` 库：提供高斯隐马尔可夫模型（`GaussianHMM`），可直接用于市场状态识别进阶实验。
 - López de Prado, M. (2018). *Advances in Financial Machine Learning.* Wiley.——第四部分「有用的金融特征」与第五部分「组合构建」含有大量无监督学习的量化实践示例，是本章最佳延伸阅读。
-
 
